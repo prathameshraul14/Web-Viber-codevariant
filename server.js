@@ -44,16 +44,20 @@ const server = http.createServer((req, res) => {
     pathname = '/login.html';
   } else if (pathname === '/dashboard' || pathname === '/home') {
     pathname = '/dashboard.html';
-  } else if (pathname === '/hubs' || pathname === '/secure-hubs' || pathname === '/trusted-hubs') {
+  } else if (pathname === '/active_cases' || pathname === '/active-cases' || pathname === '/cases' || pathname === '/catalog') {
+    pathname = '/active_cases.html';
+  } else if (pathname === '/hubs' || pathname === '/secure-hubs' || pathname === '/trusted-hubs' || pathname === '/trusted_hubs_page') {
     pathname = '/trusted_hubs_page.html';
-  } else if (pathname === '/rewards' || pathname === '/karma' || pathname === '/coupons' || pathname === '/karma-rewards') {
+  } else if (pathname === '/rewards' || pathname === '/karma' || pathname === '/coupons' || pathname === '/karma-rewards' || pathname === '/karma_rewards') {
     pathname = '/karma_rewards.html';
   } else if (pathname === '/report' || pathname === '/report-item' || pathname === '/report.html') {
     pathname = '/gemini-code-1792843735076.html';
-  } else if (pathname === '/neural' || pathname === '/match' || pathname === '/neural-match' || pathname === '/neural-engine' || pathname === '/neuralmatchengine') {
+  } else if (pathname === '/neural' || pathname === '/match' || pathname === '/neural-match' || pathname === '/neural-engine' || pathname === '/neuralmatchengine' || pathname === '/neural_match_engine') {
     pathname = '/NeuralMatchEngine.html';
   } else if (pathname === '/radar' || pathname === '/echo-radar' || pathname === '/echo_radar' || pathname === '/echoradar' || pathname === '/spatial') {
     pathname = '/echo_radar.html';
+  } else if (pathname === '/profile' || pathname === '/my-profile') {
+    pathname = '/profile.html';
   } else if (pathname === '/find it' || pathname === '/find it/') {
     pathname = '/find it/index.html';
   }
@@ -65,6 +69,15 @@ const server = http.createServer((req, res) => {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden');
     return;
+  }
+
+  // Automatic .html extension matching (e.g. /active_cases -> /active_cases.html)
+  if (!fs.existsSync(filePath)) {
+    if (fs.existsSync(filePath + '.html')) {
+      filePath = filePath + '.html';
+    } else if (fs.existsSync(path.join(BASE_DIR, pathname.toLowerCase() + '.html'))) {
+      filePath = path.join(BASE_DIR, pathname.toLowerCase() + '.html');
+    }
   }
 
   // Check if directory
