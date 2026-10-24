@@ -2,10 +2,10 @@
   "name": "find-it",
   "version": "1.0.0",
   "description": "FindIt - Campus Recovery Protocol Operating System",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "serve": "node server.js",
+    "start": "node server.js"
   },
   "keywords": [
     "lost-and-found",

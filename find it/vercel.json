@@ -1,21 +1,26 @@
 {
-  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "/login", "dest": "/login.html" },
-    { "src": "/dashboard", "dest": "/dashboard.html" },
-    { "src": "/home", "dest": "/dashboard.html" },
-    { "src": "/cases", "dest": "/active_cases.html" },
-    { "src": "/active_cases", "dest": "/active_cases.html" },
-    { "src": "/rewards", "dest": "/karma_rewards.html" },
-    { "src": "/karma", "dest": "/karma_rewards.html" },
-    { "src": "/coupons", "dest": "/karma_rewards.html" },
-    { "src": "/report", "dest": "/gemini-code-1792843735076.html" },
-    { "src": "/hubs", "dest": "/trusted_hubs_page.html" },
-    { "src": "/radar", "dest": "/echo_radar.html" },
-    { "src": "/neural", "dest": "/NeuralMatchEngine.html" },
-    { "src": "/profile", "dest": "/profile.html" },
-    { "src": "/(.*)", "dest": "/$1" }
+  "rewrites": [
+    { "source": "/active_cases", "destination": "/active_cases.html" },
+    { "source": "/active-cases", "destination": "/active_cases.html" },
+    { "source": "/cases", "destination": "/active_cases.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/home", "destination": "/dashboard.html" },
+    { "source": "/rewards", "destination": "/karma_rewards.html" },
+    { "source": "/karma", "destination": "/karma_rewards.html" },
+    { "source": "/coupons", "destination": "/karma_rewards.html" },
+    { "source": "/karma_rewards", "destination": "/karma_rewards.html" },
+    { "source": "/report", "destination": "/gemini-code-1792843735076.html" },
+    { "source": "/hubs", "destination": "/trusted_hubs_page.html" },
+    { "source": "/trusted_hubs", "destination": "/trusted_hubs_page.html" },
+    { "source": "/radar", "destination": "/echo_radar.html" },
+    { "source": "/echo_radar", "destination": "/echo_radar.html" },
+    { "source": "/neural", "destination": "/NeuralMatchEngine.html" },
+    { "source": "/NeuralMatchEngine", "destination": "/NeuralMatchEngine.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/login", "destination": "/login.html" }
   ]
 }
