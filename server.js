@@ -50,6 +50,8 @@ const server = http.createServer((req, res) => {
     pathname = '/karma_rewards.html';
   } else if (pathname === '/report' || pathname === '/report-item' || pathname === '/report.html') {
     pathname = '/gemini-code-1792843735076.html';
+  } else if (pathname === '/neural' || pathname === '/match' || pathname === '/neural-match' || pathname === '/neural-engine' || pathname === '/neuralmatchengine') {
+    pathname = '/NeuralMatchEngine.html';
   } else if (pathname === '/find it' || pathname === '/find it/') {
     pathname = '/find it/index.html';
   }

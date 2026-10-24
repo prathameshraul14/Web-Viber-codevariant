@@ -1,0 +1,1177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Neural Matching Engine</title>
+
+  <style>
+    :root {
+      --orange: #f58235;
+      --orange-light: #fff0e4;
+      --background: #fffaf6;
+      --text: #292522;
+      --muted: #77716c;
+      --border: #f0dfd2;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 235px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      padding: 28px 18px;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .brand span {
+      color: var(--orange);
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 35px;
+    }
+
+    .nav-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 14px 12px;
+      margin: 7px 0;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    .nav-item.active,
+    .nav-item:hover {
+      background: var(--orange-light);
+      color: #b95412;
+    }
+
+    .sidebar-note {
+      margin-top: 45px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* Main content */
+    .main {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .avatar {
+      background: var(--orange-light);
+      color: #b95412;
+      border-radius: 50%;
+      padding: 11px;
+      font-weight: bold;
+    }
+
+    .progress {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 35px;
+    }
+
+    .progress span {
+      height: 5px;
+      flex: 1;
+      border-radius: 10px;
+      background: #eadfd7;
+    }
+
+    .progress span.active {
+      background: var(--orange);
+    }
+
+    .page {
+      animation: appear 0.35s ease;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .eyebrow {
+      color: #bd5d1b;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.1;
+      margin: 13px 0;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(220px, 0.8fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 15px;
+      box-shadow: 0 8px 25px #9b4c1208;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .field input,
+    .field textarea {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--border);
+      background: #fffdfa;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-light);
+    }
+
+    .field textarea {
+      min-height: 105px;
+      resize: vertical;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hint {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: normal;
+    }
+
+    .upload-box {
+      padding: 16px;
+      border: 1px dashed #efbd99;
+      border-radius: 12px;
+      background: #fffaf6;
+    }
+
+    .upload-box input {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #photoPreview {
+      display: none;
+      max-width: 100%;
+      max-height: 180px;
+      margin-top: 12px;
+      border-radius: 10px;
+    }
+
+    .button {
+      width: 100%;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 10px;
+      background: var(--orange);
+      color: white;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .button:hover {
+      background: #dc681b;
+      transform: translateY(-2px);
+    }
+
+    .button.secondary {
+      background: white;
+      color: #a8541a;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    .button.secondary:hover {
+      background: var(--orange-light);
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, #fff0e4, #ffe0c5);
+      border: 1px solid #f6d2b7;
+      border-radius: 18px;
+      padding: 23px;
+      margin-bottom: 15px;
+    }
+
+    .info-card h3 {
+      margin: 12px 0 8px;
+    }
+
+    .info-card p {
+      font-size: 13px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      margin: 7px 0;
+    }
+
+    .small-text {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* Matching results */
+    .demo-notice {
+      padding: 13px;
+      margin: 15px 0;
+      border-radius: 10px;
+      background: #fff6e9;
+      color: #835a23;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .match {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 13px;
+      transition: 0.2s;
+    }
+
+    .match:hover {
+      border-color: #f3b183;
+      transform: translateY(-2px);
+    }
+
+    .match-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .match h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+
+    .match p {
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .percentage {
+      color: #c65d18;
+      font-weight: bold;
+      font-size: 23px;
+      white-space: nowrap;
+    }
+
+    .bar {
+      height: 7px;
+      background: #f0e9e3;
+      border-radius: 10px;
+      margin: 15px 0 10px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      height: 100%;
+      display: block;
+      background: linear-gradient(90deg, #f7a15e, #ed7624);
+      border-radius: 10px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--orange-light);
+      color: #a8541a;
+      border-radius: 6px;
+      padding: 6px 8px;
+      margin: 3px 3px 0 0;
+      font-size: 10px;
+    }
+
+    /* Collection locations */
+    .collection-banner {
+      padding: 22px;
+      background: linear-gradient(120deg, #fff0e4, #ffdfc2);
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+
+    .collection-banner h2 {
+      margin-bottom: 0;
+    }
+
+    .location-option {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 15px;
+      margin: 12px 0;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .location-option:hover {
+      border-color: var(--orange);
+      background: #fffaf6;
+    }
+
+    .location-option:has(input:checked) {
+      background: var(--orange-light);
+      border-color: var(--orange);
+    }
+
+    .location-option input {
+      margin-top: 4px;
+      accent-color: var(--orange);
+    }
+
+    .location-option strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .location-option small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .fake-label {
+      display: inline-block;
+      color: #a8541a;
+      background: #fff0e4;
+      padding: 5px 7px;
+      border-radius: 5px;
+      font-size: 9px;
+      font-weight: bold;
+      margin-top: 7px;
+    }
+
+    .confirmation {
+      padding: 14px;
+      margin-top: 14px;
+      border-radius: 10px;
+      background: #fff0e4;
+      color: #8a481a;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 30px;
+      padding-bottom: 15px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer button {
+      border: none;
+      background: transparent;
+      color: #bd5d1b;
+      font-weight: bold;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #34271f;
+      color: white;
+      padding: 13px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      display: none;
+      z-index: 10;
+      max-width: 90%;
+    }
+
+    @media (max-width: 800px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        padding: 16px;
+      }
+
+      .tagline,
+      .sidebar-note {
+        display: none;
+      }
+
+      .nav-item {
+        display: inline-block;
+        width: auto;
+        margin: 8px 4px 0 0;
+        padding: 10px;
+      }
+
+      .main {
+        padding: 20px 15px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .two-columns {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+
+      .match-top {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <a href="dashboard.html" class="brand" style="text-decoration: none; color: inherit; display: block;">⌕ FindIt<span>.</span></a>
+    <div class="tagline">NEURAL MATCH ENGINE</div>
+
+    <button class="nav-item active" id="nav1" type="button">
+      01 &nbsp; Report lost item
+    </button>
+
+    <button class="nav-item" id="nav2" type="button">
+      02 &nbsp; Smart matches
+    </button>
+
+    <button class="nav-item" id="nav3" type="button">
+      03 &nbsp; Collect item
+    </button>
+
+    <!-- Platform Links -->
+    <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border);">
+      <div style="font-size: 10px; font-weight: bold; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 8px;">FindIt Ecosystem</div>
+      <a href="dashboard.html" class="nav-item" style="text-decoration: none; margin: 4px 0; padding: 10px 12px;">📊 My Dashboard</a>
+      <a href="gemini-code-1792843735076.html" class="nav-item" style="text-decoration: none; margin: 4px 0; padding: 10px 12px;">➕ Report New Item</a>
+      <a href="trusted_hubs_page.html" class="nav-item" style="text-decoration: none; margin: 4px 0; padding: 10px 12px;">🛡️ Secure Hubs</a>
+      <a href="karma_rewards.html" class="nav-item" style="text-decoration: none; margin: 4px 0; padding: 10px 12px;">🎁 Rewards Store</a>
+    </div>
+
+    <div class="sidebar-note">
+      Connecting lost items with the people who can return them anywhere on campus or citywide.
+      <br><br>
+      Neural Matching Engine<br>
+      AI POWERED · V1.0
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar" style="align-items: center;">
+      <span>Workspace / <strong id="breadcrumb">Report a lost item</strong></span>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <a href="dashboard.html" style="padding: 8px 16px; background: var(--orange-light); color: #b95412; font-weight: bold; border-radius: 10px; text-decoration: none; font-size: 12px; transition: 0.2s;">
+          ← Back to Dashboard
+        </a>
+        <a href="karma_rewards.html" class="avatar" style="text-decoration: none; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 10px;">
+          <span>AM</span>
+          <span style="font-size: 11px; font-weight: bold; color: #b95412;" id="topbar-points">2,450 pts</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="progress">
+      <span id="progress1" class="active"></span>
+      <span id="progress2"></span>
+      <span id="progress3"></span>
+    </div>
+
+    <!-- PAGE 1: LOST ITEM FORM -->
+    <section class="page" id="page1">
+      <div class="eyebrow">● Neural Matching Engine</div>
+      <h1>Let's bring your<br>lost item home.</h1>
+      <p>
+        Tell us what went missing. FindIt will display sample found-item
+        reports that could match your item from around the world.
+      </p>
+
+      <div class="layout" style="margin-top:25px">
+
+        <form class="card" id="lostForm">
+          <h2>Lost item details</h2>
+
+          <div class="field">
+            <label for="item">What did you lose? *</label>
+            <input id="item" required
+              placeholder="e.g. Black wireless headphones">
+          </div>
+
+          <div class="field">
+            <label for="description">Describe the item *</label>
+            <textarea id="description" required
+              placeholder="Brand, colour, marks, stickers, case, or other unique details..."></textarea>
+            <span class="hint">Specific details can help identify your item.</span>
+          </div>
+
+          <div class="field">
+            <label for="place">Where did you last see it? *</label>
+            <input id="place" required
+              placeholder="City, airport, station, park, office...">
+          </div>
+
+          <div class="two-columns">
+            <div class="field">
+              <label for="date">Date lost *</label>
+              <input id="date" type="date" required>
+            </div>
+
+            <div class="field">
+              <label for="time">Approximate time *</label>
+              <input id="time" type="time" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="photo">
+              Item photo <span class="hint">Optional</span>
+            </label>
+
+            <div class="upload-box">
+              <strong>📷 Add a reference photo</strong>
+              <span class="hint">Choose an image from your device.</span>
+              <input id="photo" type="file" accept="image/*">
+              <img id="photoPreview" alt="Selected item preview">
+            </div>
+          </div>
+
+          <button class="button" type="submit">
+            Find matching items →
+          </button>
+
+          <span class="hint" style="text-align:center">
+            Demonstration only. Your information is not sent to a server.
+          </span>
+        </form>
+
+        <div>
+          <div class="info-card">
+            <div style="font-size:25px">✳</div>
+            <div class="eyebrow">SMART SEARCH</div>
+            <h3>More than a keyword match.</h3>
+            <p>
+              FindIt demonstrates how item descriptions, places and
+              timestamps could be used to identify possible matches.
+            </p>
+          </div>
+
+          <div class="stat">
+            <span class="small-text">Sample reports in demo</span>
+            <strong>248</strong>
+            <span class="small-text">Fictional listings</span>
+          </div>
+
+          <div class="stat">
+            <span class="small-text">Easy reporting</span>
+            <strong>3 steps</strong>
+            <span class="small-text">Report, match and collect</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PAGE 2: MATCHING RESULTS -->
+    <section class="page hidden" id="page2">
+      <div class="eyebrow">● Matching analysis complete</div>
+      <h1>We found some<br>promising leads.</h1>
+      <p>
+        Review these sample found-item reports to see how matching
+        results could appear.
+      </p>
+
+      <div class="layout" style="margin-top:25px">
+        <div class="card">
+          <h2>Description matching results</h2>
+          <p style="font-size:13px">
+            Searching for: <strong id="searchedItem">Your item</strong>
+          </p>
+
+          <div class="demo-notice">
+            Demo notice: These reports and matching percentages are
+            fictional sample data. They are not real listings or
+            verified AI predictions.
+          </div>
+
+          <div id="matches"></div>
+
+          <button class="button" id="chooseMatch" type="button">
+            View collection details →
+          </button>
+
+          <button class="button secondary" id="editReport" type="button">
+            ← Edit lost-item report
+          </button>
+        </div>
+
+        <div>
+          <div class="info-card">
+            <div style="font-size:25px">⌘</div>
+            <div class="eyebrow">MATCH INSIGHTS</div>
+            <h3>Every detail adds a clue.</h3>
+            <p>
+              Always verify the item's identifying features and
+              the finder's information before arranging a collection.
+            </p>
+          </div>
+
+          <div class="stat">
+            <span class="small-text">Top sample match</span>
+            <strong>96%</strong>
+            <span class="small-text">Fictional similarity score</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: COLLECTION LOCATIONS -->
+    <section class="page hidden" id="page3">
+      <div class="eyebrow">● One step from reunited</div>
+      <h1>Your item may be<br>waiting for you.</h1>
+      <p>
+        Choose a sample collection location and confirm your
+        collection plan for this demonstration.
+      </p>
+
+      <div class="layout" style="margin-top:25px">
+        <div class="card">
+
+          <div class="collection-banner">
+            <div class="eyebrow">POTENTIAL MATCH · DEMO</div>
+            <h2>Your item has a lead. 🎧</h2>
+          </div>
+
+          <div class="small-text">FOUND ITEM</div>
+          <h2 id="collectionItem">Your item</h2>
+
+          <p style="font-size:13px">
+            Select one of the fictional collection points below.
+            These addresses are invented for testing and presentation.
+          </p>
+
+          <div id="locations">
+
+            <label class="location-option" style="border: 2px solid var(--orange); background: #fffaf6;">
+              <input type="radio" name="location"
+                value="FindIt Verified Campus Secure Hub, Central Library & Student Union Escrow Vault"
+                checked>
+
+              <span>
+                <strong style="color: #b95412;">🛡️ FindIt Verified Secure Hub (Recommended)</strong>
+                <small>Campus Central Library &amp; Student Union Escrow Counter</small>
+                <small>24/7 Smart Lockbox &middot; Zero-Knowledge Escrow Handover</small>
+                <span class="fake-label" style="background: #10b981; color: white;">Verified Network Hub</span>
+              </span>
+            </label>
+
+            <label class="location-option">
+              <input type="radio" name="location"
+                value="Demo Collection Hub, 12 Example Avenue, Mumbai, India">
+
+              <span>
+                <strong>📍 Demo Collection Hub</strong>
+                <small>12 Example Avenue, Mumbai, India</small>
+                <small>Example reception counter</small>
+                <span class="fake-label">Fictional sample location</span>
+              </span>
+            </label>
+
+            <label class="location-option">
+              <input type="radio" name="location"
+                value="Sample Transit Desk, 45 Fictional Street, London, United Kingdom">
+
+              <span>
+                <strong>🚉 Sample Transit Desk</strong>
+                <small>45 Fictional Street, London, United Kingdom</small>
+                <small>Example public transport lost-property desk</small>
+                <span class="fake-label">Fictional sample location</span>
+              </span>
+            </label>
+
+            <label class="location-option">
+              <input type="radio" name="location"
+                value="Global Return Point, 8 Placeholder Road, Singapore">
+
+              <span>
+                <strong>🌐 Global Return Point</strong>
+                <small>8 Placeholder Road, Singapore</small>
+                <small>Example community return counter</small>
+                <span class="fake-label">Fictional sample location</span>
+              </span>
+            </label>
+
+          </div>
+
+          <div class="demo-notice">
+            Important: All three addresses are fictional.
+            Do not travel to them. A real service would need
+            verified locations and confirmed handover arrangements.
+          </div>
+
+          <button class="button" id="confirmCollection" type="button">
+            Confirm demo collection location ✓
+          </button>
+
+          <button class="button secondary" id="backMatches" type="button">
+            ← Back to matching results
+          </button>
+
+          <div id="confirmation" class="confirmation hidden"
+            role="status"></div>
+        </div>
+
+        <div>
+          <div class="info-card">
+            <div style="font-size:25px">♡</div>
+            <div class="eyebrow">A HELPFUL COMMUNITY</div>
+            <h3>Found something? Help it get home.</h3>
+            <p>
+              Choose a safe, verified collection point when
+              arranging a real item return.
+            </p>
+          </div>
+
+          <div class="stat">
+            <span class="small-text">Collection status</span>
+            <strong style="font-size:21px">Ready to plan</strong>
+            <span class="small-text">Demo status · Not live</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>FindIt · Neural Matching Engine</span>
+      <span>
+        Global Lost &amp; Found |
+        <button type="button" id="startOver">Start over ↗</button>
+      </span>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast" role="status"></div>
+
+<script src="js/mockData.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+
+  let currentPage = 1;
+  let hasResults = false;
+
+  // Initialize live points
+  function refreshPoints() {
+    if (window.FindIt) {
+      const currentPts = window.FindIt.getPoints();
+      const topPts = document.getElementById("topbar-points");
+      if (topPts) topPts.textContent = currentPts.toLocaleString() + " pts";
+    }
+  }
+
+  // Set today's date in the date field.
+  function setToday() {
+    const today = new Date();
+    const dateString =
+      today.getFullYear() + "-" +
+      String(today.getMonth() + 1).padStart(2, "0") + "-" +
+      String(today.getDate()).padStart(2, "0");
+
+    $("date").value = dateString;
+    refreshPoints();
+  }
+
+  // Display a temporary message.
+  function showToast(message) {
+    $("toast").textContent = message;
+    $("toast").style.display = "block";
+
+    setTimeout(() => {
+      $("toast").style.display = "none";
+    }, 2500);
+  }
+
+  // Navigate between the three pages.
+  function goToPage(pageNumber) {
+    if (pageNumber > 1 && !hasResults) {
+      showToast("Please submit your lost-item details first.");
+      return;
+    }
+
+    currentPage = pageNumber;
+
+    [1, 2, 3].forEach(number => {
+      $("page" + number).classList.toggle(
+        "hidden",
+        number !== pageNumber
+      );
+
+      $("nav" + number).classList.toggle(
+        "active",
+        number === pageNumber
+      );
+
+      $("progress" + number).classList.toggle(
+        "active",
+        number <= pageNumber
+      );
+    });
+
+    const pageNames = [
+      "Report a lost item",
+      "Smart matches",
+      "Collection details"
+    ];
+
+    $("breadcrumb").textContent = pageNames[pageNumber - 1];
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  // Safe text formatting before inserting user input into HTML.
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]);
+  }
+
+  // Sidebar navigation.
+  $("nav1").addEventListener("click", () => goToPage(1));
+  $("nav2").addEventListener("click", () => goToPage(2));
+  $("nav3").addEventListener("click", () => goToPage(3));
+
+  // Initialize the date.
+  setToday();
+
+  // Optional image upload and preview.
+  $("photo").addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) {
+      $("photoPreview").style.display = "none";
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      showToast("Please select an image file.");
+      this.value = "";
+      $("photoPreview").style.display = "none";
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      $("photoPreview").src = event.target.result;
+      $("photoPreview").style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  // Submit the lost-item report and generate fictional matches.
+  $("lostForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (!this.reportValidity()) {
+      return;
+    }
+
+    const item = $("item").value.trim();
+    const description = $("description").value.trim();
+    const place = $("place").value.trim();
+    const date = $("date").value;
+    const time = $("time").value;
+
+    if (!item || !description || !place || !date || !time) {
+      showToast("Please complete all required fields.");
+      return;
+    }
+
+    $("searchedItem").textContent = item;
+    $("collectionItem").textContent = item;
+
+    hasResults = true;
+
+    // The following reports are invented sample data.
+    const reports = [
+      {
+        percentage: 96,
+        title: item,
+        location: "Reported near " + place,
+        time: "Today, 11:20 AM",
+        tags: ["Description similarity", "Location context", "Time context"]
+      },
+      {
+        percentage: 82,
+        title: "Similar-looking " + item,
+        location: "Reported at a nearby transit stop",
+        time: "Today, 12:05 PM",
+        tags: ["Similar appearance", "Possible nearby report"]
+      },
+      {
+        percentage: 67,
+        title: "Item matching some details: " + item,
+        location: "Reported at a local cafe or public venue",
+        time: "Yesterday, 3:40 PM",
+        tags: ["Partial detail match", "Older report"]
+      }
+    ];
+
+    // Real Active Cases from FindIt
+    const liveReports = [];
+    if (window.FindIt) {
+      const activeCases = window.FindIt.getCases();
+      const lowerQuery = item.toLowerCase();
+      activeCases.forEach(c => {
+        if (c.title.toLowerCase().includes(lowerQuery) || lowerQuery.includes(c.title.toLowerCase()) || lowerQuery.includes(c.category.toLowerCase())) {
+          liveReports.push({
+            percentage: c.matchScore || 95,
+            title: `[Active Campus Radar] ${c.title}`,
+            location: `Held at: ${c.foundLocation || c.location}`,
+            time: `Status: ${c.status} · ${c.date}`,
+            tags: ["Live Radar Match", "Spatial Proximity", c.actionRequired || "Verification Pending"]
+          });
+        }
+      });
+    }
+
+    const allReports = [...liveReports, ...reports];
+
+    const searchSummary = `
+      <div class="demo-notice">
+        <strong>Your search summary</strong><br>
+        Last seen: ${escapeHTML(place)}<br>
+        Date: ${escapeHTML(date)} at ${escapeHTML(time)}<br>
+        Description: ${escapeHTML(description)}
+      </div>
+    `;
+
+    const reportCards = allReports.map(report => `
+      <div class="match">
+        <div class="match-top">
+          <div>
+            <h3>${escapeHTML(report.title)}</h3>
+            <p>
+              ${escapeHTML(report.location)}
+              · ${escapeHTML(report.time)}
+            </p>
+          </div>
+
+          <div class="percentage">${report.percentage}%</div>
+        </div>
+
+        <div class="bar">
+          <span style="width:${report.percentage}%"></span>
+        </div>
+
+        <div>
+          ${report.tags.map(tag =>
+            `<span class="tag">${escapeHTML(tag)}</span>`
+          ).join("")}
+        </div>
+      </div>
+    `).join("");
+
+    $("matches").innerHTML = searchSummary + reportCards;
+
+    $("confirmation").classList.add("hidden");
+
+    goToPage(2);
+  });
+
+  // Page 2 buttons.
+  $("chooseMatch").addEventListener("click", function () {
+    goToPage(3);
+  });
+
+  $("editReport").addEventListener("click", function () {
+    goToPage(1);
+  });
+
+  // Return to matching results from Page 3.
+  $("backMatches").addEventListener("click", function () {
+    goToPage(2);
+  });
+
+  // Confirm the selected collection point.
+  $("confirmCollection").addEventListener("click", function () {
+    const selected = document.querySelector(
+      'input[name="location"]:checked'
+    );
+
+    if (!selected) {
+      showToast("Please select a collection location.");
+      return;
+    }
+
+    if (window.FindIt) {
+      window.FindIt.addPoints(100);
+      refreshPoints();
+    }
+
+    $("confirmation").innerHTML = `
+      <strong style="color: #059669; font-size: 14px;">✓ Collection Plan Confirmed!</strong><br>
+      Location: <strong>${escapeHTML(selected.value)}</strong><br>
+      Escrow Zero-Knowledge token generated. <strong>+100 Karma Points</strong> awarded to your balance!
+      <div style="margin-top: 14px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="trusted_hubs_page.html" style="color: #b95412; font-weight: bold; text-decoration: underline; font-size: 12px;">View Secure Hubs Directory &rarr;</a>
+        <a href="dashboard.html" style="color: #b95412; font-weight: bold; text-decoration: underline; font-size: 12px;">Return to Dashboard &rarr;</a>
+      </div>
+    `;
+
+    $("confirmation").classList.remove("hidden");
+
+    showToast("Collection location confirmed! +100 Karma Points added.");
+  });
+
+  // Reset the website and return to Page 1.
+  $("startOver").addEventListener("click", function () {
+    $("lostForm").reset();
+    $("photoPreview").style.display = "none";
+    $("photoPreview").removeAttribute("src");
+
+    $("confirmation").classList.add("hidden");
+
+    hasResults = false;
+    setToday();
+    goToPage(1);
+  });
+</script>
+</body>
+</html>
