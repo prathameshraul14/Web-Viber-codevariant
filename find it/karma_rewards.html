@@ -271,6 +271,45 @@
       </span>
     </div>
 
+    <!-- 3. CANVAS PROTOCOL: VOUCHER MINTING ACTION ZONE -->
+    <div class="mb-10 p-6 md:p-8 bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-600/10 rounded-3xl border-2 border-dashed border-orange-400 relative overflow-hidden transition-all duration-300" id="canvas-voucher-minting-zone"
+      ondragover="handleVoucherZoneOver(event)"
+      ondragleave="handleVoucherZoneLeave(event)"
+      ondrop="handleVoucherZoneDrop(event)"
+    >
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+        <div class="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
+          <div id="mint-zone-icon" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand to-orange-600 text-white flex items-center justify-center text-3xl shadow-lg shadow-orange-500/30 transition-transform duration-300 shrink-0">
+            <i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i>
+          </div>
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-100 border border-orange-200 text-brand text-[10px] font-extrabold tracking-wider uppercase mb-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand animate-ping"></span>
+              The Canvas Protocol &middot; Primary Action Zone
+            </div>
+            <h3 class="text-xl md:text-2xl font-black font-jakarta text-gray-900">
+              Drag & Drop Coupon Card Here to Mint Voucher
+            </h3>
+            <p class="text-xs text-gray-600 font-medium mt-0.5">
+              No buttons required! Grab any coupon card from below and drop it onto this canvas zone to mint your code.
+            </p>
+          </div>
+        </div>
+
+        <div class="shrink-0 flex items-center gap-3">
+          <div class="text-right hidden sm:block">
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Canvas State</span>
+            <span id="canvas-drop-status" class="text-xs font-black text-brand bg-white px-3 py-1 rounded-xl border border-orange-200 shadow-xs inline-block">
+              Ready for Drop
+            </span>
+          </div>
+          <div class="w-12 h-12 rounded-2xl border border-orange-200 bg-white/80 flex items-center justify-center text-brand text-lg shadow-xs">
+            <i class="fa-solid fa-arrows-up-down-left-right animate-spin" style="animation-duration: 6s;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 3. Real Brand Coupons Grid (Dynamically Rendered with Live Points Deduct) -->
     <div class="mb-20">
       <div class="flex justify-between items-center mb-6">
@@ -279,7 +318,7 @@
       </div>
       
       <div id="coupons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Rendered by JavaScript -->
+        <!-- Rendered by JavaScript with draggable cards -->
       </div>
 
       <!-- No Results State -->
@@ -557,15 +596,28 @@
         const ptsNeeded = c.points - currentPts;
 
         return `
-          <div class="bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm relative overflow-hidden ${!canAfford ? 'opacity-90' : ''}">
+          <div 
+            draggable="${canAfford ? 'true' : 'false'}"
+            ondragstart="handleCouponDragStart(event, '${c.id}')"
+            ondragend="handleCouponDragEnd(event)"
+            onclick="${canAfford ? `handleCardTouchOrClick(event, '${c.id}')` : ''}"
+            class="bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm relative overflow-hidden group select-none ${canAfford ? 'cursor-grab active:cursor-grabbing hover:ring-2 hover:ring-orange-300' : 'opacity-85 cursor-not-allowed'}"
+          >
             <div>
               <div class="flex justify-between items-start mb-4">
-                <div class="w-13 h-13 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-orange-100">
+                <div class="w-13 h-13 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-orange-100 group-hover:scale-110 transition-transform">
                   ${c.icon}
                 </div>
-                <span class="text-[10px] font-extrabold text-brand bg-orange-100 px-3 py-1 rounded-full uppercase tracking-wider">
-                  ${c.badge}
-                </span>
+                <div class="flex flex-col items-end gap-1">
+                  <span class="text-[10px] font-extrabold text-brand bg-orange-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                    ${c.badge}
+                  </span>
+                  ${canAfford ? `
+                    <span class="text-[9px] font-bold text-orange-600 flex items-center gap-1">
+                      <i class="fa-solid fa-hand-holding-hand"></i> Canvas Draggable
+                    </span>
+                  ` : ''}
+                </div>
               </div>
               <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-1">${c.partner}</h3>
               <p class="text-sm text-gray-800 font-bold mb-1">${c.title}</p>
@@ -581,14 +633,15 @@
               </div>
               
               ${canAfford ? `
-                <button onclick="handleRedeemClick('${c.id}')" class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl hover:bg-orange-600 transition-all shadow-md shadow-brand/20 active:scale-95 text-xs cursor-pointer flex items-center gap-1.5">
-                  <i class="fa-solid fa-gift text-xs"></i>
-                  <span>Redeem Now</span>
-                </button>
+                <div class="flex items-center gap-2 py-2 px-3.5 bg-gradient-to-r from-orange-50 to-amber-50 text-brand border border-orange-200 rounded-2xl font-extrabold text-xs select-none shadow-xs group-hover:from-brand group-hover:to-orange-600 group-hover:text-white transition-all duration-200">
+                  <i class="fa-solid fa-arrows-up-down-left-right text-[11px] animate-pulse"></i>
+                  <span>Drag to Mint</span>
+                </div>
               ` : `
-                <button onclick="showNeedMoreToast(${ptsNeeded}, '${c.partner}')" class="px-4 py-2.5 bg-gray-100 text-gray-400 font-bold rounded-xl text-xs cursor-pointer hover:bg-gray-200 transition">
-                  Need ${ptsNeeded.toLocaleString()} more
-                </button>
+                <div class="py-2 px-3.5 bg-gray-100 text-gray-400 font-bold rounded-2xl text-xs flex items-center gap-1.5 select-none">
+                  <i class="fa-solid fa-lock text-[10px]"></i>
+                  <span>Need ${ptsNeeded.toLocaleString()} pts</span>
+                </div>
               `}
             </div>
           </div>
@@ -622,6 +675,81 @@
       activeCategory = 'all';
       const firstPill = document.querySelector('.coupon-pill');
       if (firstPill) setCouponFilter('all', firstPill);
+    }
+
+    // THE CANVAS PROTOCOL — Drag & Drop Voucher Minting
+    let draggedCouponId = null;
+
+    function handleCouponDragStart(e, couponId) {
+      draggedCouponId = couponId;
+      e.dataTransfer.setData('text/plain', couponId);
+      e.dataTransfer.effectAllowed = 'copyMove';
+
+      const zone = document.getElementById('canvas-voucher-minting-zone');
+      if (zone) {
+        zone.classList.add('ring-4', 'ring-orange-400/50', 'bg-orange-100/60', 'scale-[1.01]');
+      }
+      const status = document.getElementById('canvas-drop-status');
+      if (status) {
+        status.textContent = 'Awaiting Drop...';
+        status.className = 'text-xs font-black text-white bg-brand px-3 py-1 rounded-xl shadow-xs inline-block animate-pulse';
+      }
+    }
+
+    function handleCouponDragEnd(e) {
+      const zone = document.getElementById('canvas-voucher-minting-zone');
+      if (zone) {
+        zone.classList.remove('ring-4', 'ring-orange-400/50', 'bg-orange-100/60', 'scale-[1.01]', 'border-orange-600');
+      }
+      const status = document.getElementById('canvas-drop-status');
+      if (status) {
+        status.textContent = 'Ready for Drop';
+        status.className = 'text-xs font-black text-brand bg-white px-3 py-1 rounded-xl border border-orange-200 shadow-xs inline-block';
+      }
+    }
+
+    function handleVoucherZoneOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      const zone = document.getElementById('canvas-voucher-minting-zone');
+      if (zone) {
+        zone.classList.add('border-brand', 'bg-orange-100', 'scale-[1.02]', 'shadow-2xl');
+      }
+      const icon = document.getElementById('mint-zone-icon');
+      if (icon) icon.classList.add('scale-125', 'rotate-12');
+    }
+
+    function handleVoucherZoneLeave(e) {
+      const zone = document.getElementById('canvas-voucher-minting-zone');
+      if (zone) {
+        zone.classList.remove('scale-[1.02]', 'shadow-2xl');
+      }
+      const icon = document.getElementById('mint-zone-icon');
+      if (icon) icon.classList.remove('scale-125', 'rotate-12');
+    }
+
+    function handleVoucherZoneDrop(e) {
+      e.preventDefault();
+      handleVoucherZoneLeave(e);
+      handleCouponDragEnd(e);
+
+      const couponId = e.dataTransfer.getData('text/plain') || draggedCouponId;
+      if (!couponId) return;
+
+      handleRedeemClick(couponId);
+    }
+
+    function handleCardTouchOrClick(e, couponId) {
+      // Smooth helper for touch devices or click to showcase Canvas Protocol
+      const zone = document.getElementById('canvas-voucher-minting-zone');
+      if (zone) {
+        zone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        zone.classList.add('ring-4', 'ring-brand', 'scale-[1.02]');
+        setTimeout(() => {
+          zone.classList.remove('ring-4', 'ring-brand', 'scale-[1.02]');
+        }, 1200);
+      }
+      showToast('Canvas Protocol Active', 'Drag this card up into the Minting Action Zone to redeem!', 'info');
     }
 
     function handleRedeemClick(couponId) {

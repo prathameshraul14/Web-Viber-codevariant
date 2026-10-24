@@ -149,8 +149,8 @@
               <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-2xl border border-orange-200/80 flex flex-col justify-between">
                 <div>
                   <h4 class="font-jakarta text-xs font-bold text-gray-900 mb-1">Your Karma Balance</h4>
-                  <p class="text-3xl font-black text-brand font-jakarta js-karma-points js-reward-points">2,450 <span class="text-xs text-orange-600 font-bold">pts</span></p>
-                  <p class="text-[11px] text-gray-600 mt-2 font-medium">Rank: Gold Tier Global Helper</p>
+                  <p class="text-3xl font-black text-brand font-jakarta js-karma-points js-reward-points">25,000 <span class="text-xs text-orange-600 font-bold">pts</span></p>
+                  <p class="text-[11px] text-gray-600 mt-2 font-medium">Rank: Platinum Legend Helper</p>
                 </div>
                 <a href="karma_rewards.html" class="mt-4 w-full py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition shadow-sm text-center block">
                   Redeem Rewards &rarr;
@@ -187,7 +187,7 @@
               <p class="text-xs font-bold text-gray-900 js-user-email" id="menu-user-email">alex.morgan@domain.com</p>
               <div class="mt-1 flex items-center gap-1.5 text-[11px] text-brand font-bold">
                 <i class="fa-solid fa-coins"></i>
-                <span class="js-reward-points">2,450</span> pts available
+                <span class="js-reward-points">25,000</span> pts available
               </div>
             </div>
             <a href="profile.html" class="flex items-center justify-between px-4 py-2.5 text-xs text-gray-800 hover:bg-orange-50 hover:text-brand font-bold border-b border-gray-100 group/prof">
@@ -510,6 +510,87 @@
               <option value="rating-desc">Lister Rating: Highest First</option>
               <option value="date-desc">Newest Listings</option>
             </select>
+          </div>
+        </div>
+
+        <!-- ================= THE CANVAS PROTOCOL: MULTI-ACTION DOCK ================= -->
+        <div id="catalog-action-dock" class="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-orange-50/80 via-amber-50/50 to-orange-50/80 border-2 border-dashed border-orange-300 transition-all duration-300 mb-6">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center text-sm font-bold shadow-sm shrink-0">
+                <i class="fa-solid fa-palette"></i>
+              </span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm sm:text-base font-extrabold font-jakarta text-gray-900">The Canvas Protocol Multi-Action Dock</h3>
+                  <span class="px-2 py-0.5 rounded-full bg-brand text-white text-[9px] font-black uppercase tracking-wider animate-pulse">Action Canvas</span>
+                </div>
+                <p class="text-[11px] text-gray-500 font-medium">Drag any case card into an Action Zone below to execute primary actions without buttons!</p>
+              </div>
+            </div>
+            <div id="catalog-drag-indicator" class="text-xs font-bold text-gray-500 bg-white px-3 py-1.5 rounded-xl border border-gray-200 shadow-xs flex items-center gap-1.5 shrink-0">
+              <i class="fa-solid fa-arrows-up-down-left-right text-brand"></i>
+              <span>Drag Cards to Trigger Actions</span>
+            </div>
+          </div>
+
+          <!-- 3 Designated Action Zones -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            
+            <!-- Zone 1: Escrow Vault Deposit -->
+            <div 
+              id="cat-zone-escrow"
+              ondragover="handleCatalogDockOver(event, this)"
+              ondragleave="handleCatalogDockLeave(event, this)"
+              ondrop="handleCatalogDockDrop(event, 'escrow')"
+              class="p-4 rounded-2xl border-2 border-dashed border-emerald-400 bg-emerald-50/60 hover:bg-emerald-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1.5 group select-none"
+            >
+              <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-building-shield"></i>
+              </div>
+              <h4 class="text-xs font-black text-emerald-950">Drop: Route to Escrow Vault</h4>
+              <p class="text-[10px] text-emerald-700 font-medium leading-tight">Deposit item at verified bank/metro locker custody (+80 pts)</p>
+              <span class="text-[9px] font-extrabold text-emerald-800 bg-white px-2 py-0.5 rounded-full border border-emerald-200 shadow-xs">
+                Action Zone: Custody
+              </span>
+            </div>
+
+            <!-- Zone 2: Spatial Mesh Ping -->
+            <div 
+              id="cat-zone-radar"
+              ondragover="handleCatalogDockOver(event, this)"
+              ondragleave="handleCatalogDockLeave(event, this)"
+              ondrop="handleCatalogDockDrop(event, 'radar')"
+              class="p-4 rounded-2xl border-2 border-dashed border-sky-400 bg-sky-50/60 hover:bg-sky-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1.5 group select-none"
+            >
+              <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-satellite animate-pulse"></i>
+              </div>
+              <h4 class="text-xs font-black text-sky-950">Drop: Spatial Beacon Ping</h4>
+              <p class="text-[10px] text-sky-700 font-medium leading-tight">Broadcast acoustic & BLE radio telemetry to nearby mesh nodes</p>
+              <span class="text-[9px] font-extrabold text-sky-800 bg-white px-2 py-0.5 rounded-full border border-sky-200 shadow-xs">
+                Action Zone: Radar
+              </span>
+            </div>
+
+            <!-- Zone 3: Claim & Verify -->
+            <div 
+              id="cat-zone-claim"
+              ondragover="handleCatalogDockOver(event, this)"
+              ondragleave="handleCatalogDockLeave(event, this)"
+              ondrop="handleCatalogDockDrop(event, 'claim')"
+              class="p-4 rounded-2xl border-2 border-dashed border-amber-400 bg-amber-50/60 hover:bg-amber-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1.5 group select-none"
+            >
+              <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-fingerprint"></i>
+              </div>
+              <h4 class="text-xs font-black text-amber-950">Drop: Claim & Verify</h4>
+              <p class="text-[10px] text-amber-700 font-medium leading-tight">Launch Zero-Knowledge challenge & ownership verification</p>
+              <span class="text-[9px] font-extrabold text-amber-800 bg-white px-2 py-0.5 rounded-full border border-amber-200 shadow-xs">
+                Action Zone: Verification
+              </span>
+            </div>
+
           </div>
         </div>
 
@@ -902,6 +983,142 @@
     </div>
   </div>
 
+
+
+  <!-- ================= THE CANVAS PROTOCOL: ANIMATED EXECUTION PROCESS MODAL ================= -->
+  <div id="canvas-process-modal" class="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-gray-900 border-2 border-brand/80 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl text-white text-center relative overflow-hidden">
+      <!-- Glow ambient background -->
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-brand/30 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header -->
+      <div class="relative z-10">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand/20 border border-brand/50 text-brand text-[10px] font-black uppercase tracking-wider mb-4 animate-pulse">
+          <i class="fa-solid fa-bolt"></i> The Canvas Protocol Live Dispatch
+        </span>
+        
+        <h3 id="canvas-proc-title" class="text-xl sm:text-2xl font-black font-jakarta text-white tracking-tight">
+          Processing Canvas Action
+        </h3>
+        
+        <div class="mt-4 p-3 bg-gray-800/80 border border-gray-700/80 rounded-2xl flex items-center gap-3 text-left">
+          <img id="canvas-proc-img" src="" alt="" class="w-12 h-12 rounded-xl object-cover border border-gray-600 shrink-0" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';">
+          <div class="overflow-hidden">
+            <p id="canvas-proc-item-title" class="text-xs font-bold text-white truncate">Item Title</p>
+            <p id="canvas-proc-action-label" class="text-[11px] text-amber-400 font-bold mt-0.5">Routing to Destination</p>
+          </div>
+        </div>
+
+        <!-- 3 Step Progress Animation -->
+        <div class="mt-6 space-y-3 text-left">
+          <!-- Step 1 -->
+          <div id="proc-step-1" class="flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/50 border border-gray-700/60 transition-all">
+            <div id="proc-step-1-icon" class="w-6 h-6 rounded-full bg-brand text-white flex items-center justify-center text-[10px] font-bold shrink-0 animate-spin">
+              <i class="fa-solid fa-circle-notch"></i>
+            </div>
+            <div class="text-xs">
+              <p class="font-bold text-gray-200">1. Generating Cryptographic Action Hash</p>
+              <p class="text-[10px] text-gray-400">Verifying item token and lister credentials</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div id="proc-step-2" class="flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/30 border border-gray-800 transition-all opacity-50">
+            <div id="proc-step-2-icon" class="w-6 h-6 rounded-full bg-gray-700 text-gray-400 flex items-center justify-center text-[10px] font-bold shrink-0">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="text-xs">
+              <p class="font-bold text-gray-200">2. Dispatching Payload to Action Zone</p>
+              <p class="text-[10px] text-gray-400">Routing to physical escrow vault or radio mesh</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div id="proc-step-3" class="flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/30 border border-gray-800 transition-all opacity-50">
+            <div id="proc-step-3-icon" class="w-6 h-6 rounded-full bg-gray-700 text-gray-400 flex items-center justify-center text-[10px] font-bold shrink-0">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="text-xs">
+              <p class="font-bold text-gray-200">3. Confirmation & Karma Credit</p>
+              <p class="text-[10px] text-gray-400">Ledger synchronized across all app views</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Banner -->
+        <div id="proc-success-banner" class="mt-5 p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-center hidden">
+          <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto text-base font-bold shadow-lg shadow-emerald-500/30 mb-2">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <h4 id="proc-success-text" class="text-sm font-extrabold text-emerald-300">Action Confirmed!</h4>
+          <p id="proc-points-awarded" class="text-xs text-emerald-200 mt-1 font-bold">+80 Karma Points Credited to Account</p>
+        </div>
+
+        <!-- Close / Finish Button -->
+        <div class="mt-6 flex justify-center">
+          <button id="proc-done-btn" onclick="closeCanvasProcessModal()" class="w-full py-3 bg-brand hover:bg-orange-600 text-white font-black text-xs rounded-2xl shadow-lg shadow-brand/30 transition uppercase tracking-wider flex items-center justify-center gap-2">
+            <i class="fa-solid fa-check-double"></i>
+            <span>Done & Return to Catalog</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= THE CANVAS PROTOCOL: QUICK ACTION PICKER MODAL ================= -->
+  <div id="canvas-action-picker-modal" class="fixed inset-0 z-[9990] bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-gray-200 text-center relative overflow-hidden">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="w-7 h-7 rounded-xl bg-brand text-white flex items-center justify-center text-xs font-bold shadow-sm">
+            <i class="fa-solid fa-palette"></i>
+          </span>
+          <h3 class="text-sm font-extrabold font-jakarta text-gray-900">Canvas Protocol Action Picker</h3>
+        </div>
+        <button onclick="closeCanvasActionPicker()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center text-xs">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-gray-500 text-left mb-4">
+        Choose a destination Action Zone for <strong id="picker-case-title" class="text-gray-900">this case</strong>:
+      </p>
+
+      <div class="space-y-3">
+        <button onclick="executeCanvasFromPicker('escrow')" class="w-full p-3.5 rounded-2xl border-2 border-emerald-400 bg-emerald-50 hover:bg-emerald-100 text-left transition flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform shrink-0">
+            <i class="fa-solid fa-building-shield"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-black text-emerald-950">Route to Escrow Vault Desk</h4>
+            <p class="text-[10px] text-emerald-700 font-medium leading-tight">Deposit item at verified bank/metro locker custody (+80 pts)</p>
+          </div>
+        </button>
+
+        <button onclick="executeCanvasFromPicker('radar')" class="w-full p-3.5 rounded-2xl border-2 border-sky-400 bg-sky-50 hover:bg-sky-100 text-left transition flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform shrink-0">
+            <i class="fa-solid fa-satellite animate-pulse"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-black text-sky-950">Spatial Mesh Beacon Ping</h4>
+            <p class="text-[10px] text-sky-700 font-medium leading-tight">Broadcast acoustic & BLE radio telemetry to nearby mesh nodes (+50 pts)</p>
+          </div>
+        </button>
+
+        <button onclick="executeCanvasFromPicker('claim')" class="w-full p-3.5 rounded-2xl border-2 border-amber-400 bg-amber-50 hover:bg-amber-100 text-left transition flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform shrink-0">
+            <i class="fa-solid fa-fingerprint"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-black text-amber-950">Launch Claim & Verification</h4>
+            <p class="text-[10px] text-amber-700 font-medium leading-tight">Launch Zero-Knowledge challenge & cryptographic ownership check</p>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast" class="fixed bottom-6 right-6 z-[9999] transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3.5 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl border border-gray-700/80 max-w-md">
     <div id="toast-icon" class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold shrink-0">
@@ -1108,7 +1325,12 @@
       const listerAvatar = c.listerInfo?.avatar || 'FM';
 
       return `
-        <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-2xl hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+        <div 
+          draggable="true"
+          ondragstart="handleCatalogDragStart(event, '${c.id}')"
+          ondragend="handleCatalogDragEnd(event)"
+          class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-2xl hover:border-brand transition-all duration-300 overflow-hidden flex flex-col justify-between group cursor-grab active:cursor-grabbing select-none hover:ring-2 hover:ring-orange-300"
+        >
           <div>
             <!-- Image & Badge Container -->
             <div class="relative bg-gradient-to-b from-slate-50 to-slate-100 aspect-square overflow-hidden cursor-pointer product-img-wrapper flex items-center justify-center group/img" onclick="openProductModal('${c.id}')">
@@ -1123,6 +1345,7 @@
               <img 
                 src="${c.image}" 
                 alt="" 
+                draggable="false"
                 loading="lazy" 
                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';"
                 class="w-full h-full object-cover relative z-10 group-hover/img:scale-105 transition-transform duration-500 ease-out"
@@ -1222,30 +1445,20 @@
             </div>
           </div>
 
-          <!-- Bottom Action Buttons (FindIt Brand Theme) -->
-          <div class="p-5 pt-0 space-y-2">
-            <button 
-              onclick="openProductModal('${c.id}')"
-              class="w-full py-2.5 bg-brand hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition shadow-md shadow-brand/20 flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+          <!-- THE CANVAS PROTOCOL — Drag Grip Handle (Replaces static action buttons) -->
+          <div class="p-5 pt-0">
+            <div 
+              onclick="event.stopPropagation(); openCanvasActionPicker('${c.id}')"
+              title="Drag to Action Dock or Click to Launch Canvas Action"
+              class="flex items-center justify-between p-2.5 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-2xl hover:from-brand hover:to-orange-600 hover:text-white transition-all text-brand select-none shadow-xs cursor-pointer active:scale-98"
             >
-              <i class="fa-solid fa-eye text-xs"></i>
-              <span>Inspect & Track Case</span>
-            </button>
-            <div class="grid grid-cols-2 gap-2">
-              <button 
-                onclick="quickClaim('${c.id}')"
-                class="py-2 bg-orange-50 hover:bg-orange-100 text-brand font-bold text-[11px] rounded-xl transition border border-orange-200 flex items-center justify-center gap-1.5"
-              >
-                <i class="fa-solid fa-key text-[10px]"></i>
-                <span>Claim</span>
-              </button>
-              <button 
-                onclick="quickMessage('${c.id}')"
-                class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[11px] rounded-xl transition border border-gray-200 flex items-center justify-center gap-1.5"
-              >
-                <i class="fa-solid fa-user-secret text-[10px] text-brand"></i>
-                <span>Relay</span>
-              </button>
+              <span class="flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-arrows-up-down-left-right text-xs animate-pulse"></i>
+                <span>Drag to Dock / Tap to Act</span>
+              </span>
+              <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-white text-brand border border-orange-200 hover:bg-white hover:text-brand shadow-xs">
+                Canvas Token
+              </span>
             </div>
           </div>
         </div>
@@ -1262,7 +1475,12 @@
       const listerAvatar = c.listerInfo?.avatar || 'FM';
 
       return `
-        <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-orange-200 transition-all duration-300 p-5 flex flex-col md:flex-row gap-6 items-start group">
+        <div 
+          draggable="true"
+          ondragstart="handleCatalogDragStart(event, '${c.id}')"
+          ondragend="handleCatalogDragEnd(event)"
+          class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-brand transition-all duration-300 p-5 flex flex-col md:flex-row gap-6 items-start group cursor-grab active:cursor-grabbing select-none hover:ring-2 hover:ring-orange-300"
+        >
           
           <!-- Image -->
           <div class="relative w-full md:w-56 aspect-square bg-gradient-to-b from-slate-50 to-slate-100 rounded-2xl overflow-hidden shrink-0 cursor-pointer product-img-wrapper flex items-center justify-center group/img" onclick="openProductModal('${c.id}')">
@@ -1275,6 +1493,7 @@
             <img 
               src="${c.image}" 
               alt="" 
+              draggable="false"
               loading="lazy" 
               onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';"
               class="w-full h-full object-cover relative z-10 group-hover/img:scale-105 transition-transform duration-500 ease-out"
@@ -1367,20 +1586,21 @@
               <p>FREE Pickup at Hub Desk</p>
             </div>
 
-            <div class="space-y-2 pt-1">
-              <button 
-                onclick="openProductModal('${c.id}')"
-                class="w-full py-2.5 bg-brand hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition shadow-md shadow-brand/20 flex items-center justify-center gap-1.5 cursor-pointer"
+            <!-- THE CANVAS PROTOCOL — Drag Grip Handle -->
+            <div class="pt-2">
+              <div 
+                onclick="event.stopPropagation(); openCanvasActionPicker('${c.id}')"
+                title="Drag to Action Dock or Click to Launch Canvas Action"
+                class="flex items-center justify-between p-2.5 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-2xl hover:from-brand hover:to-orange-600 hover:text-white transition-all text-brand select-none shadow-xs cursor-pointer active:scale-98"
               >
-                <span>View Full Details</span>
-              </button>
-              <button 
-                onclick="quickClaim('${c.id}')"
-                class="w-full py-2 bg-orange-50 hover:bg-orange-100 text-brand font-bold text-xs rounded-xl transition border border-orange-200 flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <i class="fa-solid fa-key text-[11px]"></i>
-                <span>Claim via Proof</span>
-              </button>
+                <span class="flex items-center gap-1.5 text-xs font-bold">
+                  <i class="fa-solid fa-arrows-up-down-left-right text-xs animate-pulse"></i>
+                  <span>Drag to Dock / Tap to Act</span>
+                </span>
+                <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-white text-brand border border-orange-200 hover:bg-white hover:text-brand shadow-xs">
+                  Canvas Token
+                </span>
+              </div>
             </div>
           </div>
 
@@ -1644,6 +1864,226 @@
       }
 
       applyFilters();
+    }
+
+    // THE CANVAS PROTOCOL — Catalog Drag & Drop Handlers & Execution Engine
+    let draggedCatalogCaseId = null;
+
+    function handleCatalogDragStart(e, caseId) {
+      draggedCatalogCaseId = caseId;
+      window.currentDraggedCase = caseId;
+      e.dataTransfer.setData('text/plain', caseId);
+      e.dataTransfer.effectAllowed = 'copyMove';
+
+      const topDock = document.getElementById('catalog-action-dock');
+      if (topDock) {
+        topDock.classList.add('ring-4', 'ring-brand/40', 'bg-orange-100/60');
+      }
+      const indicator = document.getElementById('catalog-drag-indicator');
+      if (indicator) {
+        indicator.innerHTML = '<span class="text-brand font-black animate-pulse">⚡ Case Token Attached! Drop into Zone</span>';
+      }
+    }
+
+    function handleCatalogDragEnd(e) {
+      const topDock = document.getElementById('catalog-action-dock');
+      if (topDock) {
+        topDock.classList.remove('ring-4', 'ring-brand/40', 'bg-orange-100/60');
+      }
+      const indicator = document.getElementById('catalog-drag-indicator');
+      if (indicator) {
+        indicator.innerHTML = '<i class="fa-solid fa-arrows-up-down-left-right text-brand"></i><span>Drag Cards to Trigger Actions</span>';
+      }
+    }
+
+    function handleCatalogDockOver(e, el) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      el.classList.add('scale-[1.04]', 'shadow-2xl');
+      if (el.id.includes('escrow')) el.classList.add('bg-emerald-500/30', 'border-emerald-400', 'ring-4', 'ring-emerald-400/50');
+      if (el.id.includes('radar')) el.classList.add('bg-sky-500/30', 'border-sky-400', 'ring-4', 'ring-sky-400/50');
+      if (el.id.includes('claim')) el.classList.add('bg-amber-500/30', 'border-amber-400', 'ring-4', 'ring-amber-400/50');
+    }
+
+    function handleCatalogDockLeave(e, el) {
+      el.classList.remove(
+        'scale-[1.04]', 'shadow-2xl',
+        'bg-emerald-500/30', 'border-emerald-400', 'ring-4', 'ring-emerald-400/50',
+        'bg-sky-500/30', 'border-sky-400', 'ring-4', 'ring-sky-400/50',
+        'bg-amber-500/30', 'border-amber-400', 'ring-4', 'ring-amber-400/50'
+      );
+    }
+
+    function handleCatalogDockDrop(e, actionType) {
+      e.preventDefault();
+      const el = e.currentTarget;
+      handleCatalogDockLeave(e, el);
+      handleCatalogDragEnd(e);
+
+      const caseId = e.dataTransfer ? (e.dataTransfer.getData('text/plain') || draggedCatalogCaseId || window.currentDraggedCase) : (draggedCatalogCaseId || window.currentDraggedCase);
+      if (!caseId) return;
+
+      executeCanvasProtocolAction(caseId, actionType);
+    }
+
+    // THE CANVAS PROTOCOL — Animated Execution Process Flow
+    function executeCanvasProtocolAction(caseId, actionType) {
+      const item = activeCases.find(c => c.id === caseId) || { id: caseId, title: 'Item ' + caseId, image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80' };
+      
+      const modal = document.getElementById('canvas-process-modal');
+      const titleEl = document.getElementById('canvas-proc-title');
+      const imgEl = document.getElementById('canvas-proc-img');
+      const itemTitleEl = document.getElementById('canvas-proc-item-title');
+      const actionLabelEl = document.getElementById('canvas-proc-action-label');
+      const successBanner = document.getElementById('proc-success-banner');
+      const successText = document.getElementById('proc-success-text');
+      const pointsAwarded = document.getElementById('proc-points-awarded');
+
+      // Populate basic info
+      imgEl.src = item.image;
+      itemTitleEl.textContent = `${item.title} (${item.id})`;
+
+      // Action metadata
+      let actionTitle = 'Dispatching to Action Zone';
+      let actionLabel = 'Routing Protocol Payload';
+      let ptsGained = 80;
+
+      if (actionType === 'escrow') {
+        actionTitle = 'Routing to Escrow Vault Custody';
+        actionLabel = 'Action Zone: Escrow Desk / Bank Locker';
+        ptsGained = 80;
+      } else if (actionType === 'radar') {
+        actionTitle = 'Broadcasting Spatial Mesh Radar Ping';
+        actionLabel = 'Action Zone: BLE & Acoustic Spatial Mesh';
+        ptsGained = 50;
+      } else if (actionType === 'claim') {
+        actionTitle = 'Initiating Zero-Knowledge Claim Protocol';
+        actionLabel = 'Action Zone: Biometric / Passcode Challenge';
+        ptsGained = 30;
+      }
+
+      titleEl.textContent = actionTitle;
+      actionLabelEl.textContent = actionLabel;
+
+      // Reset steps
+      successBanner.classList.add('hidden');
+      const step1 = document.getElementById('proc-step-1');
+      const step1Icon = document.getElementById('proc-step-1-icon');
+      const step2 = document.getElementById('proc-step-2');
+      const step2Icon = document.getElementById('proc-step-2-icon');
+      const step3 = document.getElementById('proc-step-3');
+      const step3Icon = document.getElementById('proc-step-3-icon');
+
+      step1.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/80 border border-brand/60 transition-all';
+      step1Icon.className = 'w-6 h-6 rounded-full bg-brand text-white flex items-center justify-center text-[10px] font-bold shrink-0 animate-spin';
+      step1Icon.innerHTML = '<i class="fa-solid fa-circle-notch"></i>';
+
+      step2.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/30 border border-gray-800 transition-all opacity-40';
+      step2Icon.className = 'w-6 h-6 rounded-full bg-gray-700 text-gray-400 flex items-center justify-center text-[10px] font-bold shrink-0';
+      step2Icon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+
+      step3.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/30 border border-gray-800 transition-all opacity-40';
+      step3Icon.className = 'w-6 h-6 rounded-full bg-gray-700 text-gray-400 flex items-center justify-center text-[10px] font-bold shrink-0';
+      step3Icon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+
+      // Open Modal
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      // Live step progression sequence
+      setTimeout(() => {
+        // Step 1 Complete -> Step 2 Active
+        step1.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/50 transition-all';
+        step1Icon.className = 'w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0';
+        step1Icon.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+        step2.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/80 border border-brand/60 transition-all opacity-100';
+        step2Icon.className = 'w-6 h-6 rounded-full bg-brand text-white flex items-center justify-center text-[10px] font-bold shrink-0 animate-spin';
+        step2Icon.innerHTML = '<i class="fa-solid fa-circle-notch"></i>';
+      }, 550);
+
+      setTimeout(() => {
+        // Step 2 Complete -> Step 3 Active
+        step2.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/50 transition-all';
+        step2Icon.className = 'w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0';
+        step2Icon.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+        step3.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-gray-800/80 border border-brand/60 transition-all opacity-100';
+        step3Icon.className = 'w-6 h-6 rounded-full bg-brand text-white flex items-center justify-center text-[10px] font-bold shrink-0 animate-spin';
+        step3Icon.innerHTML = '<i class="fa-solid fa-circle-notch"></i>';
+      }, 1150);
+
+      setTimeout(() => {
+        // Step 3 Complete & Credit Karma
+        step3.className = 'flex items-center gap-3 p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-500/50 transition-all';
+        step3Icon.className = 'w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0';
+        step3Icon.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+        // Award points in system
+        if (window.FindIt && typeof window.FindIt.addPoints === 'function') {
+          window.FindIt.addPoints(ptsGained, `${actionTitle} for ${item.title}`);
+        }
+
+        // Show success banner
+        successBanner.classList.remove('hidden');
+        successText.textContent = `Action Confirmed: ${actionTitle}`;
+        pointsAwarded.textContent = `+${ptsGained} Karma Points Credited to Account!`;
+
+        // Update all points displays on page
+        if (window.FindIt && window.FindIt.updateAllUI) {
+          window.FindIt.updateAllUI();
+        }
+
+        showToast('Canvas Protocol Executed', `✓ Successfully dropped into ${actionLabel}! +${ptsGained} pts credited.`, 'success');
+
+        if (actionType === 'claim') {
+          setTimeout(() => {
+            closeCanvasProcessModal();
+            quickClaim(caseId);
+          }, 1400);
+        }
+      }, 1750);
+    }
+
+    function closeCanvasProcessModal() {
+      const modal = document.getElementById('canvas-process-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    // Quick Action Picker Modal
+    function openCanvasActionPicker(caseId) {
+      draggedCatalogCaseId = caseId;
+      window.currentDraggedCase = caseId;
+      const item = activeCases.find(c => c.id === caseId);
+      const titleEl = document.getElementById('picker-case-title');
+      if (titleEl && item) {
+        titleEl.textContent = `"${item.title}" (${item.id})`;
+      }
+
+      const modal = document.getElementById('canvas-action-picker-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeCanvasActionPicker() {
+      const modal = document.getElementById('canvas-action-picker-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function executeCanvasFromPicker(actionType) {
+      const caseId = draggedCatalogCaseId || window.currentDraggedCase;
+      closeCanvasActionPicker();
+      if (caseId) {
+        executeCanvasProtocolAction(caseId, actionType);
+      }
     }
 
     function openDemoModal(type) {

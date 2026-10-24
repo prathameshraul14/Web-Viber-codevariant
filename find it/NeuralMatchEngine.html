@@ -668,9 +668,52 @@
             </div>
           </div>
 
-          <button class="button" type="submit">
-            Find matching items →
-          </button>
+          <!-- THE CANVAS PROTOCOL — Specimen Token & Inference Core Zone -->
+          <div style="margin-top: 24px; padding: 18px; background: #fff5ee; border: 2px dashed #f58235; border-radius: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #b95412; display: flex; align-items: center; gap: 6px;">
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: #f58235; display: inline-block;"></span>
+                The Canvas Protocol &middot; Primary Action
+              </span>
+              <span style="font-size: 10px; color: #77716c; font-weight: 700;">Drag Token into Synthesis Zone</span>
+            </div>
+
+            <!-- Draggable Search Token Card -->
+            <div 
+              id="neural-query-token"
+              draggable="true"
+              ondragstart="handleQueryDragStart(event)"
+              ondragend="handleQueryDragEnd(event)"
+              style="background: white; border: 1.5px solid #f0dfd2; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; cursor: grab; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.04); user-select: none;"
+            >
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #fff0e4; color: #f58235; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+                  🔍
+                </div>
+                <div>
+                  <strong id="token-preview-title" style="font-size: 13px; color: #292522; display: block;">Report Specimen Token</strong>
+                  <span id="token-preview-loc" style="font-size: 11px; color: #77716c;">Fill fields above &bull; Ready for inference</span>
+                </div>
+              </div>
+              <span style="font-size: 10px; font-weight: 800; background: #fff0e4; color: #b95412; padding: 4px 8px; border-radius: 6px; border: 1px solid #fed7aa;">
+                Drag Token
+              </span>
+            </div>
+
+            <!-- Designated Action Zone -->
+            <div 
+              id="zone-neural-inference"
+              ondragover="handleNeuralZoneOver(event, this)"
+              ondragleave="handleNeuralZoneLeave(event, this)"
+              ondrop="handleNeuralZoneDrop(event)"
+              onclick="triggerNeuralSynthesis()"
+              style="padding: 18px; border: 2px dashed #f58235; border-radius: 12px; background: rgba(245,130,53,0.08); text-align: center; cursor: pointer; transition: 0.25s;"
+            >
+              <div style="font-size: 24px; margin-bottom: 4px;">🧠</div>
+              <strong style="display: block; font-size: 13px; color: #8c3b06; margin-bottom: 2px;">Action Zone: Neural Inference Core</strong>
+              <span style="font-size: 11px; color: #b95412;">Drop Search Token here to run AI multi-vector matching</span>
+            </div>
+          </div>
 
           <span class="hint" style="text-align:center">
             Demonstration only. Your information is not sent to a server.
@@ -728,9 +771,19 @@
 
           <div id="matches"></div>
 
-          <button class="button" id="chooseMatch" type="button">
-            View collection details →
-          </button>
+          <!-- THE CANVAS PROTOCOL — Select Candidate Action Zone -->
+          <div 
+            id="zone-select-candidate"
+            ondragover="handleMatchZoneOver(event, this)"
+            ondragleave="handleMatchZoneLeave(event, this)"
+            ondrop="handleMatchZoneDrop(event)"
+            onclick="goToPage(3)"
+            style="margin: 18px 0; padding: 18px; border: 2px dashed #10b981; border-radius: 14px; background: rgba(16,185,129,0.08); text-align: center; cursor: pointer; transition: 0.25s;"
+          >
+            <div style="font-size: 22px; margin-bottom: 4px;">🎯</div>
+            <strong style="display: block; font-size: 13px; color: #065f46;">Action Zone: Route Chosen Match to Custody Hub</strong>
+            <span style="font-size: 11px; color: #047857;">Drag any candidate match card above and drop here to select it for pickup</span>
+          </div>
 
           <button class="button secondary" id="editReport" type="button">
             ← Edit lost-item report
@@ -841,9 +894,42 @@
             verified locations and confirmed handover arrangements.
           </div>
 
-          <button class="button" id="confirmCollection" type="button">
-            Confirm demo collection location ✓
-          </button>
+          <!-- THE CANVAS PROTOCOL — Collection Lock-in Zone -->
+          <div style="margin: 20px 0; padding: 18px; background: #fff5ee; border: 2px dashed #f58235; border-radius: 14px;">
+            <!-- Draggable Token -->
+            <div 
+              id="claim-auth-token"
+              draggable="true"
+              ondragstart="handleAuthTokenDragStart(event)"
+              ondragend="handleAuthTokenDragEnd(event)"
+              style="background: white; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; cursor: grab; display: flex; align-items: center; justify-content: space-between; user-select: none;"
+            >
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">🔐</span>
+                <div>
+                  <strong style="font-size: 13px; color: #292522; display: block;">Zero-Knowledge Handover Token</strong>
+                  <span style="font-size: 11px; color: #77716c;">Authorized claimant badge &bull; +100 pts reward</span>
+                </div>
+              </div>
+              <span style="font-size: 10px; font-weight: 800; background: #10b981; color: white; padding: 4px 8px; border-radius: 6px;">
+                Drag Token
+              </span>
+            </div>
+
+            <!-- Action Zone -->
+            <div 
+              id="zone-vault-lockin"
+              ondragover="handleVaultZoneOver(event, this)"
+              ondragleave="handleVaultZoneLeave(event, this)"
+              ondrop="handleVaultZoneDrop(event)"
+              onclick="executeCollectionLockin()"
+              style="padding: 18px; border: 2px dashed #10b981; border-radius: 12px; background: rgba(16,185,129,0.08); text-align: center; cursor: pointer; transition: 0.25s;"
+            >
+              <div style="font-size: 24px; margin-bottom: 4px;">🏢</div>
+              <strong style="display: block; font-size: 13px; color: #065f46;">Action Zone: Secure Vault Lock-in</strong>
+              <span style="font-size: 11px; color: #047857;">Drop Zero-Knowledge Token here to lock in verified hub collection (+100 pts)</span>
+            </div>
+          </div>
 
           <button class="button secondary" id="backMatches" type="button">
             ← Back to matching results
@@ -1088,7 +1174,13 @@
     `;
 
     const reportCards = allReports.map(report => `
-      <div class="match">
+      <div 
+        class="match" 
+        draggable="true" 
+        ondragstart="handleMatchCardDragStart(event, '${escapeHTML(report.title)}')"
+        ondragend="handleMatchCardDragEnd(event)"
+        style="cursor: grab; user-select: none;"
+      >
         <div class="match-top">
           <div>
             <h3>${escapeHTML(report.title)}</h3>
@@ -1105,10 +1197,15 @@
           <span style="width:${report.percentage}%"></span>
         </div>
 
-        <div>
-          ${report.tags.map(tag =>
-            `<span class="tag">${escapeHTML(tag)}</span>`
-          ).join("")}
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+          <div>
+            ${report.tags.map(tag =>
+              `<span class="tag">${escapeHTML(tag)}</span>`
+            ).join("")}
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #b95412; background: #fff0e4; padding: 2px 8px; border-radius: 6px; border: 1px solid #fed7aa;">
+            ✋ Drag to Route
+          </span>
         </div>
       </div>
     `).join("");
@@ -1120,38 +1217,162 @@
     goToPage(2);
   });
 
-  // Page 2 buttons.
-  $("chooseMatch").addEventListener("click", function () {
+  // THE CANVAS PROTOCOL — Neural Engine Handlers
+  function updateTokenPreview() {
+    const item = $("item").value.trim();
+    const place = $("place").value.trim();
+    const titleEl = $("token-preview-title");
+    const locEl = $("token-preview-loc");
+    if (titleEl) titleEl.textContent = item || "Report Specimen Token";
+    if (locEl) locEl.textContent = place ? `Near ${place} • Ready for inference` : "Fill fields above • Ready for inference";
+  }
+
+  $("item").addEventListener("input", updateTokenPreview);
+  $("place").addEventListener("input", updateTokenPreview);
+
+  // Page 1: Query Token Drag & Drop
+  function handleQueryDragStart(e) {
+    e.dataTransfer.setData("text/plain", "neural-query-token");
+    e.dataTransfer.effectAllowed = "copyMove";
+    const zone = $("zone-neural-inference");
+    if (zone) {
+      zone.style.background = "rgba(245,130,53,0.18)";
+      zone.style.borderColor = "#c65d18";
+    }
+  }
+
+  function handleQueryDragEnd(e) {
+    const zone = $("zone-neural-inference");
+    if (zone) {
+      zone.style.background = "rgba(245,130,53,0.08)";
+      zone.style.borderColor = "#f58235";
+    }
+  }
+
+  function handleNeuralZoneOver(e, el) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    el.style.transform = "scale(1.02)";
+    el.style.background = "#ffedd5";
+    el.style.borderColor = "#ea580c";
+  }
+
+  function handleNeuralZoneLeave(e, el) {
+    el.style.transform = "scale(1)";
+    el.style.background = "rgba(245,130,53,0.08)";
+    el.style.borderColor = "#f58235";
+  }
+
+  function handleNeuralZoneDrop(e) {
+    e.preventDefault();
+    const zone = $("zone-neural-inference");
+    if (zone) handleNeuralZoneLeave(e, zone);
+    triggerNeuralSynthesis();
+  }
+
+  function triggerNeuralSynthesis() {
+    const item = $("item").value.trim();
+    if (!item) {
+      showToast("⚠️ Please enter what you lost before dropping into the Neural Core!");
+      $("item").focus();
+      return;
+    }
+    $("lostForm").dispatchEvent(new Event("submit"));
+  }
+
+  // Page 2: Match Card Drag & Drop
+  let draggedCandidateTitle = null;
+
+  function handleMatchCardDragStart(e, title) {
+    draggedCandidateTitle = title;
+    e.dataTransfer.setData("text/plain", title);
+    e.dataTransfer.effectAllowed = "copyMove";
+    const zone = $("zone-select-candidate");
+    if (zone) {
+      zone.style.background = "rgba(16,185,129,0.2)";
+      zone.style.borderColor = "#059669";
+    }
+  }
+
+  function handleMatchCardDragEnd(e) {
+    const zone = $("zone-select-candidate");
+    if (zone) {
+      zone.style.background = "rgba(16,185,129,0.08)";
+      zone.style.borderColor = "#10b981";
+    }
+  }
+
+  function handleMatchZoneOver(e, el) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    el.style.transform = "scale(1.02)";
+    el.style.background = "#d1fae5";
+    el.style.borderColor = "#059669";
+  }
+
+  function handleMatchZoneLeave(e, el) {
+    el.style.transform = "scale(1)";
+    el.style.background = "rgba(16,185,129,0.08)";
+    el.style.borderColor = "#10b981";
+  }
+
+  function handleMatchZoneDrop(e) {
+    e.preventDefault();
+    const zone = $("zone-select-candidate");
+    if (zone) handleMatchZoneLeave(e, zone);
     goToPage(3);
-  });
+    showToast("🎯 Candidate Selected via Canvas Protocol!");
+  }
 
-  $("editReport").addEventListener("click", function () {
-    goToPage(1);
-  });
+  // Page 3: Auth Token Drag & Drop
+  function handleAuthTokenDragStart(e) {
+    e.dataTransfer.setData("text/plain", "auth-token");
+    e.dataTransfer.effectAllowed = "copyMove";
+  }
 
-  // Return to matching results from Page 3.
-  $("backMatches").addEventListener("click", function () {
-    goToPage(2);
-  });
+  function handleAuthTokenDragEnd(e) {
+    const zone = $("zone-vault-lockin");
+    if (zone) {
+      zone.style.background = "rgba(16,185,129,0.08)";
+      zone.style.borderColor = "#10b981";
+    }
+  }
 
-  // Confirm the selected collection point.
-  $("confirmCollection").addEventListener("click", function () {
-    const selected = document.querySelector(
-      'input[name="location"]:checked'
-    );
+  function handleVaultZoneOver(e, el) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    el.style.transform = "scale(1.02)";
+    el.style.background = "#d1fae5";
+    el.style.borderColor = "#059669";
+  }
 
+  function handleVaultZoneLeave(e, el) {
+    el.style.transform = "scale(1)";
+    el.style.background = "rgba(16,185,129,0.08)";
+    el.style.borderColor = "#10b981";
+  }
+
+  function handleVaultZoneDrop(e) {
+    e.preventDefault();
+    const zone = $("zone-vault-lockin");
+    if (zone) handleVaultZoneLeave(e, zone);
+    executeCollectionLockin();
+  }
+
+  function executeCollectionLockin() {
+    const selected = document.querySelector('input[name="location"]:checked');
     if (!selected) {
       showToast("Please select a collection location.");
       return;
     }
 
     if (window.FindIt) {
-      window.FindIt.addPoints(100);
+      window.FindIt.addPoints(100, "Collection Plan Confirmed at " + selected.value);
       refreshPoints();
     }
 
     $("confirmation").innerHTML = `
-      <strong style="color: #059669; font-size: 14px;">✓ Collection Plan Confirmed!</strong><br>
+      <strong style="color: #059669; font-size: 14px;">✓ Collection Plan Confirmed via Canvas Protocol!</strong><br>
       Location: <strong>${escapeHTML(selected.value)}</strong><br>
       Escrow Zero-Knowledge token generated. <strong>+100 Karma Points</strong> awarded to your balance!
       <div style="margin-top: 14px; display: flex; gap: 12px; flex-wrap: wrap;">
@@ -1161,8 +1382,15 @@
     `;
 
     $("confirmation").classList.remove("hidden");
-
     showToast("Collection location confirmed! +100 Karma Points added.");
+  }
+
+  $("editReport").addEventListener("click", function () {
+    goToPage(1);
+  });
+
+  $("backMatches").addEventListener("click", function () {
+    goToPage(2);
   });
 
   // Reset the website and return to Page 1.

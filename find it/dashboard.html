@@ -547,6 +547,87 @@
         </div>
       </div>
 
+      <!-- ================= THE CANVAS PROTOCOL: MULTI-ACTION DOCK ================= -->
+      <div id="canvas-action-dock" class="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-orange-50/80 via-amber-50/50 to-orange-50/80 border-2 border-dashed border-orange-300 transition-all duration-300">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center text-sm font-bold shadow-sm shrink-0">
+              <i class="fa-solid fa-palette"></i>
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm sm:text-base font-extrabold font-jakarta text-gray-900">The Canvas Protocol Multi-Action Dock</h3>
+                <span class="px-2 py-0.5 rounded-full bg-brand text-white text-[9px] font-black uppercase tracking-wider animate-pulse">Primary Action Canvas</span>
+              </div>
+              <p class="text-[11px] text-gray-500 font-medium">Drag any case card into a designated Action Zone below to execute primary workflows without buttons!</p>
+            </div>
+          </div>
+          <div id="dock-drag-indicator" class="text-xs font-bold text-gray-500 bg-white px-3 py-1.5 rounded-xl border border-gray-200 shadow-xs flex items-center gap-1.5 shrink-0">
+            <i class="fa-solid fa-arrows-up-down-left-right text-brand"></i>
+            <span>Drag Cards to Trigger Actions</span>
+          </div>
+        </div>
+
+        <!-- 3 Designated Action Zones -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          
+          <!-- Zone 1: Escrow Vault Deposit -->
+          <div 
+            id="dash-zone-escrow"
+            ondragover="handleDockDragOver(event, this)"
+            ondragleave="handleDockDragLeave(event, this)"
+            ondrop="handleDockDrop(event, 'escrow')"
+            class="action-dock-zone p-4 rounded-2xl border-2 border-dashed border-emerald-400 bg-emerald-50/60 hover:bg-emerald-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1.5 group select-none"
+          >
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-building-shield"></i>
+            </div>
+            <h4 class="text-xs font-black text-emerald-950">Drop: Route to Escrow Vault</h4>
+            <p class="text-[10px] text-emerald-700 font-medium leading-tight">Deposit item at verified bank/metro locker custody (+80 pts)</p>
+            <span class="text-[9px] font-extrabold text-emerald-800 bg-white px-2 py-0.5 rounded-full border border-emerald-200 shadow-xs">
+              Action Zone: Custody
+            </span>
+          </div>
+
+          <!-- Zone 2: Spatial Mesh Ping -->
+          <div 
+            id="dash-zone-radar"
+            ondragover="handleDockDragOver(event, this)"
+            ondragleave="handleDockDragLeave(event, this)"
+            ondrop="handleDockDrop(event, 'radar')"
+            class="action-dock-zone p-4 rounded-2xl border-2 border-dashed border-sky-400 bg-sky-50/60 hover:bg-sky-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1.5 group select-none"
+          >
+            <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-satellite animate-pulse"></i>
+            </div>
+            <h4 class="text-xs font-black text-sky-950">Drop: Spatial Beacon Ping</h4>
+            <p class="text-[10px] text-sky-700 font-medium leading-tight">Broadcast acoustic & BLE radio telemetry to nearby mesh nodes</p>
+            <span class="text-[9px] font-extrabold text-sky-800 bg-white px-2 py-0.5 rounded-full border border-sky-200 shadow-xs">
+              Action Zone: Radar
+            </span>
+          </div>
+
+          <!-- Zone 3: Claim & Verify -->
+          <div 
+            id="dash-zone-claim"
+            ondragover="handleDockDragOver(event, this)"
+            ondragleave="handleDockDragLeave(event, this)"
+            ondrop="handleDockDrop(event, 'claim')"
+            class="action-dock-zone p-4 rounded-2xl border-2 border-dashed border-amber-400 bg-amber-50/60 hover:bg-amber-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1.5 group select-none"
+          >
+            <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-base shadow-sm group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <h4 class="text-xs font-black text-amber-950">Drop: Claim & Verify</h4>
+            <p class="text-[10px] text-amber-700 font-medium leading-tight">Launch Zero-Knowledge challenge & ownership verification</p>
+            <span class="text-[9px] font-extrabold text-amber-800 bg-white px-2 py-0.5 rounded-full border border-amber-200 shadow-xs">
+              Action Zone: Verification
+            </span>
+          </div>
+
+        </div>
+      </div>
+
       <!-- Cases Grid (Dynamic Cards with Verified Imagery) -->
       <div id="dashboard-cases-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <!-- Injected dynamically via JS -->
@@ -956,7 +1037,12 @@
         const matchText = c.matchScore ? `${c.matchScore}% Neural Match` : 'Scanning Radar';
 
         return `
-          <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+          <div 
+            draggable="true"
+            ondragstart="handleDashboardCaseDragStart(event, '${c.id}')"
+            ondragend="handleDashboardCaseDragEnd(event)"
+            class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-brand transition-all duration-300 overflow-hidden flex flex-col justify-between group cursor-grab active:cursor-grabbing select-none hover:ring-2 hover:ring-orange-300"
+          >
             <div>
               <!-- Image Banner with Fallback -->
               <div class="relative bg-gradient-to-b from-slate-50 to-slate-100 aspect-[4/3] overflow-hidden cursor-pointer product-img-wrapper flex items-center justify-center group/img" onclick="openCaseDetail('${c.id}')">
@@ -1021,20 +1107,91 @@
               </div>
             </div>
 
-            <!-- Card Actions -->
-            <div class="p-5 pt-0 grid grid-cols-2 gap-2">
-              <button onclick="openCaseDetail('${c.id}')" class="py-2.5 bg-brand hover:bg-orange-600 text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer">
-                <i class="fa-solid fa-eye text-xs"></i>
-                <span>Inspect</span>
-              </button>
-              <a href="active_cases.html" class="py-2.5 bg-orange-50 hover:bg-orange-100 text-brand font-bold text-xs rounded-xl border border-orange-200 transition flex items-center justify-center gap-1 cursor-pointer">
-                <span>Track</span>
-                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-              </a>
+            <!-- THE CANVAS PROTOCOL — Drag Grip Handle (Replaces static action buttons) -->
+            <div class="p-5 pt-0">
+              <div class="flex items-center justify-between p-2.5 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-2xl group-hover:from-brand group-hover:to-orange-600 group-hover:text-white transition-all text-brand select-none shadow-xs">
+                <span class="flex items-center gap-2 text-xs font-bold">
+                  <i class="fa-solid fa-arrows-up-down-left-right text-xs animate-pulse"></i>
+                  <span>Drag into Action Dock</span>
+                </span>
+                <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-white text-brand border border-orange-200 group-hover:bg-white group-hover:text-brand shadow-xs">
+                  Canvas Token
+                </span>
+              </div>
             </div>
           </div>
         `;
       }).join('');
+    }
+
+    // THE CANVAS PROTOCOL — Dashboard Drag & Drop Handlers
+    let draggedDashboardCaseId = null;
+
+    function handleDashboardCaseDragStart(e, caseId) {
+      draggedDashboardCaseId = caseId;
+      e.dataTransfer.setData('text/plain', caseId);
+      e.dataTransfer.effectAllowed = 'copyMove';
+
+      const dock = document.getElementById('canvas-action-dock');
+      if (dock) {
+        dock.classList.add('ring-4', 'ring-brand/40', 'bg-orange-100/60');
+      }
+      const indicator = document.getElementById('dock-drag-indicator');
+      if (indicator) {
+        indicator.innerHTML = '<span class="text-brand font-black animate-pulse">⚡ Active Case Attached! Drop into Zone</span>';
+      }
+    }
+
+    function handleDashboardCaseDragEnd(e) {
+      const dock = document.getElementById('canvas-action-dock');
+      if (dock) {
+        dock.classList.remove('ring-4', 'ring-brand/40', 'bg-orange-100/60');
+      }
+      const indicator = document.getElementById('dock-drag-indicator');
+      if (indicator) {
+        indicator.innerHTML = '<i class="fa-solid fa-arrows-up-down-left-right text-brand"></i><span>Drag Cards to Trigger Actions</span>';
+      }
+    }
+
+    function handleDockDragOver(e, el) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      el.classList.add('scale-[1.03]', 'shadow-xl');
+      if (el.id === 'dash-zone-escrow') el.classList.add('bg-emerald-100', 'border-emerald-600', 'ring-4', 'ring-emerald-300');
+      if (el.id === 'dash-zone-radar') el.classList.add('bg-sky-100', 'border-sky-600', 'ring-4', 'ring-sky-300');
+      if (el.id === 'dash-zone-claim') el.classList.add('bg-amber-100', 'border-amber-600', 'ring-4', 'ring-amber-300');
+    }
+
+    function handleDockDragLeave(e, el) {
+      el.classList.remove('scale-[1.03]', 'shadow-xl', 'bg-emerald-100', 'border-emerald-600', 'ring-4', 'ring-emerald-300', 'bg-sky-100', 'border-sky-600', 'ring-4', 'ring-sky-300', 'bg-amber-100', 'border-amber-600', 'ring-4', 'ring-amber-300');
+    }
+
+    function handleDockDrop(e, actionType) {
+      e.preventDefault();
+      const el = e.currentTarget;
+      handleDockDragLeave(e, el);
+      handleDashboardCaseDragEnd(e);
+
+      const caseId = e.dataTransfer.getData('text/plain') || draggedDashboardCaseId;
+      if (!caseId) return;
+
+      const item = (window.FindItData && window.FindItData.cases) ? window.FindItData.cases.find(c => c.id === caseId) : null;
+      const itemTitle = item ? item.title : caseId;
+
+      if (actionType === 'escrow') {
+        if (window.FindIt && typeof window.FindIt.addPoints === 'function') {
+          window.FindIt.addPoints(80, `Escrow Vault deposit for ${itemTitle}`);
+        }
+        window.FindIt.toast('Escrow Custody Vault', `🎨 Dropped into Escrow Vault! ${itemTitle} scheduled for physical custody locker transfer. +80 Karma pts awarded!`, 'success');
+      } else if (actionType === 'radar') {
+        window.FindIt.toast('Spatial Acoustic Mesh', `📡 Spatial beacon ping broadcasted for "${itemTitle}" across all 12 mesh receivers! Audio telemetry locked.`, 'info');
+        triggerRadarPing();
+      } else if (actionType === 'claim') {
+        window.FindIt.toast('Zero-Knowledge Verify', `🔐 Verification suite initialized for ${itemTitle}. Opening cryptographic ownership challenge...`, 'info');
+        setTimeout(() => {
+          openCaseDetail(caseId);
+        }, 500);
+      }
     }
 
     // Filter Trigger for search box

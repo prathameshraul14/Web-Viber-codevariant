@@ -20,17 +20,15 @@
     localStorage.setItem('findit_user', JSON.stringify(storedUser));
   }
 
-  // 3. Initialize points and ensure 100% sync with user profile
+  // 3. Initialize points and ensure 100% sync with user profile (Set to 25,000 pts for Canvas testing)
   let storedPts = parseInt(localStorage.getItem('findit_points') || '0', 10);
-  if (!storedPts || storedPts < 1500) {
-    storedPts = storedUser.points || 2450;
-    localStorage.setItem('findit_points', storedPts.toString());
+  if (!storedPts || storedPts < 25000) {
+    storedPts = 25000;
+    localStorage.setItem('findit_points', '25000');
   }
-  // Guarantee user.points == findit_points
-  if (storedUser.points !== storedPts) {
-    storedUser.points = storedPts;
-    localStorage.setItem('findit_user', JSON.stringify(storedUser));
-  }
+  storedUser.points = storedPts;
+  storedUser.rank = "Platinum Legend Helper";
+  localStorage.setItem('findit_user', JSON.stringify(storedUser));
 
   // 4. Initialize sample transaction history if none
   if (!localStorage.getItem('findit_transactions')) {

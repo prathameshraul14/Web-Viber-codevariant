@@ -6,8 +6,9 @@
   <title>Report Item - FindIt</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons & FontAwesome -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -239,16 +240,102 @@
         />
       </div>
 
-      <!-- SUBMIT BUTTON -->
-      <button 
-        type="submit" 
-        id="submitBtn"
-        class="w-full bg-orange-500 hover:bg-orange-600 active:scale-[0.99] text-white font-bold text-base py-4 px-6 rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2.5 transition-all duration-150 cursor-pointer"
-      >
-        <i data-lucide="send" class="w-4 h-4"></i>
-        <span>Submit & Launch Match</span>
-      </button>
+      <!-- ================= THE CANVAS PROTOCOL ================= -->
+      <!-- Standard submit button prohibited by Code Variant Challenge rules -->
+      <div class="pt-3 pb-1 space-y-3">
+        <!-- Canvas Protocol Badge -->
+        <div class="p-3 bg-gradient-to-r from-orange-100/90 via-amber-100/70 to-orange-100/90 border border-orange-200 rounded-2xl flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🎨</span>
+            <div>
+              <span class="font-extrabold text-orange-950 uppercase tracking-wider text-[11px] block leading-tight">The Canvas Protocol Active</span>
+              <span class="text-[10px] text-orange-800 font-semibold">Standard action buttons disabled &bull; Drag & drop card into an Action Zone</span>
+            </div>
+          </div>
+          <span class="text-[9px] bg-white text-orange-900 font-extrabold px-2 py-0.5 rounded-md border border-orange-200 shadow-xs">Rule 01</span>
+        </div>
 
+        <!-- Draggable Case Card -->
+        <div 
+          id="intake-case-card"
+          draggable="true"
+          ondragstart="handleCaseDragStart(event)"
+          ondragend="handleCaseDragEnd(event)"
+          class="p-4 bg-gradient-to-br from-white to-orange-50/80 rounded-2xl border-2 border-dashed border-orange-400 shadow-md cursor-grab active:cursor-grabbing hover:shadow-xl hover:border-orange-500 transition-all select-none relative group"
+        >
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <div id="card-preview-icon" class="w-12 h-12 rounded-xl bg-orange-100 text-brand text-2xl flex items-center justify-center font-bold shrink-0 shadow-xs">
+                🎧
+              </div>
+              <div>
+                <span id="card-preview-badge" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-orange-100 text-orange-800 border border-orange-200 uppercase">
+                  READY TO DISPATCH
+                </span>
+                <h4 id="card-preview-title" class="text-sm font-extrabold text-slate-900 mt-1 line-clamp-1">
+                  Sony WH-1000XM4 Headphones
+                </h4>
+                <p id="card-preview-location" class="text-[11px] text-slate-500 font-medium">
+                  Central Metro Station, Mumbai
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1">
+              <span class="text-[10px] font-bold text-orange-700 bg-orange-100/90 px-2.5 py-1 rounded-lg border border-orange-200 shadow-xs flex items-center gap-1 animate-pulse">
+                <i class="fa-solid fa-hand"></i> Drag Card
+              </span>
+              <span class="text-[9px] text-emerald-600 font-extrabold">+50 PTS</span>
+            </div>
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-orange-100 flex items-center justify-between text-[10px] font-bold text-slate-400">
+            <span class="flex items-center gap-1 text-orange-600"><i class="fa-solid fa-arrows-up-down-left-right"></i> Grab and drop card into an Action Zone below</span>
+            <span class="text-slate-500">Live Card</span>
+          </div>
+        </div>
+
+        <!-- Designated Action Zones -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="canvas-action-zones">
+          
+          <!-- Action Zone 1: Spatial Mesh Broadcast -->
+          <div 
+            id="zone-mesh"
+            ondragover="handleZoneDragOver(event, this)"
+            ondragleave="handleZoneDragLeave(event, this)"
+            ondrop="handleZoneDrop(event, 'mesh')"
+            onclick="triggerCanvasAction('mesh')"
+            class="action-zone p-4 rounded-2xl border-2 border-dashed border-sky-400 bg-sky-50/70 hover:bg-sky-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1 group"
+          >
+            <div class="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center text-lg shadow-md group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-satellite animate-pulse"></i>
+            </div>
+            <h5 class="text-xs font-extrabold text-sky-950">Action Zone: Mesh Radar</h5>
+            <p class="text-[10px] text-sky-700 font-medium">Drop card here to broadcast across BLE & Wi-Fi mesh</p>
+            <span class="text-[9px] font-extrabold text-sky-800 bg-white px-2 py-0.5 rounded-full border border-sky-200 shadow-xs">
+              Primary Action Zone
+            </span>
+          </div>
+
+          <!-- Action Zone 2: Escrow Hub Vault -->
+          <div 
+            id="zone-escrow"
+            ondragover="handleZoneDragOver(event, this)"
+            ondragleave="handleZoneDragLeave(event, this)"
+            ondrop="handleZoneDrop(event, 'escrow')"
+            onclick="triggerCanvasAction('escrow')"
+            class="action-zone p-4 rounded-2xl border-2 border-dashed border-emerald-400 bg-emerald-50/70 hover:bg-emerald-100 text-center transition-all cursor-pointer flex flex-col items-center justify-center space-y-1 group"
+          >
+            <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg shadow-md group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-building-shield animate-pulse"></i>
+            </div>
+            <h5 class="text-xs font-extrabold text-emerald-950">Action Zone: Escrow Vault</h5>
+            <p class="text-[10px] text-emerald-700 font-medium">Drop card here to deposit into nearest safe drop locker</p>
+            <span class="text-[9px] font-extrabold text-emerald-800 bg-white px-2 py-0.5 rounded-full border border-emerald-200 shadow-xs">
+              Primary Action Zone
+            </span>
+          </div>
+
+        </div>
+      </div>
     </form>
 
     <!-- Toast Notification -->
@@ -424,7 +511,9 @@
       const challengeTitle = document.getElementById('challengeTitle');
       const challengeDesc = document.getElementById('challengeDesc');
       const challengeInput = document.getElementById('challengeInput');
-      const submitBtn = document.getElementById('submitBtn');
+
+      const card = document.getElementById('intake-case-card');
+      const cardTypeBadge = document.getElementById('card-preview-type');
 
       if (mode === 'lost') {
         lostBtn.className = 'flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-200 border-2 border-orange-500 bg-orange-50/60 text-orange-600 shadow-sm';
@@ -437,7 +526,13 @@
         challengeInput.className = 'w-full bg-white border border-orange-200/90 text-slate-800 placeholder-slate-400 text-xs font-medium rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all';
         challengeInput.placeholder = 'e.g. What sticker is on the back or what wallpaper is on screen?';
 
-        submitBtn.className = 'w-full bg-orange-500 hover:bg-orange-600 active:scale-[0.99] text-white font-bold text-base py-4 px-6 rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2.5 transition-all duration-150 cursor-pointer';
+        if (card) {
+          card.className = "p-4 rounded-2xl border-2 border-orange-400 bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100 shadow-md cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 select-none group";
+        }
+        if (cardTypeBadge) {
+          cardTypeBadge.textContent = 'LOST ITEM';
+          cardTypeBadge.className = 'text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-orange-500 text-white';
+        }
       } else {
         foundBtn.className = 'flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-200 border-2 border-emerald-600 bg-emerald-50/60 text-emerald-700 shadow-sm';
         lostBtn.className = 'flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-200 border border-slate-200 bg-white text-slate-600 hover:bg-slate-50';
@@ -449,16 +544,73 @@
         challengeInput.className = 'w-full bg-white border border-emerald-200/90 text-slate-800 placeholder-slate-400 text-xs font-medium rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-600 transition-all';
         challengeInput.placeholder = 'e.g. What unique item or initial is inside the case?';
 
-        submitBtn.className = 'w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-base py-4 px-6 rounded-2xl shadow-lg shadow-emerald-600/25 flex items-center justify-center gap-2.5 transition-all duration-150 cursor-pointer';
+        if (card) {
+          card.className = "p-4 rounded-2xl border-2 border-emerald-500 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 shadow-md cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 select-none group";
+        }
+        if (cardTypeBadge) {
+          cardTypeBadge.textContent = 'FOUND ITEM';
+          cardTypeBadge.className = 'text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-600 text-white';
+        }
       }
 
+      updateDispatchCardPreview();
       lucide.createIcons();
     }
 
-    function handleSubmit(event) {
-      event.preventDefault();
+    // THE CANVAS PROTOCOL — Drag & Drop Handlers
+    function handleCaseDragStart(e) {
+      e.dataTransfer.setData('text/plain', 'case-card-intake');
+      e.dataTransfer.effectAllowed = 'copyMove';
+      const card = document.getElementById('intake-case-card');
+      if (card) {
+        card.classList.add('opacity-50', 'scale-95', 'ring-4', 'ring-orange-400');
+      }
+    }
 
-      const itemName = document.getElementById('itemName').value.trim();
+    function handleCaseDragEnd(e) {
+      const card = document.getElementById('intake-case-card');
+      if (card) {
+        card.classList.remove('opacity-50', 'scale-95', 'ring-4', 'ring-orange-400');
+      }
+    }
+
+    function handleZoneDragOver(e, el) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      el.classList.add('scale-[1.03]', 'shadow-xl');
+      if (el.id === 'zone-mesh') {
+        el.classList.add('border-sky-500', 'bg-sky-100', 'ring-4', 'ring-sky-300');
+      } else {
+        el.classList.add('border-emerald-500', 'bg-emerald-100', 'ring-4', 'ring-emerald-300');
+      }
+    }
+
+    function handleZoneDragLeave(e, el) {
+      el.classList.remove('scale-[1.03]', 'shadow-xl', 'ring-4', 'ring-sky-300', 'ring-emerald-300');
+      if (el.id === 'zone-mesh') {
+        el.classList.remove('border-sky-500', 'bg-sky-100');
+      } else {
+        el.classList.remove('border-emerald-500', 'bg-emerald-100');
+      }
+    }
+
+    function handleZoneDrop(e, zoneType) {
+      e.preventDefault();
+      const el = e.currentTarget;
+      handleZoneDragLeave(e, el);
+      triggerCanvasAction(zoneType);
+    }
+
+    function triggerCanvasAction(zoneType) {
+      const itemNameInput = document.getElementById('itemName');
+      const itemName = itemNameInput.value.trim();
+      
+      if (!itemName) {
+        showToast('⚠️ Please enter an Item Name above before dropping card into Action Zone!');
+        itemNameInput.focus();
+        return;
+      }
+
       const categorySelect = document.getElementById('category');
       const categoryText = categorySelect.options[categorySelect.selectedIndex].text;
       const categoryVal = categorySelect.value;
@@ -470,9 +622,8 @@
       const challenge = document.getElementById('challengeInput').value.trim();
 
       const locationString = address ? `${address}, ${city}` : `${city}, ${state}`;
-      const statusText = currentMode === 'lost' ? 'Lost Item Report' : 'Found Item Report';
+      const actionTarget = zoneType === 'mesh' ? 'Spatial Mesh Radar' : 'Escrow Vault';
 
-      // Category Icon Mapping
       const categoryIcons = {
         'electronics': '🎧',
         'keys_cards': '🔑',
@@ -481,12 +632,11 @@
         'other': '📦'
       };
 
-      // Create new case for FindIt ecosystem radar
       const newCase = {
         id: 'CASE-' + Math.floor(1000 + Math.random() * 9000),
         title: itemName,
         category: categoryText.split(' ')[1] || 'Belongings',
-        status: currentMode === 'lost' ? 'Scanning Radar' : 'Deposited at Hub',
+        status: zoneType === 'mesh' ? (currentMode === 'lost' ? 'Scanning Radar' : 'Mesh Broadcasted') : 'Deposited at Hub Vault',
         type: currentMode,
         matchScore: currentMode === 'lost' ? 88 : 95,
         date: dateTime || 'Today, Just now',
@@ -495,8 +645,15 @@
         icon: categoryIcons[categoryVal] || '📦',
         description: description,
         secretQuestion: challenge,
-        foundLocation: currentMode === 'found' ? locationString : null
+        foundLocation: currentMode === 'found' ? locationString : null,
+        actionExecuted: zoneType
       };
+
+      // Animate card dispatch
+      const card = document.getElementById('intake-case-card');
+      if (card) {
+        card.classList.add('transition-all', 'duration-500', 'scale-75', 'opacity-20');
+      }
 
       // Save to FindIt platform storage and award points
       if (window.FindIt && typeof window.FindIt.addCase === 'function') {
@@ -511,23 +668,64 @@
         }
       }
 
-      // Show toast and loading state
-      showToast(`${statusText} for "${itemName}" in ${city}, ${state} submitted! +50 Karma Points awarded.`);
-      
-      const submitBtn = document.getElementById('submitBtn');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `
-          <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          <span>Broadcasting to Radar...</span>
-        `;
+      if (window.FindIt && typeof window.FindIt.addPoints === 'function') {
+        window.FindIt.addPoints(50, `Canvas Action: ${actionTarget} dispatch for "${itemName}"`);
       }
 
-      // Redirect smoothly to dashboard radar view
+      showToast(`🎨 Canvas Action Executed! "${itemName}" routed to ${actionTarget}. +50 Points Awarded!`);
+
       setTimeout(() => {
-        window.location.href = 'dashboard.html';
+        window.location.href = zoneType === 'mesh' ? 'echo_radar.html' : 'dashboard.html';
       }, 1500);
     }
+
+    function updateDispatchCardPreview() {
+      const name = document.getElementById('itemName') ? document.getElementById('itemName').value.trim() : '';
+      const categorySelect = document.getElementById('category');
+      const categoryVal = categorySelect ? categorySelect.value : 'other';
+      const city = (document.getElementById('citySelect') && document.getElementById('citySelect').value) ? document.getElementById('citySelect').value : 'Mumbai';
+      const state = (document.getElementById('stateSelect') && document.getElementById('stateSelect').value) ? document.getElementById('stateSelect').value : 'Maharashtra';
+      const address = document.getElementById('addressInput') ? document.getElementById('addressInput').value.trim() : '';
+
+      const previewTitle = document.getElementById('card-preview-title');
+      const previewIcon = document.getElementById('card-preview-icon');
+      const previewLocation = document.getElementById('card-preview-location');
+
+      const categoryIcons = {
+        'electronics': 'fa-headphones',
+        'keys_cards': 'fa-key',
+        'bags': 'fa-briefcase',
+        'books': 'fa-book',
+        'other': 'fa-box'
+      };
+
+      if (previewTitle) {
+        previewTitle.textContent = name || (currentMode === 'lost' ? 'Sony WH-1000XM4 Headphones' : 'Found Wallet / Bag');
+      }
+      if (previewLocation) {
+        previewLocation.textContent = address ? `${address}, ${city}` : `${city}, ${state}`;
+      }
+      if (previewIcon) {
+        previewIcon.innerHTML = `<i class="fa-solid ${categoryIcons[categoryVal] || 'fa-box'}"></i>`;
+      }
+    }
+
+    // Attach real-time listeners for live Card update
+    document.addEventListener('DOMContentLoaded', () => {
+      const itemName = document.getElementById('itemName');
+      const category = document.getElementById('category');
+      const stateSelect = document.getElementById('stateSelect');
+      const citySelect = document.getElementById('citySelect');
+      const addressInput = document.getElementById('addressInput');
+
+      if (itemName) itemName.addEventListener('input', updateDispatchCardPreview);
+      if (category) category.addEventListener('change', updateDispatchCardPreview);
+      if (stateSelect) stateSelect.addEventListener('change', updateDispatchCardPreview);
+      if (citySelect) citySelect.addEventListener('change', updateDispatchCardPreview);
+      if (addressInput) addressInput.addEventListener('input', updateDispatchCardPreview);
+
+      updateDispatchCardPreview();
+    });
 
     function showToast(message) {
       const toast = document.getElementById('toast');
