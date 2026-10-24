@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Karma Rewards & Partner Perks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#f97316',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; }
+    /* Hide scrollbar for horizontal scrolling filters */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-[#1d1d1f] selection:bg-orange-200 min-h-screen flex flex-col justify-between">
+
+  <!-- Top Navigation (Seamlessly Connected to Platform) -->
+  <header id="smart-nav" class="sticky top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center h-20">
+      
+      <!-- Brand Logo -->
+      <a href="dashboard.html" class="flex items-center space-x-2.5 group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-gift text-lg"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
+          <span class="text-[9px] font-bold uppercase tracking-widest text-brand mt-1">Karma Rewards</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs text-gray-400"></i>
+          <span>My Dashboard</span>
+        </a>
+        <a href="dashboard.html?open=report" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-plus-circle text-xs text-brand"></i>
+          <span>Report Item</span>
+        </a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-shield-halved text-xs text-gray-400"></i>
+          <span>Secure Hubs</span>
+        </a>
+        <a href="karma_rewards.html" class="text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-ticket text-xs text-brand"></i>
+          <span>Rewards & Coupons</span>
+        </a>
+      </nav>
+
+      <!-- Back to Dashboard Pill & Actions -->
+      <div class="flex items-center space-x-3">
+        <a href="dashboard.html" class="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 text-xs font-bold rounded-xl transition shadow-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Back to Dashboard</span>
+        </a>
+
+        <!-- Live Points Badge -->
+        <div class="px-3.5 py-1.5 bg-gray-900 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-coins text-amber-400"></i>
+          <span id="nav-user-points" class="js-reward-points">2,450</span> pts
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="py-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex-grow w-full">
+    
+    <!-- Breadcrumb -->
+    <div class="mb-6 flex items-center space-x-2 text-xs font-bold text-gray-400">
+      <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+      <span>/</span>
+      <span class="text-gray-700">Karma Rewards & Brand Partner Store</span>
+    </div>
+
+    <!-- 1. Hero / Karma Balance Bento Card -->
+    <div class="mb-12">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-orange-100 text-orange-900 text-[11px] font-bold tracking-widest uppercase rounded-full mb-3 border border-orange-200">
+        <span class="w-2 h-2 rounded-full bg-brand animate-ping mr-1"></span>
+        <span>FindIt Loyalty Program &middot; Tiered Partner Rewards</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold font-jakarta tracking-tight text-gray-900 mb-8">
+        Karma Rewards Store
+      </h1>
+      
+      <!-- Balance Bento Card -->
+      <div class="bg-gradient-to-br from-brand via-orange-600 to-orange-700 rounded-[2.5rem] p-8 md:p-14 text-white shadow-xl shadow-orange-500/20 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        
+        <!-- Background Ambient Blur Circles -->
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute left-10 bottom-0 w-40 h-40 bg-black/15 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-md">
+          <p class="text-orange-100 font-bold uppercase tracking-wider text-xs mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-wallet"></i>
+            <span>Your Available Balance</span>
+          </p>
+          <div class="flex items-baseline space-x-3">
+            <span id="hero-karma-balance" class="text-7xl md:text-8xl font-black font-jakarta tracking-tighter drop-shadow-md js-reward-points">2,450</span>
+            <span class="text-2xl font-bold text-orange-200">pts</span>
+          </div>
+          <p class="mt-4 text-orange-50 font-medium text-base md:text-lg">
+            Status: <span class="font-bold text-white bg-black/20 px-2.5 py-0.5 rounded-lg border border-white/20">Gold Tier Finder</span>. Doing good pays off!
+          </p>
+        </div>
+
+        <!-- Progress to Next Tier -->
+        <div class="relative z-10 w-full md:w-5/12 bg-black/20 backdrop-blur-md border border-white/20 p-6 sm:p-7 rounded-3xl shadow-lg">
+          <div class="flex justify-between items-end mb-3">
+            <div>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-orange-200">Current Target</span>
+              <h4 class="font-bold font-jakarta text-white text-base">Platinum Elite Tier</h4>
+            </div>
+            <span class="text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded-md">5,000 pts</span>
+          </div>
+          <!-- Progress Bar -->
+          <div class="w-full bg-black/30 rounded-full h-3.5 mb-3 overflow-hidden p-0.5 border border-white/10">
+            <div id="tier-progress-bar" class="bg-gradient-to-r from-amber-300 to-white h-full rounded-full shadow-[0_0_12px_rgba(255,255,255,0.9)] transition-all duration-1000" style="width: 49%"></div>
+          </div>
+          <div class="flex justify-between items-center text-xs text-orange-100 font-medium">
+            <p>Earn <strong class="text-white" id="pts-to-platinum">2,550 more points</strong> to unlock Apple & Sony tier coupons!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- 2. Category Filter Pills -->
+      <div class="flex overflow-x-auto space-x-2.5 pb-2 no-scrollbar" id="coupon-category-pills">
+        <button onclick="setCouponFilter('all', this)" class="coupon-pill shrink-0 px-5 py-2.5 bg-gray-900 text-white font-bold rounded-full shadow-md text-xs transition-transform hover:scale-105 cursor-pointer">All Coupons</button>
+        <button onclick="setCouponFilter('food', this)" class="coupon-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">☕ Food & Dining</button>
+        <button onclick="setCouponFilter('travel', this)" class="coupon-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">🚗 Travel & Rides</button>
+        <button onclick="setCouponFilter('entertainment', this)" class="coupon-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">🎟️ Entertainment</button>
+        <button onclick="setCouponFilter('shopping', this)" class="coupon-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">🛍️ Fashion & Shopping</button>
+        <button onclick="setCouponFilter('tech', this)" class="coupon-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">💻 Flagship Tech</button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="relative w-full md:w-80 shrink-0">
+        <input type="text" id="coupon-search-input" oninput="filterCoupons()" placeholder="Search brand (e.g. Starbucks, Apple, Uber)..." class="w-full bg-white border border-gray-200 rounded-2xl py-3 pl-11 pr-4 text-xs font-medium text-gray-800 shadow-sm focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Tier Rule Notice (Minimum > 1500 Points) -->
+    <div class="mb-8 p-4 bg-orange-50/80 rounded-2xl border border-orange-200/80 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center font-bold text-sm shrink-0">
+          <i class="fa-solid fa-award"></i>
+        </span>
+        <div>
+          <h4 class="font-bold text-gray-900">Brand-Level High Value Coupons</h4>
+          <p class="text-gray-600 text-[11px]">All partner rewards are calibrated starting from 1,500+ Karma Points up to 7,500+ for flagship tech.</p>
+        </div>
+      </div>
+      <span class="hidden sm:inline-flex px-3 py-1 bg-white border border-orange-200 text-brand font-bold rounded-full text-[11px]">
+        Minimum &gt; 1500 pts
+      </span>
+    </div>
+
+    <!-- 3. Real Brand Coupons Grid (Dynamically Rendered with Live Points Deduct) -->
+    <div class="mb-20">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-extrabold font-jakarta text-gray-900">Available Coupons</h2>
+        <span class="text-xs font-bold text-gray-500">Showing <span id="coupons-count" class="text-brand">11</span> partner vouchers</span>
+      </div>
+      
+      <div id="coupons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- No Results State -->
+      <div id="no-coupons-found" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-gray-200">
+        <i class="fa-solid fa-gift text-4xl text-gray-300 mb-3"></i>
+        <h4 class="font-bold text-gray-800 text-lg">No coupons match your search</h4>
+        <p class="text-xs text-gray-500 mt-1">Try another brand name or category.</p>
+        <button onclick="resetCouponFilters()" class="mt-4 px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition">
+          Reset Filter
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. How to Earn Points (Scaled to match >1500pt economy) -->
+    <div class="bg-white rounded-[2.5rem] p-8 md:p-14 shadow-sm border border-gray-100 mb-20">
+      <div class="text-center mb-10">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-brand bg-orange-50 px-3 py-1 rounded-full border border-orange-100">Karma Engine</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta text-gray-900 mt-2">How to Earn Karma Points</h2>
+        <p class="text-sm text-gray-500 mt-1">Earn points directly into your balance with every helpful community action.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        
+        <!-- Action 1 -->
+        <div class="bg-[#fdfcf8] p-8 rounded-3xl border border-gray-100 text-center relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col items-center">
+          <div class="w-20 h-20 bg-orange-50 text-brand rounded-full flex items-center justify-center text-2xl mb-5 shadow-sm border border-orange-100">
+            <span class="font-black font-jakarta">+150</span>
+          </div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-2">Report a Found Item</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">Log any lost item you found on the street, cafe, transit, or campus to immediately start the match radar.</p>
+        </div>
+
+        <!-- Action 2 (Highest Value) -->
+        <div class="bg-gradient-to-b from-orange-50 to-[#fdfcf8] p-8 rounded-3xl border border-orange-200 text-center relative hover:-translate-y-2 transition-transform duration-300 shadow-md flex flex-col items-center transform md:-translate-y-3">
+          <div class="absolute -top-3.5 bg-brand text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full shadow-md">Highest Value</div>
+          <div class="w-20 h-20 bg-brand text-white rounded-full flex items-center justify-center text-2xl mb-5 shadow-lg border-4 border-white mt-1">
+            <span class="font-black font-jakarta">+500</span>
+          </div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-2">Verified Return Handover</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">When the legitimate owner successfully verifies ownership and completes the pickup. 500 bonus points!</p>
+        </div>
+
+        <!-- Action 3 -->
+        <div class="bg-[#fdfcf8] p-8 rounded-3xl border border-gray-100 text-center relative hover:-translate-y-2 transition-transform duration-300 shadow-sm flex flex-col items-center">
+          <div class="w-20 h-20 bg-orange-50 text-brand rounded-full flex items-center justify-center text-2xl mb-5 shadow-sm border border-orange-100">
+            <span class="font-black font-jakarta">+100</span>
+          </div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-2">Deposit at Secure Hub</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">Drop off the item at any verified partner cafe, bank vault, or smart locker for zero-contact escrow safety.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5. Community Leaderboard & FAQs -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
+      
+      <!-- Leaderboard -->
+      <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-gray-100">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-2xl font-bold font-jakarta text-gray-900">City Leaderboard</h2>
+            <p class="text-xs text-gray-500 mt-0.5">Top community finders this month</p>
+          </div>
+          <span class="text-xs font-bold text-brand bg-orange-50 px-3 py-1 rounded-full border border-orange-200">Live Rankings</span>
+        </div>
+        
+        <div class="space-y-3.5">
+          <!-- Rank 1 -->
+          <div class="flex items-center p-4 bg-orange-50/80 rounded-2xl border border-orange-200/80">
+            <div class="w-7 font-black text-xl text-brand text-center mr-3">1</div>
+            <div class="w-11 h-11 bg-white rounded-full flex items-center justify-center font-bold text-gray-900 shadow-sm mr-4 border border-orange-200">AJ</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-gray-900 text-sm">Arjun J.</h3>
+              <p class="text-[11px] text-orange-600 font-bold uppercase tracking-wide">Legendary Finder &middot; 16 Returns</p>
+            </div>
+            <div class="text-right">
+              <span class="text-lg font-black font-jakarta text-brand">8,450</span>
+              <span class="text-xs text-gray-400 font-medium">pts</span>
+            </div>
+          </div>
+
+          <!-- Rank 2 -->
+          <div class="flex items-center p-4 bg-[#fdfcf8] rounded-2xl border border-gray-100">
+            <div class="w-7 font-bold text-base text-gray-400 text-center mr-3">2</div>
+            <div class="w-11 h-11 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-900 mr-4">SK</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-gray-900 text-sm">Sneha K.</h3>
+              <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide">Hero Finder &middot; 12 Returns</p>
+            </div>
+            <div class="text-right">
+              <span class="text-base font-black font-jakarta text-gray-800">6,800</span>
+              <span class="text-xs text-gray-400 font-medium">pts</span>
+            </div>
+          </div>
+
+          <!-- Rank 3 -->
+          <div class="flex items-center p-4 bg-[#fdfcf8] rounded-2xl border border-gray-100">
+            <div class="w-7 font-bold text-base text-gray-400 text-center mr-3">3</div>
+            <div class="w-11 h-11 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-900 mr-4">MR</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-gray-900 text-sm">Meera R.</h3>
+              <p class="text-[11px] text-gray-500 font-medium uppercase tracking-wide">Good Samaritan &middot; 8 Returns</p>
+            </div>
+            <div class="text-right">
+              <span class="text-base font-black font-jakarta text-gray-800">4,950</span>
+              <span class="text-xs text-gray-400 font-medium">pts</span>
+            </div>
+          </div>
+          
+          <!-- You (Live) -->
+          <div class="flex items-center p-4 bg-gray-900 rounded-2xl text-white shadow-lg">
+            <div class="w-7 font-bold text-sm text-brand text-center mr-3">#42</div>
+            <div class="w-11 h-11 bg-gray-800 rounded-full flex items-center justify-center font-bold text-brand mr-4 border border-brand/40">AM</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-white text-sm">You (Alex Morgan)</h3>
+              <p class="text-[11px] text-orange-400 font-bold uppercase tracking-wide">Gold Tier &middot; Active Finder</p>
+            </div>
+            <div class="text-right">
+              <span class="text-lg font-black font-jakarta text-white js-reward-points">2,450</span>
+              <span class="text-xs text-gray-400 font-medium">pts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-bold font-jakarta text-gray-900 mb-6">Karma Rules & FAQs</h2>
+          
+          <div class="space-y-5 text-sm">
+            <div class="pb-4 border-b border-gray-100">
+              <h3 class="font-bold font-jakarta text-gray-900 mb-1">Why are coupons priced at 1,500+ points?</h3>
+              <p class="text-gray-500 font-medium text-xs leading-relaxed">We partner directly with tier-1 brands (Apple, Amazon, Starbucks, Sony). Pricing coupons at 1,500+ ensures substantial real-world savings (like ₹500 - ₹3,000 cash equivalent) rather than micro discounts.</p>
+            </div>
+            
+            <div class="pb-4 border-b border-gray-100">
+              <h3 class="font-bold font-jakarta text-gray-900 mb-1">How do I redeem and use my coupon code?</h3>
+              <p class="text-gray-500 font-medium text-xs leading-relaxed">Click "Redeem Now". A unique digital voucher code will be generated immediately. Apply it at checkout in the partner app (e.g. Zomato, Starbucks, Apple, or Uber).</p>
+            </div>
+
+            <div>
+              <h3 class="font-bold font-jakarta text-gray-900 mb-1">Do Karma points or redeemed codes expire?</h3>
+              <p class="text-gray-500 font-medium text-xs leading-relaxed">Karma points remain valid for 12 months. Once a voucher is redeemed, promo codes typically carry a 90-day redemption window.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs">
+          <span class="text-gray-400 font-medium">Have feedback on partner brands?</span>
+          <a href="dashboard.html" class="text-brand font-bold hover:underline">Suggest a Brand &rarr;</a>
+        </div>
+      </div>
+      
+    </div>
+
+  </main>
+
+  <!-- Minimal Footer -->
+  <footer class="border-t border-gray-200 py-10 bg-white text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-gift text-brand text-base"></i>
+        <span class="font-bold font-jakarta text-sm text-gray-900">Find<span class="text-brand">It</span> Karma Store</span>
+      </div>
+      <p>&copy; 2026 FindIt Global Network. Doing good pays off.</p>
+      <div class="flex items-center space-x-4">
+        <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+        <span>&middot;</span>
+        <a href="trusted_hubs_page.html" class="hover:text-brand transition">Secure Hubs</a>
+        <span>&middot;</span>
+        <a href="index.html" class="hover:text-brand transition">Home</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= REDEEM CONFIRMATION MODAL ================= -->
+  <div id="redeem-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-gray-100 text-center relative">
+      <button onclick="closeRedeemModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4 font-bold shadow-sm">
+        🎉
+      </div>
+      
+      <span class="text-xs font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+        Voucher Unlocked
+      </span>
+      <h3 class="text-2xl font-black font-jakarta text-gray-900 mt-2 mb-1" id="modal-coupon-title">Voucher Title</h3>
+      <p class="text-xs text-gray-500 mb-6" id="modal-coupon-partner">Partner Brand</p>
+
+      <!-- Voucher Promo Box -->
+      <div class="p-5 bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-dashed border-brand/50 rounded-2xl mb-5 text-center relative">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Your Unique Promo Code</p>
+        <div class="text-xl font-black font-mono tracking-wider text-brand" id="modal-coupon-code">CODE-1234</div>
+        <button onclick="copyVoucherCode()" class="mt-3 px-4 py-1.5 bg-white border border-brand/30 text-brand text-xs font-bold rounded-xl hover:bg-brand hover:text-white transition shadow-sm inline-flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-regular fa-copy"></i>
+          <span id="copy-btn-text">Copy Promo Code</span>
+        </button>
+      </div>
+
+      <div class="p-3 bg-gray-50 rounded-xl text-left text-[11px] text-gray-500 space-y-1 mb-6 border border-gray-200">
+        <p><strong class="text-gray-700">How to use:</strong> Paste this promo code during checkout in the partner app or website.</p>
+        <p><strong class="text-gray-700">Validity:</strong> 90 Days from today.</p>
+      </div>
+
+      <button onclick="closeRedeemModal()" class="w-full py-3.5 bg-brand text-white font-bold text-sm rounded-xl hover:bg-orange-600 transition shadow-md shadow-brand/20 cursor-pointer">
+        Done & Back to Rewards
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl border border-gray-700 max-w-md">
+    <div id="toast-icon" class="w-8 h-8 rounded-xl bg-brand/20 text-brand flex items-center justify-center font-bold shrink-0">✓</div>
+    <div>
+      <h5 id="toast-title" class="text-sm font-bold text-white">Notification</h5>
+      <p id="toast-msg" class="text-xs text-gray-300 mt-0.5">Operation successful.</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let activeCategory = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      refreshPointsDisplay();
+      renderCouponsGrid();
+    });
+
+    function refreshPointsDisplay() {
+      const pts = window.FindIt.getPoints();
+      document.querySelectorAll('.js-reward-points').forEach(el => {
+        el.textContent = pts.toLocaleString();
+      });
+
+      // Update progress bar to 5000 pts
+      const target = 5000;
+      const pct = Math.min(100, Math.round((pts / target) * 100));
+      const bar = document.getElementById('tier-progress-bar');
+      if (bar) bar.style.width = pct + '%';
+      
+      const ptsLeft = Math.max(0, target - pts);
+      const leftEl = document.getElementById('pts-to-platinum');
+      if (leftEl) leftEl.textContent = ptsLeft.toLocaleString() + ' more points';
+    }
+
+    function renderCouponsGrid() {
+      const container = document.getElementById('coupons-grid');
+      const coupons = window.FindItData.coupons;
+      const currentPts = window.FindIt.getPoints();
+      const query = (document.getElementById('coupon-search-input')?.value || '').toLowerCase().trim();
+
+      let visibleCount = 0;
+
+      container.innerHTML = coupons.map(c => {
+        const matchesCategory = (activeCategory === 'all') || (c.category === activeCategory);
+        const matchesQuery = !query || c.title.toLowerCase().includes(query) || c.partner.toLowerCase().includes(query);
+
+        if (!matchesCategory || !matchesQuery) return '';
+
+        visibleCount++;
+        const canAfford = currentPts >= c.points;
+        const ptsNeeded = c.points - currentPts;
+
+        return `
+          <div class="bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm relative overflow-hidden ${!canAfford ? 'opacity-90' : ''}">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-13 h-13 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-orange-100">
+                  ${c.icon}
+                </div>
+                <span class="text-[10px] font-extrabold text-brand bg-orange-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                  ${c.badge}
+                </span>
+              </div>
+              <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-1">${c.partner}</h3>
+              <p class="text-sm text-gray-800 font-bold mb-1">${c.title}</p>
+              <p class="text-xs text-gray-500 font-medium mb-6 leading-relaxed">${c.description}</p>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-400 font-bold uppercase block">Required</span>
+                <span class="text-2xl font-black font-jakarta ${canAfford ? 'text-brand' : 'text-gray-400'}">
+                  ${c.points.toLocaleString()}<span class="text-xs text-gray-400 font-medium ml-1">pts</span>
+                </span>
+              </div>
+              
+              ${canAfford ? `
+                <button onclick="handleRedeemClick('${c.id}')" class="px-5 py-2.5 bg-brand text-white font-bold rounded-xl hover:bg-orange-600 transition-all shadow-md shadow-brand/20 active:scale-95 text-xs cursor-pointer flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-xs"></i>
+                  <span>Redeem Now</span>
+                </button>
+              ` : `
+                <button onclick="showNeedMoreToast(${ptsNeeded}, '${c.partner}')" class="px-4 py-2.5 bg-gray-100 text-gray-400 font-bold rounded-xl text-xs cursor-pointer hover:bg-gray-200 transition">
+                  Need ${ptsNeeded.toLocaleString()} more
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('coupons-count').textContent = visibleCount;
+      const noResults = document.getElementById('no-coupons-found');
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+
+    function setCouponFilter(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.coupon-pill').forEach(b => {
+        b.className = 'coupon-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer';
+      });
+      btn.className = 'coupon-pill shrink-0 px-5 py-2.5 bg-gray-900 text-white font-bold rounded-full shadow-md text-xs transition-transform hover:scale-105 cursor-pointer';
+      renderCouponsGrid();
+    }
+
+    function filterCoupons() {
+      renderCouponsGrid();
+    }
+
+    function resetCouponFilters() {
+      document.getElementById('coupon-search-input').value = '';
+      activeCategory = 'all';
+      const firstPill = document.querySelector('.coupon-pill');
+      if (firstPill) setCouponFilter('all', firstPill);
+    }
+
+    function handleRedeemClick(couponId) {
+      const coupon = window.FindItData.coupons.find(c => c.id === couponId);
+      if (!coupon) return;
+
+      const currentPts = window.FindIt.getPoints();
+      if (currentPts < coupon.points) {
+        showToast('Insufficient Points', `You need ${coupon.points} points for ${coupon.partner}.`, 'info');
+        return;
+      }
+
+      // Deduct points
+      window.FindIt.deductPoints(coupon.points);
+      refreshPointsDisplay();
+      renderCouponsGrid();
+
+      // Open Modal
+      document.getElementById('modal-coupon-title').textContent = coupon.title;
+      document.getElementById('modal-coupon-partner').textContent = coupon.partner + ' &middot; ' + coupon.points.toLocaleString() + ' pts Redeemed';
+      document.getElementById('modal-coupon-code').textContent = coupon.code;
+      document.getElementById('copy-btn-text').textContent = 'Copy Promo Code';
+
+      const modal = document.getElementById('redeem-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      showToast('Voucher Unlocked!', `Successfully redeemed ${coupon.partner} for ${coupon.points} pts.`, 'success');
+    }
+
+    function closeRedeemModal() {
+      const modal = document.getElementById('redeem-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyVoucherCode() {
+      const code = document.getElementById('modal-coupon-code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        document.getElementById('copy-btn-text').textContent = 'Copied to Clipboard!';
+        showToast('Code Copied', `Promo code ${code} copied to clipboard!`, 'success');
+      }).catch(() => {
+        showToast('Promo Code', code, 'info');
+      });
+    }
+
+    function showNeedMoreToast(ptsNeeded, partner) {
+      showToast('Keep Finding!', `You need ${ptsNeeded.toLocaleString()} more points to unlock ${partner}. Return an item to get +500 pts!`, 'info');
+    }
+
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const titleEl = document.getElementById('toast-title');
+      const msgEl = document.getElementById('toast-msg');
+      const iconEl = document.getElementById('toast-icon');
+
+      if (!toast) return;
+
+      titleEl.textContent = title;
+      msgEl.textContent = message;
+
+      if (type === 'info') {
+        iconEl.className = 'w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold shrink-0';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      } else {
+        iconEl.className = 'w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold shrink-0';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      if (window.rewardToastTimer) clearTimeout(window.rewardToastTimer);
+      window.rewardToastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

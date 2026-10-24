@@ -3,9 +3,9 @@ window.FindItData = {
   // Current user defaults if not logged in
   defaultUser: {
     name: "Alex Morgan",
-    email: "alex.m@campus.edu",
-    role: "Student / Individual",
-    points: 350,
+    email: "alex.morgan@domain.com",
+    role: "People / Individual",
+    points: 2450,
     avatar: "AM",
     campusId: "STU-88492",
     joinedDate: "Fall 2024"
@@ -201,91 +201,176 @@ window.FindItData = {
     }
   ],
 
-  // Verified campus hubs
+  // Verified Secure Hubs
   hubs: [
     {
       id: "hub-1",
-      name: "Campus Security Headquarters",
-      building: "Building Alpha (Bldg A)",
-      room: "Room 101 - Main Lobby",
-      hours: "24/7 Always Open",
+      name: "Blue Tokai Coffee Roasters",
+      building: "Partner Cafe Hub",
+      room: "Barista Escrow Counter",
+      hours: "7:00 AM - 11:00 PM Daily",
       status: "Open Now",
-      phone: "(555) 019-2831",
-      badge: "Official Central Depot",
+      phone: "+1 (555) 019-2831",
+      badge: "Partner Cafe",
       verified: true
     },
     {
       id: "hub-2",
-      name: "Student Union Info Desk",
-      building: "Student Innovation Center",
-      room: "Level 1 Information Counter",
-      hours: "8:00 AM - 9:00 PM Daily",
+      name: "HDFC Bank Branch Vault",
+      building: "Commercial Banking Tower",
+      room: "Secure Vault Custodian #4",
+      hours: "9:30 AM - 4:00 PM",
       status: "Open Now",
-      phone: "(555) 019-4412",
-      badge: "High Traffic Hub",
+      phone: "+1 (555) 019-4412",
+      badge: "Secure Vault",
       verified: true
     },
     {
       id: "hub-3",
-      name: "Central Library Circulation Counter",
-      building: "William Central Library",
-      room: "Ground Floor Atrium",
-      hours: "7:30 AM - 11:30 PM",
+      name: "Central Metro Station Help Desk",
+      building: "Central Metro Concourse",
+      room: "Customer Care Booth A",
+      hours: "24/7 Always Open",
       status: "Open Now",
-      phone: "(555) 019-8820",
-      badge: "Quiet Zone Recovery",
+      phone: "+1 (555) 019-8820",
+      badge: "Transit Escrow",
       verified: true
     },
     {
       id: "hub-4",
-      name: "Campus Transit Station Hub",
-      building: "North Depot Terminal",
-      room: "Bus Terminal Office 3",
-      hours: "6:00 AM - 10:00 PM",
+      name: "Apollo Pharmacy 24/7",
+      building: "Main Road Health Complex",
+      room: "Night Manager Cashier",
+      hours: "24/7 Always Open",
       status: "Open Now",
-      phone: "(555) 019-7751",
-      badge: "Transit & Commuter",
+      phone: "+1 (555) 019-7751",
+      badge: "24/7 Partner",
       verified: true
     }
   ],
 
-  // Redeemable reward coupons
+  // Brand-Tiered Redeemable Reward Coupons (All strictly > 1500 points)
   coupons: [
     {
-      id: "c-1",
-      title: "$5 Campus Coffee Voucher",
-      partner: "Student Union Coffeehouse & Starbucks",
-      points: 100,
-      code: "BREW-FINDIT-5OFF",
+      id: "c-swiggy",
+      title: "₹250 Gourmet Voucher",
+      partner: "Swiggy Instamart & Gourmet",
+      points: 1650,
+      code: "SWIGGY-FINDIT-250",
+      icon: "🛒",
+      category: "food",
+      badge: "Fast Delivery",
+      description: "Valid on any gourmet food or grocery order above ₹499."
+    },
+    {
+      id: "c-starbucks",
+      title: "Free Tall Coffee & Pastry",
+      partner: "Starbucks Reserve",
+      points: 1850,
+      code: "STARBUCKS-HERO-TALL",
       icon: "☕",
-      badge: "Popular"
+      category: "food",
+      badge: "Popular Pick",
+      description: "Valid on any handcrafted beverage and bakery item."
     },
     {
-      id: "c-2",
-      title: "20% Off Campus Bookstore",
-      partner: "University Apparel & Supply Store",
-      points: 200,
-      code: "BOOK-RECOVER-20",
-      icon: "📚",
-      badge: "Best Value"
+      id: "c-zomato",
+      title: "Zomato Gold 3-Mo + ₹300 Off",
+      partner: "Zomato Dining & Delivery",
+      points: 1950,
+      code: "ZOMATO-GOLD-FINDIT",
+      icon: "🍔",
+      category: "food",
+      badge: "Dining Perk",
+      description: "Complimentary 3-month Gold membership plus ₹300 off delivery."
     },
     {
-      id: "c-3",
-      title: "Free Campus Metro Day Pass",
-      partner: "City Transit Authority",
-      points: 150,
-      code: "METRO-CAMPUS-PASS",
-      icon: "🚌",
-      badge: "Transit"
+      id: "c-uber",
+      title: "₹500 Premier Ride Pass",
+      partner: "Uber Premier & Intercity",
+      points: 2200,
+      code: "UBER-RECOVER-500",
+      icon: "🚗",
+      category: "travel",
+      badge: "City Travel",
+      description: "Flat ₹500 discount across any Premier, XL, or airport rides."
     },
     {
-      id: "c-4",
-      title: "50 Free Cloud Printing Credits",
-      partner: "Library IT Services",
-      points: 75,
-      code: "PRINT-SAFE-50",
-      icon: "🖨️",
-      badge: "Study Perk"
+      id: "c-spotify",
+      title: "3 Months Spotify Premium",
+      partner: "Spotify Music",
+      points: 2500,
+      code: "SPOTIFY-FINDIT-3M",
+      icon: "🎵",
+      category: "entertainment",
+      badge: "Best Music",
+      description: "Ad-free uninterrupted high-fidelity streaming & offline downloads."
+    },
+    {
+      id: "c-bms",
+      title: "Buy 1 Get 1 Free IMAX Tickets",
+      partner: "BookMyShow VIP",
+      points: 2800,
+      code: "BMS-IMAX-PASS",
+      icon: "🎟️",
+      category: "entertainment",
+      badge: "Cinema Pass",
+      description: "2 complimentary tickets for any IMAX / 4DX weekend screenings."
+    },
+    {
+      id: "c-myntra",
+      title: "Flat ₹1,000 Off Fresh Arrivals",
+      partner: "Myntra Luxe & Fashion",
+      points: 3400,
+      code: "MYNTRA-LUXE-1000",
+      icon: "👗",
+      category: "shopping",
+      badge: "Fashion Tier",
+      description: "Valid on apparel, footwear, and accessories above ₹2,499."
+    },
+    {
+      id: "c-decathlon",
+      title: "₹1,200 Gear Voucher",
+      partner: "Decathlon Sports",
+      points: 3800,
+      code: "DECATHLON-KARMA-1200",
+      icon: "⛺",
+      category: "shopping",
+      badge: "Sport & Outdoor",
+      description: "Redeemable in-store or online for sportswear and adventure equipment."
+    },
+    {
+      id: "c-amazon",
+      title: "₹1,500 Amazon Pay Balance",
+      partner: "Amazon.in Prime",
+      points: 4500,
+      code: "AMAZON-PAY-1500",
+      icon: "📦",
+      category: "shopping",
+      badge: "Universal Gift",
+      description: "Instant gift balance added directly to your Amazon account."
+    },
+    {
+      id: "c-sony",
+      title: "25% Off Sony Noise-Cancelling ANC",
+      partner: "Sony Center Official",
+      points: 5800,
+      code: "SONY-ANC-25OFF",
+      icon: "🎧",
+      category: "tech",
+      badge: "Flagship Audio",
+      description: "25% discount voucher on WH-1000XM5 headphones and WF series earbuds."
+    },
+    {
+      id: "c-apple",
+      title: "₹3,000 Apple Store Partner Credit",
+      partner: "Apple Authorized Reseller",
+      points: 7500,
+      code: "APPLE-RECOVER-3000",
+      icon: "🍎",
+      category: "tech",
+      badge: "Premium Tier",
+      description: "Valid toward any iPad, Apple Watch, AirPods Pro, or Mac accessories."
     }
   ]
 };

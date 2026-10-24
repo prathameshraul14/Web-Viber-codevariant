@@ -10,8 +10,10 @@
     // If not logged in yet, keep default in memory or initial template
     localStorage.setItem('findit_user', JSON.stringify(window.FindItData.defaultUser));
   }
-  if (!localStorage.getItem('findit_points')) {
-    localStorage.setItem('findit_points', '350');
+  // Initialize points for 1500+ coupon scale
+  const storedPts = parseInt(localStorage.getItem('findit_points') || '0', 10);
+  if (!storedPts || storedPts < 1500) {
+    localStorage.setItem('findit_points', '2450');
   }
 
   window.FindIt = {
@@ -40,7 +42,7 @@
 
     // Points system
     getPoints: function() {
-      return parseInt(localStorage.getItem('findit_points') || '350', 10);
+      return parseInt(localStorage.getItem('findit_points') || '2450', 10);
     },
     addPoints: function(pts) {
       const current = this.getPoints() + pts;

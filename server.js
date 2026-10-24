@@ -46,6 +46,8 @@ const server = http.createServer((req, res) => {
     pathname = '/dashboard.html';
   } else if (pathname === '/hubs' || pathname === '/secure-hubs' || pathname === '/trusted-hubs') {
     pathname = '/trusted_hubs_page.html';
+  } else if (pathname === '/rewards' || pathname === '/karma' || pathname === '/coupons' || pathname === '/karma-rewards') {
+    pathname = '/karma_rewards.html';
   } else if (pathname === '/find it' || pathname === '/find it/') {
     pathname = '/find it/index.html';
   }
