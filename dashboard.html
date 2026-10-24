@@ -61,7 +61,7 @@
         </div>
         <div class="flex flex-col">
           <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
-          <span class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-1">Campus Hub</span>
+          <span class="text-[9px] font-bold uppercase tracking-widest text-brand mt-1">Secure Hub</span>
         </div>
       </a>
 
@@ -102,9 +102,9 @@
                 </ul>
               </div>
               <div>
-                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🏢</span> Trusted Network</h4>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🏢</span> Secure Network</h4>
                 <ul class="space-y-3 text-xs font-semibold text-gray-500">
-                  <li><a href="#" onclick="openHubsModal(); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-building-shield text-[10px]"></i> Campus Drop Boxes</a></li>
+                  <li><a href="trusted_hubs_page.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-building-shield text-[10px]"></i> Secure Drop Boxes & Hubs</a></li>
                   <li><a href="#" onclick="openCouponsModal(); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-ticket text-[10px]"></i> Partner Reward Coupons</a></li>
                 </ul>
               </div>
@@ -126,10 +126,10 @@
           <i class="fa-solid fa-gift text-xs"></i>
           <span>Rewards & Coupons</span>
         </button>
-        <button type="button" onclick="openHubsModal()" class="hover:text-brand transition-colors flex items-center gap-1.5 cursor-pointer">
-          <i class="fa-solid fa-shield-halved text-xs"></i>
-          <span>Campus Hubs</span>
-        </button>
+        <a href="trusted_hubs_page.html" class="hover:text-brand transition-colors flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-shield-halved text-xs text-brand"></i>
+          <span>Secure Hubs</span>
+        </a>
       </nav>
 
       <!-- Profile & Actions -->
@@ -340,36 +340,46 @@
          </div>
       </div>
 
-      <!-- Trusted Hubs Card -->
+      <!-- Secure Hubs Card -->
       <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 flex flex-col justify-between">
          <div>
            <div class="w-14 h-14 bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm">
              <i class="fa-solid fa-building-shield"></i>
            </div>
-           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase mb-3 border border-blue-200">
-             <i class="fa-solid fa-circle-check"></i> 100% Verified Desks
+           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase mb-3 border border-emerald-200">
+             <i class="fa-solid fa-circle-check"></i> 100% Verified Escrow
            </div>
-           <h2 class="text-2xl font-bold font-jakarta text-gray-900 mb-3">Campus Recovery Hubs</h2>
+           <h2 class="text-2xl font-bold font-jakarta text-gray-900 mb-3">Secure Hubs</h2>
            <p class="text-sm text-gray-500 mb-6 leading-relaxed font-medium">
-             Avoid awkward in-person meetups. Deposit or retrieve items securely at verified partner locations including Campus Security and Library circulation.
+             Avoid awkward meetups. Safely drop off or retrieve items at verified local partner locations like cafes, bank vaults, smart lockers, and transit desks.
            </p>
 
            <div class="space-y-3 mb-6">
              <div class="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
-               <span class="font-bold text-gray-800">Security HQ (Bldg A)</span>
-               <span class="text-emerald-600 font-bold">24/7 Open</span>
+               <span class="font-bold text-gray-800">Blue Tokai Cafe Desk</span>
+               <span class="text-emerald-600 font-bold">Open Until 11 PM</span>
              </div>
              <div class="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
-               <span class="font-bold text-gray-800">Student Union Desk</span>
-               <span class="text-gray-500 font-medium">Until 9:00 PM</span>
+               <span class="font-bold text-gray-800">Central Metro Station</span>
+               <span class="text-blue-600 font-bold">24/7 Desk</span>
+             </div>
+             <div class="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
+               <span class="font-bold text-gray-800">HDFC Bank Vault</span>
+               <span class="text-gray-500 font-medium">Vault Partner</span>
              </div>
            </div>
          </div>
 
-         <button onclick="openHubsModal()" class="w-full py-4 bg-orange-50 text-brand rounded-2xl font-bold text-sm hover:bg-orange-100 transition-colors border border-orange-200 cursor-pointer flex items-center justify-center gap-2">
-           <i class="fa-solid fa-location-crosshairs"></i>
-           <span>View All Campus Hubs</span>
-         </button>
+         <div class="space-y-2">
+           <a href="trusted_hubs_page.html" class="w-full py-4 bg-brand text-white rounded-2xl font-bold text-sm hover:bg-orange-600 transition-all shadow-md shadow-brand/20 cursor-pointer flex items-center justify-center gap-2 group">
+             <i class="fa-solid fa-location-crosshairs"></i>
+             <span>Explore All Secure Hubs (9)</span>
+             <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+           </a>
+           <button onclick="openHubsModal()" class="w-full py-2.5 bg-orange-50 text-brand rounded-xl font-bold text-xs hover:bg-orange-100 transition-colors border border-orange-200 cursor-pointer flex items-center justify-center gap-1.5">
+             <span>Quick Hubs Popup</span>
+           </button>
+         </div>
       </div>
 
     </div>
@@ -526,7 +536,7 @@
     </div>
   </div>
 
-  <!-- 4. Campus Hubs Directory Modal -->
+  <!-- 4. Secure Hubs Directory Modal -->
   <div id="modal-hubs" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative my-8">
       <button onclick="closeHubsModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -535,12 +545,24 @@
 
       <div class="flex items-center gap-2 text-brand font-bold text-xs uppercase tracking-wider mb-2">
         <i class="fa-solid fa-building-shield"></i>
-        <span>Official Desks</span>
+        <span>Verified Escrow Network</span>
       </div>
-      <h3 class="text-2xl font-black font-jakarta text-gray-900 mb-1">Campus Recovery Hubs</h3>
-      <p class="text-xs text-gray-500 mb-6">Verified university desks with secure lockboxes and staff handovers.</p>
+      <h3 class="text-2xl font-black font-jakarta text-gray-900 mb-1">Secure Recovery Hubs</h3>
+      <p class="text-xs text-gray-500 mb-4">Verified partner counters with zero-contact lockboxes and escrow staff.</p>
 
-      <div id="hubs-list-container" class="space-y-3.5">
+      <!-- Banner Link to Full Page -->
+      <a href="trusted_hubs_page.html" class="mb-5 p-3.5 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-2xl flex items-center justify-between hover:border-brand transition group">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🏬</span>
+          <div class="text-left">
+            <p class="text-xs font-bold text-gray-900 group-hover:text-brand transition">View Full 9-Hub City Directory</p>
+            <p class="text-[11px] text-gray-500">Cafes, Bank Vaults, Metro Desks & Smart Lockers</p>
+          </div>
+        </div>
+        <span class="text-xs font-bold text-brand group-hover:translate-x-1 transition-transform">Explore &rarr;</span>
+      </a>
+
+      <div id="hubs-list-container" class="space-y-3">
         <!-- Rendered by JavaScript -->
       </div>
     </div>

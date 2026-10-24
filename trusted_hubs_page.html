@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Secure Hubs | Verified Drop-off & Escrow Network</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#f97316',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; }
+    /* Hide scrollbar for horizontal scrolling filters */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-[#1d1d1f] selection:bg-orange-200 min-h-screen flex flex-col justify-between">
+
+  <!-- Top Navigation (Seamlessly Connected to Dashboard) -->
+  <header id="smart-nav" class="sticky top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center h-20">
+      
+      <!-- Brand Logo -->
+      <a href="dashboard.html" class="flex items-center space-x-2.5 group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-magnifying-glass-location text-lg"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
+          <span class="text-[9px] font-bold uppercase tracking-widest text-brand mt-1">Secure Hubs</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs text-gray-400"></i>
+          <span>My Dashboard</span>
+        </a>
+        <a href="dashboard.html?open=report" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-plus-circle text-xs text-brand"></i>
+          <span>Report Item</span>
+        </a>
+        <a href="trusted_hubs_page.html" class="text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-shield-halved text-xs text-brand"></i>
+          <span>Secure Hubs</span>
+        </a>
+        <a href="dashboard.html#coupons" class="hover:text-brand transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-gift text-xs text-gray-400"></i>
+          <span>Rewards & Coupons</span>
+        </a>
+      </nav>
+
+      <!-- Back to Dashboard Pill & Actions -->
+      <div class="flex items-center space-x-3">
+        <a href="dashboard.html" class="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 text-xs font-bold rounded-xl transition shadow-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Back to Dashboard</span>
+        </a>
+
+        <!-- User Profile Pill -->
+        <a href="dashboard.html" class="w-10 h-10 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md shadow-brand-500/20" title="User Profile">
+          AM
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="py-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex-grow w-full">
+    
+    <!-- Breadcrumb -->
+    <div class="mb-6 flex items-center space-x-2 text-xs font-bold text-gray-400">
+      <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+      <span>/</span>
+      <span class="text-gray-700">Secure Hubs Directory</span>
+    </div>
+
+    <!-- 1. Header & Search -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-orange-100 text-orange-900 text-[11px] font-bold tracking-widest uppercase rounded-full mb-3 border border-orange-200">
+          <span class="w-2 h-2 rounded-full bg-brand animate-ping mr-1"></span>
+          <span>Verified Secure Escrow Network</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold font-jakarta tracking-tight text-gray-900 mb-3">
+          Secure Drop-off Hubs
+        </h1>
+        <p class="text-gray-500 text-base md:text-lg font-medium leading-relaxed">
+          Skip the awkward meetups. Safely drop off or retrieve lost items at our verified local partner hubs like cafes, bank vaults, transit desks, and automated smart lockers.
+        </p>
+      </div>
+      
+      <!-- Search Box with Live Filtering -->
+      <div class="relative w-full md:w-96 shrink-0">
+        <input type="text" id="hub-search-input" oninput="filterHubs()" placeholder="Search by name, neighborhood, or zip..." class="w-full bg-white border border-gray-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-medium text-gray-800 shadow-sm focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-base">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <button id="search-clear-btn" onclick="clearSearch()" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Category Filter Pills -->
+    <div class="mb-8 flex overflow-x-auto space-x-2.5 pb-2 no-scrollbar" id="category-pills">
+      <button onclick="setCategoryFilter('all', this)" class="category-pill shrink-0 px-5 py-2.5 bg-gray-900 text-white font-bold rounded-full shadow-md text-xs transition-transform hover:scale-105 cursor-pointer">All Secure Hubs</button>
+      <button onclick="setCategoryFilter('24-7', this)" class="category-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">24/7 Open</button>
+      <button onclick="setCategoryFilter('cafes', this)" class="category-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">Partner Cafes</button>
+      <button onclick="setCategoryFilter('transit', this)" class="category-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">Transit Desks</button>
+      <button onclick="setCategoryFilter('banks', this)" class="category-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">Bank Vaults</button>
+      <button onclick="setCategoryFilter('smart-lockers', this)" class="category-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer">Smart Lockers</button>
+    </div>
+
+    <!-- Results Counter -->
+    <div class="mb-6 flex justify-between items-center text-xs font-bold text-gray-500">
+      <span>Showing <span id="visible-hubs-count" class="text-brand">9</span> verified secure locations</span>
+      <span class="text-[11px] text-gray-400"><i class="fa-solid fa-lock text-emerald-500 mr-1"></i>All handovers QR verified</span>
+    </div>
+
+    <!-- 3. Grid of 9 Hub Cards -->
+    <div class="mb-20">
+      <div id="hubs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Hub 1: Blue Tokai -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm"
+             data-category="cafes" data-name="Blue Tokai Coffee Roasters" data-location="Partner Cafe 0.4 km away Indiranagar 560038" data-open24="false">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-orange-100">☕</div>
+              <span class="flex items-center text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Open Now
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Blue Tokai Coffee Roasters</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Partner Cafe &middot; 0.4 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Closes at 11:00 PM &middot; Barista Escrow Desk</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Blue Tokai Coffee Roasters', 'Cafe Escrow Counter')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Blue Tokai Coffee Roasters')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 2: HDFC Bank -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between relative overflow-hidden shadow-sm"
+             data-category="banks smart-lockers" data-name="HDFC Bank Branch Vault" data-location="Secure Vault Partner 1.2 km away Commercial St 560001" data-open24="false">
+          <div class="absolute top-0 right-0 w-2 h-full bg-brand"></div>
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-blue-100">🏦</div>
+              <span class="flex items-center text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Open Now
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">HDFC Bank Branch</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Secure Vault Partner &middot; 1.2 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Closes at 4:00 PM &middot; Armed Security Desk</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('HDFC Bank Branch', 'Vault Custodian Counter 4')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('HDFC Bank Branch Vault')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 3: Metro Station -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm"
+             data-category="transit 24-7" data-name="Central Metro Station Help Desk" data-location="Transit Help Desk 2.5 km away Central Line 560002" data-open24="true">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-gray-100 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-gray-200">🚇</div>
+              <span class="flex items-center text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Open Now
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Central Metro Station</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Transit Help Desk &middot; 2.5 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Closes at 12:00 AM &middot; Concourse Lost Property</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Central Metro Station', 'Customer Service Booth A')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Central Metro Station Help Desk')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 4: Apollo Pharmacy -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm"
+             data-category="24-7 pharmacy" data-name="Apollo Pharmacy 24/7" data-location="Health Partner 3.0 km away Main Road 560025" data-open24="true">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-green-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-green-100">⚕️</div>
+              <span class="flex items-center text-[10px] font-extrabold text-blue-700 bg-blue-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-1.5"></span> 24/7 Open
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Apollo Pharmacy</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Health Partner &middot; 3.0 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Always Open (24 Hours) &middot; Verified Desk</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Apollo Pharmacy 24/7', 'Night Manager Cashier')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Apollo Pharmacy 24/7')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 5: Star Bazaar -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-gray-300 transition-all duration-300 flex flex-col justify-between opacity-85 shadow-sm"
+             data-category="retail" data-name="Star Bazaar Supermarket" data-location="Retail Partner 3.2 km away Mall Road 560034" data-open24="false">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-purple-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-purple-100">🛒</div>
+              <span class="flex items-center text-[10px] font-extrabold text-amber-800 bg-amber-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-amber-500 rounded-full mr-1.5"></span> Opens 8 AM
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Star Bazaar Market</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Retail Partner &middot; 3.2 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Customer Support & Baggage Locker</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Star Bazaar Market', 'Customer Care Desk')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Star Bazaar Supermarket')" class="w-full py-2.5 bg-gray-50 border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-gray-100 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 6: WeWork -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm"
+             data-category="workspace" data-name="WeWork Co-Working Hub" data-location="Workspace Partner 4.1 km away Tech Park 560066" data-open24="false">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-indigo-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-indigo-100">💻</div>
+              <span class="flex items-center text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Open Now
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">WeWork Hub</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Workspace Partner &middot; 4.1 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Closes at 8:00 PM &middot; Community Reception</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('WeWork Hub', 'Front Desk Receptionist')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('WeWork Co-Working Hub')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 7: Starbucks -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm"
+             data-category="cafes" data-name="Starbucks Reserve" data-location="Partner Cafe 4.5 km away Koramangala 560095" data-open24="false">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-green-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-green-100">☕</div>
+              <span class="flex items-center text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Open Now
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Starbucks Reserve</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Partner Cafe &middot; 4.5 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Closes at 11:30 PM &middot; Cashier Drop Point</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Starbucks Reserve', 'Barista Escrow Counter')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Starbucks Reserve')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 8: Central Library -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between shadow-sm"
+             data-category="community" data-name="Central Public Library" data-location="City Partner 5.2 km away Cubbon Park 560001" data-open24="false">
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-amber-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-amber-100">📚</div>
+              <span class="flex items-center text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Open Now
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Central Public Library</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">City Partner &middot; 5.2 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Closes at 9:00 PM &middot; Main Circulation Desk</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Central Public Library', 'Circulation Counter 1')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Central Public Library')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hub 9: Smart Locker -->
+        <div class="hub-card bg-white border border-gray-100 rounded-3xl p-7 hover:shadow-xl hover:-translate-y-1 hover:border-orange-200 transition-all duration-300 flex flex-col justify-between relative overflow-hidden shadow-sm"
+             data-category="smart-lockers 24-7" data-name="Automated Smart Locker Terminal" data-location="Self-Serve Kiosk 6.0 km away Metro Plaza 560001" data-open24="true">
+          <div class="absolute top-0 right-0 w-2 h-full bg-brand"></div>
+          <div>
+            <div class="flex justify-between items-start mb-5">
+              <div class="w-13 h-13 bg-gray-900 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-gray-800 text-white">📦</div>
+              <span class="flex items-center text-[10px] font-extrabold text-blue-700 bg-blue-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span class="w-2 h-2 bg-blue-500 rounded-full mr-1.5"></span> 24/7 Smart Kiosk
+              </span>
+            </div>
+            <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-1">Automated Smart Locker</h3>
+            <p class="text-xs text-gray-500 font-medium mb-1">Self-Serve Kiosk &middot; 6.0 km away</p>
+            <p class="text-xs text-gray-400 mb-6 font-medium">Always Open &middot; Touchscreen OTP & QR Unlock</p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="openEscrowQRModal('Automated Smart Locker', 'Kiosk Locker Bay 12')" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>Drop-Off Here (Get QR)</span>
+            </button>
+            <button onclick="getDirections('Automated Smart Locker Terminal')" class="w-full py-2.5 bg-[#fdfcf8] border border-gray-200 text-gray-700 font-bold text-xs rounded-xl hover:bg-orange-50 hover:text-brand hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm cursor-pointer">
+              <span>Get Directions</span><span class="ml-1 text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- No Results State -->
+      <div id="no-hubs-found" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-gray-200">
+        <i class="fa-solid fa-location-dot text-4xl text-gray-300 mb-3"></i>
+        <h4 class="font-bold text-gray-800 text-lg">No secure hubs match your search</h4>
+        <p class="text-xs text-gray-500 mt-1">Try searching another neighborhood, keyword, or clearing filters.</p>
+        <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition">
+          Reset All Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. Safety & Privacy Banner -->
+    <div class="mb-20 bg-gradient-to-br from-brand via-orange-600 to-orange-700 rounded-[2.5rem] p-8 md:p-14 text-white shadow-xl shadow-orange-500/20 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute left-0 bottom-0 w-40 h-40 bg-black/10 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <div class="md:w-2/3 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider text-orange-100 mb-4 border border-white/20">
+          <i class="fa-solid fa-user-shield"></i> Blind Escrow Protocol
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta mb-4">Why use Escrow Handovers?</h2>
+        <p class="text-orange-50 text-base md:text-lg leading-relaxed font-medium">
+          Meeting up with strangers to return a lost wallet or phone can be unsafe or inconvenient. Our Secure Hubs ensure 100% privacy. Finders drop the item off, owners pick it up on their own schedule, and nobody has to exchange phone numbers or meet in person.
+        </p>
+      </div>
+      <div class="md:w-1/3 flex justify-center relative z-10 mt-8 md:mt-0">
+        <div class="w-36 h-36 bg-white rounded-3xl rotate-3 flex items-center justify-center shadow-2xl hover:rotate-0 transition-transform duration-300">
+          <span class="text-6xl">🛡️</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 3-Step Guide -->
+    <div class="bg-white rounded-[2.5rem] p-8 md:p-14 shadow-sm border border-gray-100 mb-20">
+      <div class="text-center mb-12">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-brand bg-orange-50 px-3 py-1 rounded-full border border-orange-100">Step-by-Step Security</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta text-gray-900 mt-2">How It Works in 3 Steps</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div class="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-1 bg-gray-100 -z-0 -translate-y-1/2"></div>
+
+        <div class="bg-[#fdfcf8] p-8 rounded-3xl border border-gray-100 text-center relative hover:-translate-y-2 transition-transform duration-300 shadow-sm z-10">
+          <div class="w-14 h-14 mx-auto bg-orange-100 text-brand rounded-full flex items-center justify-center text-xl mb-5 font-black shadow-sm border border-orange-200">1</div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-2">Generate QR Code</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">The finder selects any Secure Hub on the map and generates a tamper-evident Drop-Off QR token.</p>
+        </div>
+
+        <div class="bg-[#fdfcf8] p-8 rounded-3xl border border-gray-100 text-center relative hover:-translate-y-2 transition-transform duration-300 shadow-sm z-10">
+          <div class="w-14 h-14 mx-auto bg-orange-100 text-brand rounded-full flex items-center justify-center text-xl mb-5 font-black shadow-sm border border-orange-200">2</div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-2">Secure Drop-Off</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">Hand the item to the barista, teller, or locker bay. They scan the code to log it into escrow storage.</p>
+        </div>
+
+        <div class="bg-[#fdfcf8] p-8 rounded-3xl border border-gray-100 text-center relative hover:-translate-y-2 transition-transform duration-300 shadow-sm z-10">
+          <div class="w-14 h-14 mx-auto bg-orange-100 text-brand rounded-full flex items-center justify-center text-xl mb-5 font-black shadow-sm border border-orange-200">3</div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-2">Owner Retrieves</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">The verified owner verifies the blind secret, receives an unlock token, and retrieves their item safely.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Success Stories (Testimonials) -->
+    <div class="mb-20">
+      <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta text-gray-900 mb-10 text-center">Community Stories</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col justify-between">
+          <p class="text-gray-600 font-medium text-sm leading-relaxed mb-6 italic">"I found an iPhone on the train. I didn't have time to wait for the owner, so I just dropped it off at the Metro Station hub using the app. So easy and stress-free!"</p>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-sm">S</div>
+            <div>
+              <p class="font-bold font-jakarta text-gray-900 text-sm">Sarah Jenkins</p>
+              <p class="text-xs text-brand font-bold">Good Samaritan</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col justify-between">
+          <p class="text-gray-600 font-medium text-sm leading-relaxed mb-6 italic">"I lost my wallet and got a notification it was at the HDFC Bank hub. I just walked in, showed my QR code, and got it back. I felt incredibly safe not having to meet a stranger."</p>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full flex items-center justify-center text-white font-bold text-sm">R</div>
+            <div>
+              <p class="font-bold font-jakarta text-gray-900 text-sm">Rahul Mehta</p>
+              <p class="text-xs text-emerald-600 font-bold">Verified Owner</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col justify-between">
+          <p class="text-gray-600 font-medium text-sm leading-relaxed mb-6 italic">"As a cafe manager, being a FindIt Secure Hub brings great foot traffic. The QR code system is flawless and takes 2 seconds to scan when someone drops an item off."</p>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-400 rounded-full flex items-center justify-center text-white font-bold text-sm">E</div>
+            <div>
+              <p class="font-bold font-jakarta text-gray-900 text-sm">Emily Chen</p>
+              <p class="text-xs text-gray-500 font-medium">Blue Tokai Manager</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 7. FAQ Section -->
+    <div class="bg-white rounded-[2.5rem] p-8 md:p-14 shadow-sm border border-gray-100 mb-20">
+      <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta text-gray-900 mb-10 text-center">Frequently Asked Questions</h2>
+      <div class="max-w-4xl mx-auto space-y-4">
+        
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+          <h3 class="font-bold font-jakarta text-gray-900 text-base mb-2">How long will a Secure Hub hold my item?</h3>
+          <p class="text-gray-600 text-sm font-medium leading-relaxed">Most hubs will securely hold your item for up to 72 hours. After that period, unclaimed items are transferred to designated municipal lost and found archives according to local protocols.</p>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+          <h3 class="font-bold font-jakarta text-gray-900 text-base mb-2">Is there a fee to use a Secure Hub?</h3>
+          <p class="text-gray-600 text-sm font-medium leading-relaxed">No! Using FindIt Escrow Handovers is 100% free for both the finder and the owner. We partner with local businesses and transit agencies.</p>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+          <h3 class="font-bold font-jakarta text-gray-900 text-base mb-2">How do hubs verify the item is mine?</h3>
+          <p class="text-gray-600 text-sm font-medium leading-relaxed">When an item is dropped off, it is logged into the system. You must complete the in-app "Zero-Knowledge" verification challenge to generate your unique Pick-Up QR code, which hub staff scan before release.</p>
+        </div>
+
+        <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+          <h3 class="font-bold font-jakarta text-gray-900 text-base mb-2">What if I can't pick it up in time?</h3>
+          <p class="text-gray-600 text-sm font-medium leading-relaxed">You can request a 24-hour extension directly within the app, or authorize a verified friend or family member to pick it up on your behalf by transferring the QR code.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 8. Become a Partner CTA -->
+    <div class="bg-gray-900 rounded-[2.5rem] p-10 md:p-16 text-center text-white flex flex-col items-center shadow-xl mb-12">
+      <span class="text-xs font-bold text-brand uppercase tracking-widest mb-3">Join the Ecosystem</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold font-jakarta mb-4">Own a local business or desk?</h2>
+      <p class="text-gray-400 font-medium text-base md:text-lg mb-8 max-w-2xl leading-relaxed">
+        Drive foot traffic to your store, build community trust, and help return lost belongings safely. Apply to become a FindIt Verified Secure Hub today.
+      </p>
+      <button onclick="openPartnerModal()" class="px-8 py-4 bg-brand text-white rounded-2xl font-bold text-base hover:bg-orange-600 hover:scale-105 transition-all duration-300 shadow-lg shadow-brand/30 cursor-pointer">
+        Apply for Secure Hub Partnership
+      </button>
+    </div>
+
+  </main>
+
+  <!-- 9. Footer -->
+  <footer class="border-t border-gray-200 py-10 bg-white text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-shield-halved text-brand text-base"></i>
+        <span class="font-bold font-jakarta text-sm text-gray-900">Find<span class="text-brand">It</span> Secure Hubs</span>
+      </div>
+      <p>&copy; 2026 FindIt Global Network. Designed for community safety & escrow handovers.</p>
+      <div class="flex items-center space-x-4">
+        <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+        <span>&middot;</span>
+        <a href="index.html" class="hover:text-brand transition">Home</a>
+        <span>&middot;</span>
+        <a href="login.html" class="hover:text-brand transition">Account</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Escrow QR Code Modal -->
+  <div id="escrow-qr-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-gray-100 text-center relative">
+      <button onclick="closeEscrowQRModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-14 h-14 bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 font-bold">
+        <i class="fa-solid fa-qrcode"></i>
+      </div>
+      
+      <h3 class="text-2xl font-extrabold font-jakarta text-gray-900 mb-1">Escrow Drop-Off Token</h3>
+      <p class="text-xs text-gray-500 mb-5">Present this code at <span id="qr-modal-hub-name" class="font-bold text-gray-900">Hub</span></p>
+
+      <!-- Simulated QR Box -->
+      <div class="p-6 bg-white border-2 border-dashed border-brand/50 rounded-2xl inline-block shadow-inner mb-4 relative">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=FINDIT-ESCROW-8849-SECURE" alt="Escrow QR" class="w-44 h-44 mx-auto rounded-lg" onerror="this.src='https://placehold.co/180x180?text=QR+TOKEN';">
+        <div class="mt-2 text-[10px] font-mono font-bold text-gray-600" id="qr-token-id">ESCROW-8849-SECURE</div>
+      </div>
+
+      <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 text-left text-xs mb-6 space-y-1">
+        <div class="flex justify-between">
+          <span class="text-gray-500">Target Counter:</span>
+          <span class="font-bold text-gray-900" id="qr-modal-counter">Customer Service</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Karma Reward:</span>
+          <span class="font-bold text-brand">+50 Points</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Escrow Hold:</span>
+          <span class="font-bold text-emerald-600">72 Hours Protected</span>
+        </div>
+      </div>
+
+      <button onclick="confirmDropOff()" class="w-full py-3.5 bg-brand text-white font-bold text-sm rounded-xl hover:bg-orange-600 transition shadow-md shadow-brand/20 cursor-pointer">
+        Done / Saved Token
+      </button>
+    </div>
+  </div>
+
+  <!-- Partner Application Modal -->
+  <div id="partner-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-gray-100 relative">
+      <button onclick="closePartnerModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-2 text-brand font-bold text-xs uppercase tracking-wider mb-2">
+        <i class="fa-solid fa-handshake"></i>
+        <span>Business Partnership</span>
+      </div>
+      <h3 class="text-2xl font-extrabold font-jakarta text-gray-900 mb-2">Apply as a Secure Hub</h3>
+      <p class="text-xs text-gray-500 mb-6">Join our verified escrow network to drive community engagement.</p>
+
+      <form onsubmit="handlePartnerSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Business / Venue Name</label>
+          <input type="text" required placeholder="e.g. Third Wave Coffee Roasters" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Category</label>
+            <select class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand">
+              <option>Cafe / Restaurant</option>
+              <option>Retail Store / Market</option>
+              <option>Bank / Financial Branch</option>
+              <option>Transit Station Desk</option>
+              <option>Co-Working Space</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Location / Zip</label>
+            <input type="text" required placeholder="e.g. Indiranagar, 560038" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Manager Contact Email</label>
+          <input type="email" required placeholder="manager@business.com" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand">
+        </div>
+        <button type="submit" class="w-full py-3.5 bg-brand text-white font-bold text-sm rounded-xl hover:bg-orange-600 transition shadow-md shadow-brand/20 cursor-pointer mt-2">
+          Submit Partnership Application
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl border border-gray-700 max-w-md">
+    <div id="toast-icon" class="w-8 h-8 rounded-xl bg-brand/20 text-brand flex items-center justify-center font-bold shrink-0">✓</div>
+    <div>
+      <h5 id="toast-title" class="text-sm font-bold text-white">Notification</h5>
+      <p id="toast-msg" class="text-xs text-gray-300 mt-0.5">Operation successful.</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let activeCategory = 'all';
+
+    // Live Search and Filtering
+    function filterHubs() {
+      const query = document.getElementById('hub-search-input').value.toLowerCase().trim();
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) {
+        if (query.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+
+      const cards = document.querySelectorAll('.hub-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category') || '';
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const loc = (card.getAttribute('data-location') || '').toLowerCase();
+
+        const matchesCat = (activeCategory === 'all') || cat.includes(activeCategory);
+        const matchesQuery = !query || name.includes(query) || loc.includes(query);
+
+        if (matchesCat && matchesQuery) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('visible-hubs-count').textContent = visibleCount;
+      const noResults = document.getElementById('no-hubs-found');
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+
+    function setCategoryFilter(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.category-pill').forEach(b => {
+        b.className = 'category-pill shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 font-bold rounded-full shadow-sm text-xs hover:border-gray-300 hover:text-gray-900 transition-colors cursor-pointer';
+      });
+      btn.className = 'category-pill shrink-0 px-5 py-2.5 bg-gray-900 text-white font-bold rounded-full shadow-md text-xs transition-transform hover:scale-105 cursor-pointer';
+      filterHubs();
+    }
+
+    function clearSearch() {
+      document.getElementById('hub-search-input').value = '';
+      filterHubs();
+    }
+
+    function resetFilters() {
+      document.getElementById('hub-search-input').value = '';
+      activeCategory = 'all';
+      const firstPill = document.querySelector('.category-pill');
+      if (firstPill) setCategoryFilter('all', firstPill);
+      filterHubs();
+    }
+
+    // Google Maps Directions
+    function getDirections(hubName) {
+      showToast('Opening Navigation', `Fetching directions for ${hubName}...`, 'info');
+      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hubName)}`;
+      window.open(url, '_blank');
+    }
+
+    // Escrow QR Modal Handlers
+    function openEscrowQRModal(hubName, counter) {
+      document.getElementById('qr-modal-hub-name').textContent = hubName;
+      document.getElementById('qr-modal-counter').textContent = counter;
+      document.getElementById('qr-token-id').textContent = 'ESCROW-' + Math.floor(1000 + Math.random() * 9000) + '-SECURE';
+
+      const modal = document.getElementById('escrow-qr-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeEscrowQRModal() {
+      const modal = document.getElementById('escrow-qr-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmDropOff() {
+      closeEscrowQRModal();
+      showToast('Token Saved', 'Drop-off token registered. Head to the counter to scan!', 'success');
+    }
+
+    // Partner Modal Handlers
+    function openPartnerModal() {
+      const modal = document.getElementById('partner-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePartnerModal() {
+      const modal = document.getElementById('partner-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handlePartnerSubmit(e) {
+      e.preventDefault();
+      closePartnerModal();
+      showToast('Application Received!', 'Our escrow compliance team will review your desk within 24 hours.', 'success');
+    }
+
+    // Toast Trigger
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const titleEl = document.getElementById('toast-title');
+      const msgEl = document.getElementById('toast-msg');
+      const iconEl = document.getElementById('toast-icon');
+
+      if (!toast) return;
+
+      titleEl.textContent = title;
+      msgEl.textContent = message;
+
+      if (type === 'info') {
+        iconEl.className = 'w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold shrink-0';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      } else {
+        iconEl.className = 'w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold shrink-0';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      if (window.hubToastTimer) clearTimeout(window.hubToastTimer);
+      window.hubToastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
