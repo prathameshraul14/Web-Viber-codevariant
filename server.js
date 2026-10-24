@@ -52,6 +52,8 @@ const server = http.createServer((req, res) => {
     pathname = '/gemini-code-1792843735076.html';
   } else if (pathname === '/neural' || pathname === '/match' || pathname === '/neural-match' || pathname === '/neural-engine' || pathname === '/neuralmatchengine') {
     pathname = '/NeuralMatchEngine.html';
+  } else if (pathname === '/radar' || pathname === '/echo-radar' || pathname === '/echo_radar' || pathname === '/echoradar' || pathname === '/spatial') {
+    pathname = '/echo_radar.html';
   } else if (pathname === '/find it' || pathname === '/find it/') {
     pathname = '/find it/index.html';
   }

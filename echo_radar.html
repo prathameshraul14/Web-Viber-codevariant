@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Echo Radar (Live Spatial Mesh)</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- FindIt Ecosystem Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: '#f97316', // FindIt Orange
+            brandDark: '#ea580c'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; overflow-x: hidden; }
+    
+    /* Custom Scrollbar */
+    .custom-scroll::-webkit-scrollbar { width: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+    .custom-scroll:hover::-webkit-scrollbar-thumb { background: #d1d5db; }
+    
+    /* Map Marker Animations */
+    .pulse-marker-wrapper { display: flex; align-items: center; justify-content: center; }
+    .pulse-marker {
+      width: 22px; height: 22px;
+      background-color: #3b82f6; /* Blue for user */
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+      animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+      70% { box-shadow: 0 0 0 26px rgba(59, 130, 246, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+    }
+
+    .item-marker-icon {
+      background-color: white;
+      border-radius: 50%;
+      border: 2.5px solid #f97316;
+      width: 42px !important; height: 42px !important;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+    .item-marker-icon.found-marker {
+      border-color: #10b981;
+    }
+    .item-marker-icon:hover {
+      transform: scale(1.22) translateY(-6px) !important;
+      z-index: 1000 !important;
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+    }
+    .item-marker-icon.found-marker:hover {
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+    }
+  </style>
+</head>
+<body class="text-[#1d1d1f] selection:bg-orange-200 min-h-screen flex flex-col justify-between">
+
+  <!-- Top Navigation (Seamlessly Connected to Platform) -->
+  <header id="smart-nav" class="sticky top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center h-20">
+      
+      <!-- Brand Logo -->
+      <a href="dashboard.html" class="flex items-center space-x-2.5 group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand to-orange-600 flex items-center justify-center text-white shadow-md shadow-brand/25 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-satellite text-lg animate-pulse"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
+          <span class="text-[9px] font-bold uppercase tracking-widest text-brand mt-1 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> Echo Radar
+          </span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-7 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs text-gray-400"></i>
+          <span>My Dashboard</span>
+        </a>
+        <a href="echo_radar.html" class="text-brand flex items-center gap-1.5 transition-colors border-b-2 border-brand py-6">
+          <i class="fa-solid fa-satellite text-xs text-brand"></i>
+          <span>Echo Radar</span>
+        </a>
+        <a href="NeuralMatchEngine.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-brain text-xs text-gray-400"></i>
+          <span>Neural Match</span>
+        </a>
+        <a href="report.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-plus-circle text-xs text-gray-400"></i>
+          <span>Report Item</span>
+        </a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-building-shield text-xs text-gray-400"></i>
+          <span>Secure Hubs</span>
+        </a>
+        <a href="karma_rewards.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gift text-xs text-gray-400"></i>
+          <span>Rewards Store</span>
+        </a>
+      </nav>
+
+      <!-- Back to Dashboard & Live Points -->
+      <div class="flex items-center space-x-3">
+        <a href="report.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 text-xs font-bold rounded-xl transition shadow-sm">
+          <i class="fa-solid fa-plus text-[10px]"></i>
+          <span>Report Item</span>
+        </a>
+
+        <a href="dashboard.html" class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition shadow-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- Live Points Badge -->
+        <a href="karma_rewards.html" class="px-3.5 py-2 bg-gray-900 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm hover:bg-gray-800 transition">
+          <i class="fa-solid fa-coins text-amber-400"></i>
+          <span class="js-reward-points">2,450</span> pts
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="py-10 max-w-7xl mx-auto px-6 md:px-8 space-y-10 flex-grow w-full">
+    
+    <!-- 1. Header Section -->
+    <header class="flex flex-col md:flex-row md:items-end justify-between space-y-4 md:space-y-0">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-orange-100 text-orange-800 text-[11px] font-extrabold tracking-widest uppercase rounded-full mb-4 shadow-sm border border-orange-200">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
+          </span>
+          <span>Live Spatial Mesh</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-black font-jakarta tracking-tight text-gray-900 mb-3">Echo Radar</h1>
+        <p class="text-gray-500 text-base md:text-xl font-medium leading-relaxed">
+          Real-time spatial mapping of lost and found items. Scanning a <strong id="headerRadiusLabel" class="text-gray-800">2km radius</strong> around your location.
+        </p>
+      </div>
+      <div class="flex items-center space-x-3 shrink-0">
+        <button onclick="locateUser()" class="px-5 py-3.5 bg-white border border-gray-200 text-gray-900 font-bold rounded-[1rem] shadow-sm hover:border-gray-300 hover:bg-gray-50 transition flex items-center cursor-pointer">
+          <span class="mr-2">🎯</span> Recenter Map
+        </button>
+        <a href="report.html" class="px-5 py-3.5 bg-brand text-white font-bold rounded-[1rem] shadow-lg shadow-brand/25 hover:bg-orange-600 transition flex items-center cursor-pointer">
+          <span class="mr-2">➕</span> Report Item
+        </a>
+      </div>
+    </header>
+
+    <!-- 2. Real Map (Leaflet) with Floating Controls -->
+    <div class="relative bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden h-[600px]">
+      
+      <!-- Glassmorphic Floating Control Panel -->
+      <div class="absolute top-6 left-6 z-[1000] bg-white/90 backdrop-blur-xl border border-white/60 shadow-xl rounded-[1.5rem] p-5 w-64 pointer-events-auto">
+        <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-4 flex items-center">
+          Radar Settings <span class="ml-auto text-xs bg-brand/10 text-brand px-2 py-0.5 rounded-full font-bold">Live</span>
+        </h3>
+        
+        <div class="space-y-4">
+          <!-- Toggle 1: Lost Items -->
+          <label class="flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center text-sm">🔍</div>
+              <span class="font-semibold text-gray-700 group-hover:text-gray-900 text-sm">Show Lost</span>
+            </div>
+            <div class="relative">
+              <input type="checkbox" id="toggleLost" onchange="applyFilters()" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-brand transition-colors"></div>
+              <div class="absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full shadow-sm peer-checked:translate-x-5 transition-transform"></div>
+            </div>
+          </label>
+          
+          <!-- Toggle 2: Found Items -->
+          <label class="flex items-center justify-between cursor-pointer group">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-sm">✨</div>
+              <span class="font-semibold text-gray-700 group-hover:text-gray-900 text-sm">Show Found</span>
+            </div>
+            <div class="relative">
+              <input type="checkbox" id="toggleFound" onchange="applyFilters()" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-emerald-500 transition-colors"></div>
+              <div class="absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full shadow-sm peer-checked:translate-x-5 transition-transform"></div>
+            </div>
+          </label>
+        </div>
+        
+        <div class="mt-5 pt-4 border-t border-gray-200/50">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Scan Radius</p>
+            <span id="radiusLabel" class="text-xs font-bold text-gray-900">2km</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <input type="range" id="radiusSlider" min="1" max="10" value="2" oninput="updateScanRadius(this.value)" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand">
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-gray-200/50 text-center">
+          <a href="NeuralMatchEngine.html" class="text-xs font-bold text-brand hover:underline flex items-center justify-center gap-1">
+            <span>Launch Neural Match</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- The Leaflet Map Container -->
+      <div id="map" class="w-full h-full z-0"></div>
+    </div>
+
+    <!-- 3. Radar Stats Grid (4 Bento Boxes) -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      
+      <div class="bg-white rounded-[1.5rem] p-6 shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col justify-between">
+        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Items in Radius</p>
+        <p id="statItemsRadius" class="text-4xl font-black font-jakarta text-brand">24</p>
+      </div>
+
+      <div class="bg-white rounded-[1.5rem] p-6 shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col justify-between">
+        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Active Scanners</p>
+        <p class="text-4xl font-black font-jakarta text-gray-900">142</p>
+      </div>
+
+      <div class="bg-white rounded-[1.5rem] p-6 shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col justify-between">
+        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">AI Match Rate</p>
+        <p class="text-4xl font-black font-jakarta text-emerald-500">94%</p>
+      </div>
+
+      <div class="bg-white rounded-[1.5rem] p-6 shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col justify-between">
+        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Network Health</p>
+        <div class="flex items-center space-x-2">
+          <span class="text-3xl font-black font-jakarta text-gray-900">Optimal</span>
+          <span class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse mt-1"></span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4, 5, 6: Complex Split Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Live Ping Feed (Span 5) -->
+      <div class="lg:col-span-5 bg-white rounded-[2rem] p-7 md:p-8 shadow-sm border border-gray-100 flex flex-col h-[650px]">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-2xl font-bold font-jakarta text-gray-900">Live Ping Feed</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Real-time alerts from local network nodes</p>
+          </div>
+          <span class="bg-orange-50 text-brand border border-orange-200 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-brand animate-ping"></span> Live Radar
+          </span>
+        </div>
+        
+        <div id="pingFeedContainer" class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-4">
+          <!-- Rendered dynamically by script -->
+        </div>
+      </div>
+
+      <!-- Right Column: Trajectory & Hotspots (Span 7) -->
+      <div class="lg:col-span-7 flex flex-col space-y-8">
+        
+        <!-- Predictive Trajectory AI -->
+        <div class="bg-gray-900 rounded-[2rem] p-8 md:p-10 text-white shadow-xl flex-1 relative overflow-hidden group">
+          <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand/20 rounded-full blur-3xl pointer-events-none group-hover:bg-brand/30 transition-colors duration-700"></div>
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-extrabold uppercase tracking-wider text-orange-200 border border-white/10 mb-4">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Spatial Vector
+          </div>
+          <h2 class="text-3xl font-bold font-jakarta mb-4 relative z-10">Predictive Trajectory AI</h2>
+          <p class="text-gray-400 font-medium leading-relaxed mb-8 relative z-10 max-w-lg text-sm md:text-base">
+            Lost something on the move? Our engine calculates transit velocities, route schedules, and the time of loss to project a dynamic search radius for moving items.
+          </p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 relative z-10">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm hover:border-brand/40 transition-colors">
+              <div class="text-2xl mb-3">🚄</div>
+              <h4 class="font-bold text-white mb-1">Transit Mapping</h4>
+              <p class="text-xs text-gray-400 font-medium leading-relaxed">Integrates with local metro and bus APIs to map item movement in transit.</p>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm hover:border-brand/40 transition-colors">
+              <div class="text-2xl mb-3">🎯</div>
+              <h4 class="font-bold text-white mb-1">Drop-zone Prediction</h4>
+              <p class="text-xs text-gray-400 font-medium leading-relaxed">Predicts the highest-probability stations where the item might be turned in.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hotspot Insights -->
+        <div class="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-2xl font-bold font-jakarta text-gray-900">Historical Hotspots</h2>
+              <p class="text-xs text-gray-500 mt-1">High incident frequency zones identified by community spatial mesh</p>
+            </div>
+            <span class="text-3xl">🔥</span>
+          </div>
+          <div class="space-y-3.5 mt-6">
+            <div class="flex items-center justify-between p-4 bg-red-50/70 rounded-xl border border-red-100 hover:bg-red-50 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-lg">🚉</span>
+                <div>
+                  <span class="font-bold text-red-950 text-sm block">1. Central Transit Terminals & Metro Gates</span>
+                  <span class="text-[11px] text-red-700">Wallets, transit cards, smart watches</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-red-600 bg-white px-2.5 py-1 rounded-md shadow-sm shrink-0">High Risk</span>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-orange-50/70 rounded-xl border border-orange-100 hover:bg-orange-50 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-lg">📚</span>
+                <div>
+                  <span class="font-bold text-orange-950 text-sm block">2. University Libraries & Cafes</span>
+                  <span class="text-[11px] text-orange-700">AirPods, chargers, notebooks, IDs</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-brand bg-white px-2.5 py-1 rounded-md shadow-sm shrink-0">Medium Risk</span>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-yellow-50/70 rounded-xl border border-yellow-100 hover:bg-yellow-50 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="text-lg">🌳</span>
+                <div>
+                  <span class="font-bold text-yellow-950 text-sm block">3. Public Parks & Sports Complexes</span>
+                  <span class="text-[11px] text-yellow-700">Water bottles, umbrellas, keychains</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-yellow-600 bg-white px-2.5 py-1 rounded-md shadow-sm shrink-0">Seasonal Risk</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 7. How the Network Works -->
+    <div class="bg-white rounded-[2.5rem] p-10 md:p-12 shadow-sm border border-gray-100">
+      <h2 class="text-3xl md:text-4xl font-black font-jakarta text-gray-900 mb-10 text-center">How Echo Radar Works</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div class="hidden md:block absolute top-[40%] left-[15%] right-[15%] h-1 bg-gray-50 -z-10 -translate-y-1/2"></div>
+
+        <div class="bg-[#fdfcf8] p-8 rounded-[2rem] border border-gray-100 text-center relative shadow-sm hover:border-orange-200 transition-colors">
+          <div class="w-20 h-20 mx-auto bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm border border-orange-200 transform rotate-3">📡</div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-3">1. Crowdsourced Pings</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">Users passively act as scanners. When a lost item is reported, nearby devices create a secure spatial mesh to scan the area.</p>
+        </div>
+
+        <div class="bg-[#fdfcf8] p-8 rounded-[2rem] border border-gray-100 text-center relative shadow-sm hover:border-orange-200 transition-colors">
+          <div class="w-20 h-20 mx-auto bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm border border-orange-200 transform -rotate-3">🧠</div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-3">2. Vector Matching</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">Our Neural Engine processes descriptions, images, and locations simultaneously to find high-probability matches instantly.</p>
+        </div>
+
+        <div class="bg-[#fdfcf8] p-8 rounded-[2rem] border border-gray-100 text-center relative shadow-sm hover:border-orange-200 transition-colors">
+          <div class="w-20 h-20 mx-auto bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm border border-orange-200 transform rotate-3">🛡️</div>
+          <h3 class="font-bold font-jakarta text-gray-900 text-xl mb-3">3. Zero-Knowledge Claim</h3>
+          <p class="text-sm text-gray-500 font-medium leading-relaxed">Matches are verified using blind questions, protecting privacy and ensuring the item is returned to the rightful owner.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 8. Footer -->
+  <footer class="border-t border-gray-200 py-10 text-center bg-white mt-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 font-medium">
+      <p class="font-jakarta">&copy; 2026 FindIt Protocol. Powered by Spatial AI & Zero-Knowledge Verification.</p>
+      <div class="flex items-center space-x-6 mt-4 md:mt-0">
+        <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+        <a href="NeuralMatchEngine.html" class="hover:text-brand transition">Neural Engine</a>
+        <a href="report.html" class="hover:text-brand transition">Report Item</a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand transition">Secure Hubs</a>
+        <a href="karma_rewards.html" class="hover:text-brand transition">Karma Store</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Leaflet Map & Radar Engine Script -->
+  <script>
+    let map;
+    let userCircle;
+    let userMarker;
+    let currentRadius = 2; // km
+    let userCoords = [19.0760, 72.8777]; // Default Mumbai
+    let allRenderedMarkers = [];
+
+    // Base radar simulated pins
+    const defaultRadarItems = [
+      { emoji: '💼', title: 'Brown Leather Wallet', type: 'Found', desc: 'Detected ~300m away near West Gate', match: 85, offset: [0.003, 0.004] },
+      { emoji: '🎧', title: 'Apple AirPods Pro Gen 2', type: 'Lost', desc: 'Reported ~1.2km away', match: 68, offset: [-0.006, 0.005] },
+      { emoji: '🎒', title: 'Black NorthFace Bag', type: 'Found', desc: 'Detected ~1.8km away at Transit Hub', match: 92, offset: [0.009, -0.008] },
+      { emoji: '🔑', title: 'House Keys (Silver Carabiner)', type: 'Lost', desc: 'Reported ~800m away', match: 50, offset: [-0.004, -0.005] },
+      { emoji: '📱', title: 'iPhone 13 Blue (Silicone Case)', type: 'Lost', desc: 'Reported ~1.5km away in Cafe', match: 74, offset: [0.007, 0.006] },
+      { emoji: '💻', title: 'MacBook Air M2 (Grey)', type: 'Found', desc: 'Deposited at Library Desk', match: 96, offset: [-0.002, 0.003] }
+    ];
+
+    // Initialize Map
+    map = L.map('map', {
+      zoomControl: false,
+      scrollWheelZoom: false 
+    }).setView(userCoords, 14);
+
+    // Add Zoom Control to bottom right
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    // CartoDB Positron clean map tiles
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(map);
+
+    function updateScanRadius(radiusKm) {
+      currentRadius = parseFloat(radiusKm);
+      document.getElementById('radiusLabel').textContent = `${currentRadius}km`;
+      document.getElementById('headerRadiusLabel').textContent = `${currentRadius}km radius`;
+
+      if (userCircle) {
+        userCircle.setRadius(currentRadius * 1000);
+      }
+
+      // Re-evaluate items count
+      applyFilters();
+    }
+
+    function renderMapFeatures(lat, lng) {
+      userCoords = [lat, lng];
+
+      // Smooth pan
+      map.flyTo([lat, lng], 14, { duration: 1.5 });
+
+      // Clear old layers
+      if (userCircle) map.removeLayer(userCircle);
+      if (userMarker) map.removeLayer(userMarker);
+      allRenderedMarkers.forEach(item => map.removeLayer(item.marker));
+      allRenderedMarkers = [];
+
+      // Draw Radius Circle in Brand Orange
+      userCircle = L.circle([lat, lng], {
+        color: '#f97316',
+        weight: 2,
+        fillColor: '#f97316',
+        fillOpacity: 0.07,
+        radius: currentRadius * 1000
+      }).addTo(map);
+
+      // Pulsing User Marker
+      const pulseIcon = L.divIcon({
+        className: 'pulse-marker-wrapper',
+        html: '<div class="pulse-marker"></div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+      userMarker = L.marker([lat, lng], { icon: pulseIcon }).addTo(map);
+      userMarker.bindPopup('<div style="font-family:Inter; text-align:center; padding:4px;"><b>Your Live Location</b><br><span style="font-size:11px;color:#6b7280;">Active Scanner Node</span></div>');
+
+      // Aggregate simulated + active live cases from window.FindIt
+      let liveItems = [...defaultRadarItems];
+
+      if (window.FindIt && typeof window.FindIt.getCases === 'function') {
+        const platformCases = window.FindIt.getCases();
+        platformCases.forEach((c, idx) => {
+          liveItems.unshift({
+            emoji: c.icon || (c.type === 'lost' ? '🔍' : '✨'),
+            title: c.title,
+            type: c.type === 'found' ? 'Found' : 'Lost',
+            desc: `Live Report at ${c.location || 'Campus'}`,
+            match: c.matchScore || 88,
+            offset: [(idx * 0.003) - 0.004, (idx * -0.003) + 0.004],
+            isPlatformCase: true
+          });
+        });
+      }
+
+      // Populate markers on map
+      liveItems.forEach((item, index) => {
+        const itemLat = lat + (item.offset ? item.offset[0] : (Math.random() - 0.5) * 0.02);
+        const itemLng = lng + (item.offset ? item.offset[1] : (Math.random() - 0.5) * 0.02);
+
+        const isFound = item.type.toLowerCase() === 'found';
+        const markerClass = isFound ? 'item-marker-icon found-marker' : 'item-marker-icon';
+
+        const itemIcon = L.divIcon({
+          className: '',
+          html: `<div class="${markerClass}" title="${item.title}">${item.emoji}</div>`,
+          iconSize: [42, 42],
+          iconAnchor: [21, 21]
+        });
+
+        const marker = L.marker([itemLat, itemLng], { icon: itemIcon }).addTo(map);
+        
+        marker.bindPopup(`
+          <div style="font-family: 'Plus Jakarta Sans', sans-serif; text-align:center; padding: 6px; min-width: 160px;">
+            <div style="display:inline-block; font-size:10px; font-weight:800; color: ${isFound ? '#10b981' : '#f97316'}; background:${isFound ? '#ecfdf5' : '#fff7ed'}; border-radius:6px; padding: 2px 8px; text-transform:uppercase; margin-bottom:4px;">
+              ${item.type}
+            </div>
+            <b style="font-size:13px; color:#111827; display:block; line-height:1.3;">${item.title}</b>
+            <span style="font-size:11px; color:#6b7280; display:block; margin:4px 0;">${item.desc}</span>
+            <div style="margin-top:6px; padding-top:6px; border-top: 1px solid #f3f4f6; display:flex; justify-content:center; gap:8px;">
+              <a href="dashboard.html" style="color:#f97316; font-size:11px; font-weight:bold; text-decoration:none;">View on Radar &rarr;</a>
+            </div>
+          </div>
+        `);
+
+        allRenderedMarkers.push({
+          marker: marker,
+          data: item
+        });
+      });
+
+      renderPingFeed(liveItems);
+      applyFilters();
+    }
+
+    function renderPingFeed(items) {
+      const container = document.getElementById('pingFeedContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      items.forEach(item => {
+        const isFound = item.type.toLowerCase() === 'found';
+        const pingCard = document.createElement('div');
+        pingCard.className = `p-4 sm:p-5 rounded-[1.5rem] border transition-all cursor-pointer ${
+          isFound 
+            ? 'bg-[#fcfdfd] border-emerald-100 hover:border-emerald-300' 
+            : 'bg-white border-orange-100 hover:border-orange-300'
+        } shadow-sm`;
+
+        pingCard.setAttribute('data-type', item.type.toLowerCase());
+
+        pingCard.innerHTML = `
+          <div class="flex items-start space-x-3.5">
+            <div class="w-11 h-11 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm border border-gray-100 shrink-0">
+              ${item.emoji}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-start mb-1">
+                <h3 class="font-bold text-gray-900 text-sm truncate pr-2">${item.title}</h3>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md uppercase shrink-0 ${
+                  isFound ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-orange-700 bg-orange-50 border border-orange-200'
+                }">${item.type}</span>
+              </div>
+              <p class="text-xs font-medium text-gray-500 mb-2 truncate">${item.desc}</p>
+              <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                <div class="${isFound ? 'bg-emerald-500' : 'bg-brand'} h-1.5 rounded-full" style="width: ${item.match}%"></div>
+              </div>
+              <div class="flex justify-between items-center text-[10px] text-gray-400 font-bold mt-1.5">
+                <span class="text-gray-400">${item.isPlatformCase ? '📡 Campus Radar' : 'Nearby Mesh'}</span>
+                <span class="${isFound ? 'text-emerald-600' : 'text-brand'}">${item.match}% Match Confidence</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        pingCard.onclick = () => {
+          map.flyTo(item.marker ? item.marker.getLatLng() : userCoords, 15);
+          if (item.marker) item.marker.openPopup();
+        };
+
+        container.appendChild(pingCard);
+      });
+    }
+
+    function applyFilters() {
+      const showLost = document.getElementById('toggleLost').checked;
+      const showFound = document.getElementById('toggleFound').checked;
+
+      let visibleCount = 0;
+
+      allRenderedMarkers.forEach(entry => {
+        const isLost = entry.data.type.toLowerCase() === 'lost';
+        const isFound = entry.data.type.toLowerCase() === 'found';
+
+        if ((isLost && showLost) || (isFound && showFound)) {
+          if (!map.hasLayer(entry.marker)) {
+            map.addLayer(entry.marker);
+          }
+          visibleCount++;
+        } else {
+          if (map.hasLayer(entry.marker)) {
+            map.removeLayer(entry.marker);
+          }
+        }
+      });
+
+      // Filter ping feed cards
+      const pingCards = document.querySelectorAll('#pingFeedContainer > div');
+      pingCards.forEach(card => {
+        const type = card.getAttribute('data-type');
+        if ((type === 'lost' && !showLost) || (type === 'found' && !showFound)) {
+          card.style.display = 'none';
+        } else {
+          card.style.display = 'block';
+        }
+      });
+
+      // Update stat count
+      const statEl = document.getElementById('statItemsRadius');
+      if (statEl) {
+        statEl.textContent = Math.round(visibleCount * (currentRadius / 2));
+      }
+    }
+
+    // Geolocation API
+    function locateUser() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            renderMapFeatures(position.coords.latitude, position.coords.longitude);
+          },
+          (error) => {
+            console.warn("Location denied or timed out. Falling back to default campus coordinates.");
+            renderMapFeatures(19.0760, 72.8777); 
+          },
+          { timeout: 8000 }
+        );
+      } else {
+        renderMapFeatures(19.0760, 72.8777);
+      }
+    }
+
+    // UX: Enable scroll zoom only after user clicks the map
+    map.on('focus', function() { map.scrollWheelZoom.enable(); });
+    map.on('blur', function() { map.scrollWheelZoom.disable(); });
+
+    // Initial Load
+    window.addEventListener('DOMContentLoaded', () => {
+      locateUser();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
