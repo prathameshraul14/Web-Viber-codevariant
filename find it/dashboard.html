@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Dashboard & Campus Radar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#f97316',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; }
+    .mega-menu { display: none; opacity: 0; transition: opacity 0.2s ease; margin-top: 1px; }
+    .group:hover .mega-menu { display: block; opacity: 1; }
+    
+    /* Radar sweep animation */
+    @keyframes radar-sweep {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .radar-beam {
+      animation: radar-sweep 4s linear infinite;
+      transform-origin: center;
+    }
+  </style>
+</head>
+<body class="text-gray-900 selection:bg-orange-200 min-h-screen flex flex-col justify-between">
+
+  <!-- Top Navigation (Smart Scroll + Seamless) -->
+  <header id="smart-nav" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300 shadow-sm">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-20">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center space-x-2.5 group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-magnifying-glass-location text-lg"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
+          <span class="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-1">Campus Hub</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-8 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs"></i>
+          <span>My Dashboard</span>
+        </a>
+        <button type="button" onclick="openReportWizard()" class="hover:text-brand flex items-center gap-1.5 transition-colors cursor-pointer">
+          <i class="fa-solid fa-plus-circle text-xs text-brand"></i>
+          <span>Report Item</span>
+        </button>
+        
+        <!-- Mega Menu Dropdown -->
+        <div class="group h-full flex items-center cursor-pointer relative">
+          <span class="hover:text-brand transition-colors flex items-center gap-1">
+            <span>Features</span>
+            <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+          </span>
+          
+          <!-- Full-width Dropdown Panel -->
+          <div class="mega-menu absolute top-20 left-1/2 -translate-x-1/2 w-screen max-w-5xl bg-white shadow-2xl border-t border-gray-100 rounded-b-3xl z-50 py-8 px-10 cursor-default">
+            <div class="w-full grid grid-cols-4 gap-8">
+              <div>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🧠</span> Core Tools</h4>
+                <ul class="space-y-3 text-xs font-semibold text-gray-500">
+                  <li><a href="#active-cases-section" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-brain text-[10px]"></i> Neural Match Engine</a></li>
+                  <li><a href="#radar" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-satellite text-[10px]"></i> Echo Radar (Spatial)</a></li>
+                  <li><a href="#active-cases-section" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-list-check text-[10px]"></i> Active Cases Tracking</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🛡️</span> Verification</h4>
+                <ul class="space-y-3 text-xs font-semibold text-gray-500">
+                  <li><a href="#" onclick="openDemoModal('zk'); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-key text-[10px]"></i> Zero-Knowledge Proofs</a></li>
+                  <li><a href="#" onclick="openDemoModal('blind'); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-user-secret text-[10px]"></i> Blind Messaging</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🏢</span> Trusted Network</h4>
+                <ul class="space-y-3 text-xs font-semibold text-gray-500">
+                  <li><a href="#" onclick="openHubsModal(); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-building-shield text-[10px]"></i> Campus Drop Boxes</a></li>
+                  <li><a href="#" onclick="openCouponsModal(); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-ticket text-[10px]"></i> Partner Reward Coupons</a></li>
+                </ul>
+              </div>
+              <div class="bg-orange-50/80 p-5 rounded-2xl border border-orange-100 flex flex-col justify-between">
+                <div>
+                  <h4 class="font-jakarta text-xs font-bold text-gray-900 mb-1">Campus Karma Status</h4>
+                  <p class="text-3xl font-black text-brand font-jakarta js-karma-points">850 <span class="text-xs text-orange-600 font-bold">pts</span></p>
+                  <p class="text-[11px] text-gray-600 mt-2 font-medium">Rank: Top 5% Campus Helper</p>
+                </div>
+                <button onclick="openCouponsModal()" class="mt-4 w-full py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition shadow-sm">
+                  Redeem Rewards
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" onclick="openCouponsModal()" class="hover:text-brand transition-colors flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-gift text-xs"></i>
+          <span>Rewards & Coupons</span>
+        </button>
+        <button type="button" onclick="openHubsModal()" class="hover:text-brand transition-colors flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-shield-halved text-xs"></i>
+          <span>Campus Hubs</span>
+        </button>
+      </nav>
+
+      <!-- Profile & Actions -->
+      <div class="flex items-center space-x-4">
+        <!-- Quick Report Button (Mobile/Desktop) -->
+        <button onclick="openReportWizard()" class="hidden sm:inline-flex items-center px-4 py-2.5 bg-brand text-white text-xs font-bold rounded-xl shadow-md hover:bg-orange-600 transition-all hover:scale-105 cursor-pointer gap-2">
+          <i class="fa-solid fa-plus"></i>
+          <span>Report Item</span>
+        </button>
+
+        <!-- User Profile Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center space-x-3 p-1.5 rounded-2xl hover:bg-gray-100/80 transition cursor-pointer">
+            <div class="hidden sm:block text-right">
+              <p id="nav-user-name" class="text-xs font-bold text-gray-900 leading-tight">Alex Morgan</p>
+              <p id="nav-user-role" class="text-[10px] text-gray-500 font-medium leading-none">Student</p>
+            </div>
+            <div id="nav-user-avatar" class="w-10 h-10 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md shadow-brand-500/20">
+              AM
+            </div>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div class="absolute right-0 top-14 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 hidden group-hover:block transition-all z-50">
+            <div class="px-4 py-2 border-b border-gray-100">
+              <p class="text-xs font-bold text-gray-900" id="menu-user-email">alex.m@campus.edu</p>
+              <div class="mt-1 flex items-center gap-1.5 text-[11px] text-brand font-bold">
+                <i class="fa-solid fa-coins"></i>
+                <span class="js-reward-points">350</span> points available
+              </div>
+            </div>
+            <a href="index.html" class="block px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-house mr-2 text-gray-400"></i> Landing Page
+            </a>
+            <button onclick="openCouponsModal()" class="w-full text-left px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-ticket mr-2 text-gray-400"></i> Redeem Rewards
+            </button>
+            <div class="border-t border-gray-100 my-1"></div>
+            <button onclick="window.FindIt.logout()" class="w-full text-left px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold flex items-center cursor-pointer">
+              <i class="fa-solid fa-arrow-right-from-bracket mr-2 text-red-400"></i> Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Content -->
+  <main class="pt-28 pb-20 max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 flex-grow w-full">
+    
+    <!-- Welcome Header -->
+    <div class="mb-10 flex flex-col md:flex-row justify-between md:items-end gap-4 border-b border-gray-200/60 pb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold mb-3 border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Campus Radar Active & Synced</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black font-jakarta tracking-tight text-gray-900 mb-2">
+          Welcome back, <span id="welcome-user-name" class="text-brand">Alex</span>.
+        </h1>
+        <p class="text-gray-500 text-base md:text-lg font-medium">
+          Here is real-time activity and match status across campus facilities.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCouponsModal()" class="px-5 py-3.5 bg-white border border-gray-200 text-gray-700 text-sm font-bold rounded-2xl hover:bg-gray-50 transition shadow-sm flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-gift text-brand"></i>
+          <span>Rewards (<span class="js-reward-points">350</span> pts)</span>
+        </button>
+        <button onclick="openReportWizard()" class="px-6 py-3.5 bg-brand text-white text-sm font-bold rounded-2xl shadow-lg shadow-brand-500/25 hover:bg-orange-600 transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-plus-circle text-base"></i>
+          <span>Report New Item</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bento Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Active Cases (Span 2) -->
+      <div id="active-cases-section" class="md:col-span-2 bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div>
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+              <h2 class="text-2xl font-bold font-jakarta text-gray-900">Your Active Cases & Matches</h2>
+              <p class="text-xs text-gray-500 mt-1">Spatial neural matching auto-evaluates reports against found item entries.</p>
+            </div>
+            
+            <!-- Filter Pills -->
+            <div class="flex items-center space-x-1 bg-gray-100 p-1 rounded-xl text-xs font-bold text-gray-600">
+              <button onclick="filterCases('all')" id="tab-all-cases" class="px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-sm transition">All</button>
+              <button onclick="filterCases('lost')" id="tab-lost-cases" class="px-3 py-1.5 rounded-lg hover:text-gray-900 transition">Lost</button>
+              <button onclick="filterCases('found')" id="tab-found-cases" class="px-3 py-1.5 rounded-lg hover:text-gray-900 transition">Found</button>
+            </div>
+          </div>
+
+          <!-- Dynamic Cases Container -->
+          <div id="cases-list-container" class="space-y-4">
+            <!-- Rendered by JavaScript -->
+          </div>
+        </div>
+
+        <div class="pt-6 mt-6 border-t border-gray-100 flex justify-between items-center text-xs">
+          <span class="text-gray-500 font-medium">Have you spotted an unclaimed item in a classroom or cafe?</span>
+          <button onclick="openReportWizard('found')" class="font-bold text-brand hover:underline cursor-pointer">
+            + Quick Found Deposit
+          </button>
+        </div>
+      </div>
+
+      <!-- Karma & Reward Points (Vibrant Orange Theme) -->
+      <div class="bg-gradient-to-br from-brand via-orange-600 to-orange-700 rounded-3xl p-8 md:p-10 shadow-xl shadow-orange-500/20 text-white flex flex-col justify-between relative overflow-hidden">
+        <!-- Decorative bg blur circles -->
+        <div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -left-12 -bottom-12 w-40 h-40 bg-amber-400/20 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-extrabold uppercase tracking-wider text-orange-100 border border-white/20">
+              Campus Karma
+            </span>
+            <span class="text-xs text-orange-200 font-semibold">Tier: Gold Finder</span>
+          </div>
+
+          <h2 class="text-2xl font-bold font-jakarta">Reward Points</h2>
+          <p class="text-6xl font-black font-jakarta tracking-tight mt-3">
+            <span class="js-reward-points">350</span><span class="text-2xl font-medium opacity-80"> pts</span>
+          </p>
+          
+          <div class="mt-6 space-y-2.5 text-xs text-white/90 font-medium leading-relaxed bg-black/15 p-4 rounded-2xl backdrop-blur-sm border border-white/15">
+            <div class="flex items-center justify-between">
+              <span>List a found item:</span>
+              <strong class="text-amber-200">+50 pts</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Verified owner handover:</span>
+              <strong class="text-amber-200">+100 pts</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Security Hub drop-off:</span>
+              <strong class="text-amber-200">+25 pts</strong>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="openCouponsModal()" class="relative z-10 mt-8 w-full py-4 bg-white text-brand rounded-2xl font-bold text-base hover:bg-orange-50 transition-all shadow-md active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+          <i class="fa-solid fa-gift"></i>
+          <span>Redeem Campus Perks</span>
+        </button>
+      </div>
+
+      <!-- Neighborhood Radar Map (Interactive) -->
+      <div id="radar" class="md:col-span-2 bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-gray-100">
+         <div class="flex justify-between items-center mb-6">
+           <div>
+             <h2 class="text-2xl font-bold font-jakarta text-gray-900">Campus Spatial Radar</h2>
+             <p class="text-xs text-gray-500 mt-1">Live active hotspots across university grounds. Tap any hotspot to inspect items.</p>
+           </div>
+           <span class="px-3 py-1.5 bg-red-100 text-red-600 text-xs font-bold uppercase tracking-wider rounded-full flex items-center shadow-sm">
+             <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping mr-2"></span> Scanning Live
+           </span>
+         </div>
+
+         <!-- Interactive Radar Map Box -->
+         <div class="h-80 bg-slate-900 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group shadow-inner border border-slate-800">
+           
+           <!-- Grid Background -->
+           <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(90deg, #38bdf8 1px, transparent 1px); background-size: 40px 40px;"></div>
+           
+           <!-- Radar Concentric Rings -->
+           <div class="absolute w-[200px] h-[200px] rounded-full border border-sky-500/20 pointer-events-none"></div>
+           <div class="absolute w-[360px] h-[360px] rounded-full border border-sky-500/20 pointer-events-none"></div>
+           <div class="absolute w-[520px] h-[520px] rounded-full border border-sky-500/15 pointer-events-none"></div>
+           
+           <!-- Radar Sweeping Beam -->
+           <div class="absolute inset-0 pointer-events-none radar-beam opacity-40">
+             <div class="w-1/2 h-1/2 ml-auto bg-gradient-to-br from-brand-500/50 to-transparent [clip-path:polygon(0_100%,100%_0,100%_100%)]"></div>
+           </div>
+
+           <!-- Interactive Hotspot Pins -->
+           <div id="radar-hotspots-container" class="absolute inset-0">
+             <!-- Rendered dynamically -->
+           </div>
+
+           <!-- Center Pulse -->
+           <div class="relative z-10 text-center pointer-events-none">
+             <div class="w-4 h-4 bg-brand rounded-full mx-auto ring-4 ring-brand/30 animate-pulse"></div>
+             <p class="text-[11px] font-bold text-sky-300 uppercase tracking-widest mt-2">Campus Recovery Grid</p>
+             <p class="text-[10px] text-slate-400">Click any pulsing node to view items</p>
+           </div>
+         </div>
+
+         <!-- Hotspot Details Drawer (Dynamic) -->
+         <div id="hotspot-info-banner" class="mt-4 p-4 bg-orange-50/70 border border-orange-100 rounded-2xl flex items-center justify-between">
+           <div class="flex items-center gap-3">
+             <div class="w-9 h-9 rounded-xl bg-brand text-white flex items-center justify-center font-bold text-sm">
+               📍
+             </div>
+             <div>
+               <p id="hotspot-name" class="text-xs font-bold text-gray-900">William Central Library (Level 2)</p>
+               <p id="hotspot-desc" class="text-[11px] text-gray-600">4 active cases registered at this location</p>
+             </div>
+           </div>
+           <button onclick="openReportWizard('lost', 'library')" class="px-3.5 py-1.5 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition cursor-pointer">
+             Report Here
+           </button>
+         </div>
+      </div>
+
+      <!-- Trusted Hubs Card -->
+      <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 flex flex-col justify-between">
+         <div>
+           <div class="w-14 h-14 bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm">
+             <i class="fa-solid fa-building-shield"></i>
+           </div>
+           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase mb-3 border border-blue-200">
+             <i class="fa-solid fa-circle-check"></i> 100% Verified Desks
+           </div>
+           <h2 class="text-2xl font-bold font-jakarta text-gray-900 mb-3">Campus Recovery Hubs</h2>
+           <p class="text-sm text-gray-500 mb-6 leading-relaxed font-medium">
+             Avoid awkward in-person meetups. Deposit or retrieve items securely at verified partner locations including Campus Security and Library circulation.
+           </p>
+
+           <div class="space-y-3 mb-6">
+             <div class="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
+               <span class="font-bold text-gray-800">Security HQ (Bldg A)</span>
+               <span class="text-emerald-600 font-bold">24/7 Open</span>
+             </div>
+             <div class="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between text-xs">
+               <span class="font-bold text-gray-800">Student Union Desk</span>
+               <span class="text-gray-500 font-medium">Until 9:00 PM</span>
+             </div>
+           </div>
+         </div>
+
+         <button onclick="openHubsModal()" class="w-full py-4 bg-orange-50 text-brand rounded-2xl font-bold text-sm hover:bg-orange-100 transition-colors border border-orange-200 cursor-pointer flex items-center justify-center gap-2">
+           <i class="fa-solid fa-location-crosshairs"></i>
+           <span>View All Campus Hubs</span>
+         </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-10 border-t border-gray-800 text-xs">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-2 text-white">
+        <i class="fa-solid fa-magnifying-glass-location text-brand text-base"></i>
+        <span class="font-bold font-jakarta text-sm">Find<span class="text-brand">It</span> Campus Network</span>
+      </div>
+      <p>© 2026 FindIt Platform. Connected Lost & Found Operating System.</p>
+      <div class="flex items-center space-x-4">
+        <a href="index.html" class="hover:text-white transition">Landing Page</a>
+        <a href="login.html" class="hover:text-white transition">Switch Account</a>
+        <a href="#" onclick="window.FindIt.toast('Security Hotline', 'Emergency Lost Property: 555-019-2831', 'info'); return false;" class="hover:text-white transition">Emergency Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Report Wizard Modal -->
+  <div id="modal-report-wizard" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative my-8">
+      <button onclick="closeReportWizard()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-2 text-brand font-bold text-xs uppercase tracking-wider mb-2">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>Recovery Wizard</span>
+      </div>
+      <h3 class="text-2xl font-extrabold font-jakarta text-gray-900 mb-1">Report Campus Item</h3>
+      <p class="text-xs text-gray-500 mb-6">Fill in details to activate AI matching across campus radar.</p>
+
+      <form id="report-wizard-form" onsubmit="handleReportSubmit(event)" class="space-y-4">
+        <!-- Step 1: Type (Lost vs Found) -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Item Status</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-brand bg-orange-50 text-brand font-bold text-sm cursor-pointer" id="btn-type-lost">
+              <input type="radio" name="reportType" value="lost" checked onchange="toggleReportType('lost')" class="hidden">
+              <i class="fa-solid fa-circle-question"></i>
+              <span>I Lost Something</span>
+            </label>
+            <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold text-sm cursor-pointer" id="btn-type-found">
+              <input type="radio" name="reportType" value="found" onchange="toggleReportType('found')" class="hidden">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+              <span>I Found An Item</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Category Selector -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Category</label>
+          <select id="report-category" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:border-brand">
+            <option value="Electronics">🎧 Electronics (AirPods, Phones, Chargers, Laptops)</option>
+            <option value="Cards & IDs">🪪 Student IDs, Badges, Credit Cards</option>
+            <option value="Personal Gear">🍶 Water Bottles, Flasks, Umbrellas</option>
+            <option value="Keys">🔑 Keys & Car Fobs</option>
+            <option value="Bags & Apparel">🎒 Backpacks, Jackets, Glasses</option>
+            <option value="Books & Notes">📚 Textbooks, Notebooks, Calculators</option>
+          </select>
+        </div>
+
+        <!-- Title -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Item Name & Brand</label>
+          <input type="text" id="report-title" required placeholder="e.g. Sony WH-1000XM4 Headphones (Silver)" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:border-brand">
+        </div>
+
+        <!-- Campus Location Hotspot -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Campus Location</label>
+            <select id="report-location" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:border-brand">
+              <option value="William Central Library - 2nd Floor">William Central Library</option>
+              <option value="Student Innovation Center - Atrium">Student Innovation Center</option>
+              <option value="North Dining Hall - Register Area">North Dining Hall</option>
+              <option value="Engineering Hall B - Computer Lab">Engineering Hall B</option>
+              <option value="Varsity Sports Complex - Gym">Varsity Sports Complex</option>
+              <option value="Campus Transit Center">Campus Transit Center</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Date & Time</label>
+            <input type="text" id="report-date" value="Today, Just now" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:border-brand">
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Detailed Description</label>
+          <textarea id="report-desc" rows="2" required placeholder="Color, distinguishing scratches, stickers, condition..." class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:border-brand"></textarea>
+        </div>
+
+        <!-- Zero-Knowledge Secret Question -->
+        <div class="p-4 bg-orange-50/80 rounded-2xl border border-orange-200/80">
+          <div class="flex items-center gap-2 text-xs font-bold text-orange-900 mb-1">
+            <i class="fa-solid fa-lock text-brand"></i>
+            <span>Blind Proof Challenge (Protects from False Claims)</span>
+          </div>
+          <p class="text-[11px] text-gray-600 mb-2">Ask a question only the legitimate owner would know (e.g., lock screen wallpaper or sticker name).</p>
+          <input type="text" id="report-secret" required placeholder="e.g. What sticker is on the back or what wallpaper is on screen?" class="w-full px-3.5 py-2.5 bg-white border border-orange-200 rounded-xl text-xs font-medium text-gray-800 focus:outline-none focus:border-brand">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-4 bg-brand text-white font-bold rounded-2xl shadow-lg shadow-brand-500/25 hover:bg-orange-600 transition cursor-pointer flex items-center justify-center gap-2 mt-4 text-sm">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Submit & Launch Campus Match</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Case Details & Match Modal -->
+  <div id="modal-case-detail" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative my-8">
+      <button onclick="closeCaseDetail()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="case-modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Rewards & Coupons Store Modal -->
+  <div id="modal-coupons" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative my-8">
+      <button onclick="closeCouponsModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-brand bg-orange-50 px-3 py-1 rounded-full border border-orange-100">Partner Store</span>
+          <h3 class="text-2xl font-black font-jakarta text-gray-900 mt-2">Campus Reward Coupons</h3>
+          <p class="text-xs text-gray-500">Spend your recovery points on campus perks.</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-gray-400 font-bold uppercase">Balance</p>
+          <p class="text-2xl font-black text-brand font-jakarta js-reward-points">350</p>
+        </div>
+      </div>
+
+      <div id="coupons-grid-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Campus Hubs Directory Modal -->
+  <div id="modal-hubs" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative my-8">
+      <button onclick="closeHubsModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-2 text-brand font-bold text-xs uppercase tracking-wider mb-2">
+        <i class="fa-solid fa-building-shield"></i>
+        <span>Official Desks</span>
+      </div>
+      <h3 class="text-2xl font-black font-jakarta text-gray-900 mb-1">Campus Recovery Hubs</h3>
+      <p class="text-xs text-gray-500 mb-6">Verified university desks with secure lockboxes and staff handovers.</p>
+
+      <div id="hubs-list-container" class="space-y-3.5">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // State
+    let activeFilter = 'all';
+
+    // Initialize Dashboard UI
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserInfo();
+      renderCases();
+      renderRadarHotspots();
+      renderCoupons();
+      renderHubs();
+    });
+
+    // Populate user profile info
+    function loadUserInfo() {
+      const user = window.FindIt.getUser();
+      document.getElementById('nav-user-name').textContent = user.name || "Alex Morgan";
+      document.getElementById('nav-user-role').textContent = user.role || "Student";
+      document.getElementById('welcome-user-name').textContent = (user.name || "Alex").split(' ')[0];
+      document.getElementById('nav-user-avatar').textContent = user.avatar || "AM";
+      document.getElementById('menu-user-email').textContent = user.email || "alex.m@campus.edu";
+    }
+
+    // Filter Cases Tabs
+    function filterCases(type) {
+      activeFilter = type;
+      ['all', 'lost', 'found'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}-cases`);
+        if (t === type) {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-white text-gray-900 shadow-sm transition font-bold';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg hover:text-gray-900 transition font-medium text-gray-500';
+        }
+      });
+      renderCases();
+    }
+
+    // Render Active Cases List
+    function renderCases() {
+      const container = document.getElementById('cases-list-container');
+      const allCases = window.FindIt.getCases();
+      
+      const filtered = allCases.filter(c => {
+        if (activeFilter === 'all') return true;
+        return c.type === activeFilter;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+            <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
+            <p class="text-xs font-semibold">No cases match the selected filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        let badgeHtml = '';
+        if (item.matchScore) {
+          badgeHtml = `<span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-extrabold text-xs rounded-full inline-flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ${item.matchScore}% Match Found
+          </span>`;
+        } else {
+          badgeHtml = `<span class="px-3 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full inline-flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span> Radar Active
+          </span>`;
+        }
+
+        return `
+          <div onclick="openCaseDetail('${item.id}')" class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 bg-[#fdfcf8] hover:bg-orange-50/40 rounded-2xl border border-gray-200/90 hover:border-orange-300 transition-all cursor-pointer shadow-sm group">
+            <div class="flex items-center space-x-4 mb-3 sm:mb-0">
+              <div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-2xl shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                ${item.icon || '📦'}
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-base font-bold text-gray-900 group-hover:text-brand transition-colors font-jakarta">${item.title}</h3>
+                  <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded ${item.type === 'lost' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'}">
+                    ${item.type}
+                  </span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1.5">
+                  <i class="fa-solid fa-location-dot text-gray-400"></i> ${item.location} &middot; <span class="text-gray-400">${item.date}</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-2">
+              ${badgeHtml}
+              <span class="text-[11px] text-brand font-bold uppercase tracking-wider flex items-center gap-1">
+                <span>View Details</span>
+                <i class="fa-solid fa-chevron-right text-[9px]"></i>
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Radar Hotspots on the Map
+    function renderRadarHotspots() {
+      const container = document.getElementById('radar-hotspots-container');
+      const hotspots = window.FindItData.hotspots;
+
+      container.innerHTML = hotspots.map(h => {
+        return `
+          <div onclick="selectHotspot('${h.id}')" style="left: ${h.x}%; top: ${h.y}%;" class="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20">
+            <!-- Pulsing ring -->
+            <div class="w-8 h-8 rounded-full bg-brand/30 animate-ping absolute inset-0"></div>
+            <!-- Hotspot Node -->
+            <div class="w-8 h-8 rounded-full bg-brand border-2 border-white text-white flex items-center justify-center text-xs shadow-lg group-hover:scale-125 transition-transform">
+              ${h.icon}
+            </div>
+            <!-- Tooltip -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] font-bold py-1 px-2.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-gray-700">
+              ${h.name} (${h.itemsCount} items)
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectHotspot(id) {
+      const spot = window.FindItData.hotspots.find(h => h.id === id);
+      if (!spot) return;
+      document.getElementById('hotspot-name').textContent = `${spot.name} (${spot.area})`;
+      document.getElementById('hotspot-desc').textContent = `${spot.itemsCount} items logged: ${spot.activeItems.slice(0, 2).join(', ')}`;
+      window.FindIt.toast(spot.name, `Selected hotspot: ${spot.description}`, 'info');
+    }
+
+    // Case Details Modal
+    function openCaseDetail(id) {
+      const caseItem = window.FindIt.getCases().find(c => c.id === id);
+      if (!caseItem) return;
+
+      const body = document.getElementById('case-modal-body');
+      body.innerHTML = `
+        <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand mb-2">
+          <span>${caseItem.category}</span> &middot; <span>${caseItem.id}</span>
+        </div>
+        <h3 class="text-2xl font-black font-jakarta text-gray-900 mb-2">${caseItem.title}</h3>
+        
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2.5 py-1 bg-orange-100 text-orange-800 text-xs font-bold rounded-lg uppercase">
+            ${caseItem.type === 'lost' ? 'Lost Item' : 'Found Item'}
+          </span>
+          ${caseItem.matchScore ? `
+            <span class="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-lg">
+              ${caseItem.matchScore}% Match Certainty
+            </span>
+          ` : ''}
+        </div>
+
+        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-xs space-y-2 mb-4">
+          <div class="flex justify-between">
+            <span class="text-gray-500 font-semibold">Campus Hotspot:</span>
+            <span class="font-bold text-gray-900">${caseItem.location}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500 font-semibold">Logged On:</span>
+            <span class="font-bold text-gray-900">${caseItem.date} at ${caseItem.time || '11:00 AM'}</span>
+          </div>
+          ${caseItem.foundLocation ? `
+            <div class="flex justify-between">
+              <span class="text-gray-500 font-semibold">Held At:</span>
+              <span class="font-bold text-brand">${caseItem.foundLocation}</span>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="mb-4">
+          <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Description</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">${caseItem.description}</p>
+        </div>
+
+        <!-- Blind Verification Interactive Challenge -->
+        <div class="p-4 bg-orange-50 rounded-2xl border border-orange-200 mb-6">
+          <h4 class="text-xs font-extrabold text-orange-950 flex items-center gap-1.5 mb-1">
+            <i class="fa-solid fa-shield-halved text-brand"></i>
+            <span>Zero-Knowledge Verification Challenge</span>
+          </h4>
+          <p class="text-[11px] text-gray-700 mb-3">${caseItem.secretQuestion || "What is a distinguishing mark or color only the owner knows?"}</p>
+          <div class="flex gap-2">
+            <input type="text" id="verification-input" placeholder="Enter owner secret answer..." class="flex-1 px-3 py-2 bg-white border border-orange-200 rounded-xl text-xs focus:outline-none focus:border-brand">
+            <button onclick="submitVerificationProof('${caseItem.id}')" class="px-4 py-2 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition cursor-pointer">
+              Verify
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="openHubsModal()" class="py-3 bg-gray-100 text-gray-800 font-bold rounded-xl text-xs hover:bg-gray-200 transition cursor-pointer">
+            Campus Drop Desks
+          </button>
+          <button onclick="closeCaseDetail()" class="py-3 bg-brand text-white font-bold rounded-xl text-xs hover:bg-orange-600 transition cursor-pointer">
+            Close View
+          </button>
+        </div>
+      `;
+
+      const modal = document.getElementById('modal-case-detail');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCaseDetail() {
+      const modal = document.getElementById('modal-case-detail');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitVerificationProof(caseId) {
+      const input = document.getElementById('verification-input');
+      if (!input || !input.value.trim()) {
+        window.FindIt.toast('Input Required', 'Please enter your verification answer.', 'warning');
+        return;
+      }
+      closeCaseDetail();
+      window.FindIt.toast('Proof Verified!', 'Zero-knowledge verification succeeded! +100 Karma points added.', 'success');
+      window.FindIt.addPoints(100);
+    }
+
+    // Report Wizard Handlers
+    function openReportWizard(defaultType = 'lost', hotspotId = null) {
+      if (defaultType === 'found') {
+        toggleReportType('found');
+      } else {
+        toggleReportType('lost');
+      }
+      const modal = document.getElementById('modal-report-wizard');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeReportWizard() {
+      const modal = document.getElementById('modal-report-wizard');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleReportType(type) {
+      const btnLost = document.getElementById('btn-type-lost');
+      const btnFound = document.getElementById('btn-type-found');
+      if (type === 'lost') {
+        btnLost.className = 'flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-brand bg-orange-50 text-brand font-bold text-sm cursor-pointer';
+        btnFound.className = 'flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold text-sm cursor-pointer';
+      } else {
+        btnFound.className = 'flex items-center justify-center gap-2 p-3 rounded-xl border-2 border-brand bg-orange-50 text-brand font-bold text-sm cursor-pointer';
+        btnLost.className = 'flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold text-sm cursor-pointer';
+      }
+    }
+
+    function handleReportSubmit(e) {
+      e.preventDefault();
+      const typeRadio = document.querySelector('input[name="reportType"]:checked');
+      const type = typeRadio ? typeRadio.value : 'lost';
+      const category = document.getElementById('report-category').value;
+      const title = document.getElementById('report-title').value;
+      const location = document.getElementById('report-location').value;
+      const date = document.getElementById('report-date').value;
+      const desc = document.getElementById('report-desc').value;
+      const secret = document.getElementById('report-secret').value;
+
+      const categoryIcons = {
+        'Electronics': '🎧',
+        'Cards & IDs': '🪪',
+        'Personal Gear': '🍶',
+        'Keys': '🔑',
+        'Bags & Apparel': '🎒',
+        'Books & Notes': '📚'
+      };
+
+      const newCase = {
+        id: 'CASE-' + Math.floor(1000 + Math.random() * 9000),
+        title: title,
+        category: category,
+        status: type === 'lost' ? 'Scanning Campus' : 'Deposited at Hub',
+        type: type,
+        matchScore: type === 'lost' ? 89 : 94,
+        date: date,
+        time: 'Just now',
+        location: location,
+        icon: categoryIcons[category] || '📦',
+        description: desc,
+        secretQuestion: secret,
+        foundLocation: type === 'found' ? location : null
+      };
+
+      window.FindIt.addCase(newCase);
+      closeReportWizard();
+      renderCases();
+      window.FindIt.toast('Report Published!', `"${title}" is now active on the campus radar. +50 Reward points awarded!`, 'success');
+    }
+
+    // Coupons Store
+    function openCouponsModal() {
+      renderCoupons();
+      const modal = document.getElementById('modal-coupons');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCouponsModal() {
+      const modal = document.getElementById('modal-coupons');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderCoupons() {
+      const container = document.getElementById('coupons-grid-container');
+      const coupons = window.FindItData.coupons;
+      const currentPts = window.FindIt.getPoints();
+
+      container.innerHTML = coupons.map(c => {
+        const canAfford = currentPts >= c.points;
+        return `
+          <div class="p-5 bg-gray-50 rounded-2xl border border-gray-200 flex flex-col justify-between hover:border-orange-300 transition-all">
+            <div>
+              <div class="flex justify-between items-start mb-3">
+                <span class="text-3xl">${c.icon}</span>
+                <span class="px-2 py-0.5 bg-orange-100 text-brand text-[10px] font-extrabold rounded-full uppercase">${c.badge}</span>
+              </div>
+              <h4 class="font-bold text-gray-900 text-sm font-jakarta">${c.title}</h4>
+              <p class="text-xs text-gray-500 mt-1">${c.partner}</p>
+            </div>
+            
+            <div class="mt-4 pt-3 border-t border-gray-200 flex justify-between items-center">
+              <span class="font-black text-brand text-sm">${c.points} pts</span>
+              <button onclick="redeemCoupon('${c.id}', ${c.points})" class="px-3.5 py-1.5 ${canAfford ? 'bg-brand hover:bg-orange-600 text-white' : 'bg-gray-200 text-gray-400 cursor-not-allowed'} text-xs font-bold rounded-xl transition cursor-pointer">
+                Redeem
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function redeemCoupon(couponId, cost) {
+      const coupon = window.FindItData.coupons.find(c => c.id === couponId);
+      if (!coupon) return;
+
+      if (!window.FindIt.deductPoints(cost)) {
+        window.FindIt.toast('Insufficient Points', `You need ${cost} points. Earn more by reporting or returning items!`, 'warning');
+        return;
+      }
+
+      renderCoupons();
+      window.FindIt.toast('Voucher Unlocked!', `Use code: ${coupon.code} at ${coupon.partner}`, 'success');
+    }
+
+    // Hubs Directory
+    function openHubsModal() {
+      const modal = document.getElementById('modal-hubs');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeHubsModal() {
+      const modal = document.getElementById('modal-hubs');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderHubs() {
+      const container = document.getElementById('hubs-list-container');
+      const hubs = window.FindItData.hubs;
+
+      container.innerHTML = hubs.map(h => {
+        return `
+          <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 flex justify-between items-center hover:border-orange-300 transition">
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-xs text-gray-900">${h.name}</h4>
+                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-md">${h.hours}</span>
+              </div>
+              <p class="text-[11px] text-gray-500 mt-0.5">${h.building} &middot; ${h.room}</p>
+              <p class="text-[11px] text-brand font-semibold mt-1">Tel: ${h.phone}</p>
+            </div>
+            <button onclick="window.FindIt.toast('Directions Sent', 'Navigating to ${h.building}...', 'info')" class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-100 transition shadow-sm cursor-pointer">
+              Directions
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openDemoModal(type) {
+      if (type === 'zk') {
+        window.FindIt.toast('Zero-Knowledge', 'All sensitive identifiers are hashed before broadcast to prevent fraudulent claims.', 'info');
+      } else {
+        window.FindIt.toast('Blind Messaging', 'Anonymous relay channels let finders and owners verify pick-up without sharing phone numbers.', 'info');
+      }
+    }
+  </script>
+</body>
+</html>

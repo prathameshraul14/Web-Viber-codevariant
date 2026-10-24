@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt - Global Lost & Found Platform | Worldwide Recovery Network</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316', // Primary Vibrant Orange
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom Glowing & Glassmorphism Details */
+        .orange-gradient-bg {
+            background: radial-gradient(circle at 10% 20%, rgba(255, 237, 213, 0.8) 0%, rgba(255, 255, 255, 1) 90%);
+        }
+        .hero-orange-glow {
+            box-shadow: 0 20px 50px -10px rgba(249, 115, 22, 0.25);
+        }
+        .input-focus-glow:focus-within {
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+            border-color: #f97316;
+        }
+        /* Toast Notification Styling */
+        #toast {
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 orange-gradient-bg min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+
+    <!-- Ambient Background Graphic Accents -->
+    <div class="fixed top-0 right-0 -z-10 translate-x-1/3 -translate-y-1/4 w-[600px] h-[600px] bg-gradient-to-br from-orange-300/30 to-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="fixed bottom-0 left-0 -z-10 -translate-x-1/3 translate-y-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-amber-200/40 to-brand-400/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Header Navigation Bar -->
+    <header class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between relative z-10">
+        <a href="index.html" class="flex items-center space-x-3 cursor-pointer group">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/30 group-hover:scale-105 transition-transform">
+                <i class="fa-solid fa-magnifying-glass-location text-lg"></i>
+            </div>
+            <div>
+                <span class="text-2xl font-extrabold tracking-tight text-slate-900">Find<span class="text-brand-500">It</span></span>
+                <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 -mt-1">Global Recovery Network</span>
+            </div>
+        </a>
+
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-white text-slate-700 border border-slate-200 hidden sm:inline-flex items-center gap-1.5 transition shadow-sm">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                Back to Home
+            </a>
+            <span class="text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-100 text-brand-700 border border-brand-200 hidden sm:inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-earth-americas text-xs text-brand-600"></i>
+                Worldwide Platform
+            </span>
+            <a href="#help" onclick="showToast('Global Support', 'Connecting to 24/7 Global Hub Support...', 'info')" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors px-3 py-2 rounded-lg hover:bg-orange-50/50">
+                <i class="fa-regular fa-circle-question mr-1"></i> Need Help?
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow flex items-center justify-center px-4 sm:px-6 py-8 relative z-10">
+        <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 bg-white/90 backdrop-blur-xl rounded-3xl border border-white/80 shadow-2xl shadow-orange-950/5 overflow-hidden">
+            
+            <!-- Left Branding & Global Recovery Panel (Desktop) -->
+            <div class="lg:col-span-5 bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 text-white p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden">
+                <!-- Background Pattern overlay -->
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-medium text-orange-100 border border-white/20 mb-6">
+                        <i class="fa-solid fa-earth-americas text-amber-300"></i> Worldwide Recovery Network
+                    </div>
+                    <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight mb-4">
+                        Never Lost. <br>Always Connected.
+                    </h1>
+                    <p class="text-orange-100 text-sm leading-relaxed mb-8">
+                        Join individuals, businesses, airports, transit authorities, and secure hubs worldwide recovering lost belongings through smart location matching.
+                    </p>
+                </div>
+
+                <!-- Live Worldwide Activity Snippet -->
+                <div class="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 mb-8">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-orange-100 uppercase tracking-wider">Live Recovery Match</span>
+                        <span class="text-[10px] bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 px-2 py-0.5 rounded-full font-medium">Verified Handover</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+                            <i class="fa-solid fa-suitcase-rolling text-lg"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h4 class="text-sm font-bold text-white truncate">Traveler Luggage Tag</h4>
+                            <p class="text-xs text-orange-100/80 truncate">Recovered at Central Station • 94% Match</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Stats -->
+                <div class="relative z-10 grid grid-cols-3 gap-2 pt-6 border-t border-white/15 text-center">
+                    <div>
+                        <div class="text-xl font-extrabold text-white">120+</div>
+                        <div class="text-[11px] text-orange-200 font-medium">Cities Active</div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-extrabold text-white">85%</div>
+                        <div class="text-[11px] text-orange-200 font-medium">Match Rate</div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-extrabold text-white">Secure</div>
+                        <div class="text-[11px] text-orange-200 font-medium">Verification</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Authentication Form Panel -->
+            <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-white">
+                
+                <!-- Tab Switching Header -->
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-8">
+                    <div class="flex space-x-6">
+                        <button id="tab-signin" onclick="switchTab('signin')" class="text-lg font-bold pb-2 text-brand-600 border-b-2 border-brand-500 transition-all duration-200 cursor-pointer">
+                            Sign In
+                        </button>
+                        <button id="tab-signup" onclick="switchTab('signup')" class="text-lg font-bold pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all duration-200 cursor-pointer">
+                            Create Account
+                        </button>
+                    </div>
+                    <span class="text-xs text-slate-400 hidden sm:inline-block">Global Platform v3.0</span>
+                </div>
+
+                <!-- Dynamic Form Container -->
+                <div id="auth-form-wrapper">
+                    
+                    <!-- ================= SIGN IN FORM ================= -->
+                    <form id="form-signin" onsubmit="handleAuthSubmit(event, 'signin')" class="space-y-5">
+                        <div class="space-y-1">
+                            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h2>
+                            <p class="text-sm text-slate-500">Sign in to track your reported items and active matches.</p>
+                        </div>
+
+                        <!-- Email Address Input -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Email Address</label>
+                            <div class="relative rounded-xl border border-slate-200 bg-slate-50/50 input-focus-glow transition-all">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </div>
+                                <input type="email" id="signin-identifier" required placeholder="alex.morgan@example.com" value="alex.morgan@example.com"
+                                    class="w-full pl-10 pr-4 py-3 bg-transparent text-slate-800 text-sm focus:outline-none rounded-xl">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Password</label>
+                                <a href="#" onclick="showToast('Password Reset', 'Password recovery link sent to registered email address.', 'info')" class="text-xs font-semibold text-brand-600 hover:text-brand-700">Forgot?</a>
+                            </div>
+                            <div class="relative rounded-xl border border-slate-200 bg-slate-50/50 input-focus-glow transition-all">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-lock text-xs"></i>
+                                </div>
+                                <input type="password" id="signin-password" required placeholder="••••••••" value="password123"
+                                    class="w-full pl-10 pr-10 py-3 bg-transparent text-slate-800 text-sm focus:outline-none rounded-xl">
+                                <button type="button" onclick="togglePasswordVisibility('signin-password', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Remember Me -->
+                        <div class="flex items-center justify-between pt-1">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" checked class="w-4 h-4 rounded border-slate-300 text-brand-500 focus:ring-brand-400">
+                                <span class="text-xs text-slate-600 font-medium">Keep me signed in</span>
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full py-3.5 px-4 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 cursor-pointer">
+                            <span>Sign In to Account</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                    </form>
+
+                    <!-- ================= SIGN UP FORM ================= -->
+                    <form id="form-signup" onsubmit="handleAuthSubmit(event, 'signup')" class="space-y-4 hidden">
+                        <div class="space-y-1">
+                            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Create an Account</h2>
+                            <p class="text-sm text-slate-500">Join the worldwide platform to report lost items or deposit found belongings.</p>
+                        </div>
+
+                        <!-- Global Account Type (People, Business, Secure Hubs) -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Account Type</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" onclick="selectRole('People / Individual')" id="role-individual" class="role-btn p-2.5 rounded-xl border-2 border-brand-500 bg-brand-50 text-brand-700 flex flex-col items-center justify-center transition-all cursor-pointer">
+                                    <i class="fa-solid fa-user mb-1 text-base"></i>
+                                    <span class="text-xs font-bold">People</span>
+                                </button>
+                                <button type="button" onclick="selectRole('Business / Org')" id="role-business" class="role-btn p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-200 flex flex-col items-center justify-center transition-all cursor-pointer">
+                                    <i class="fa-solid fa-building mb-1 text-base"></i>
+                                    <span class="text-xs font-bold">Business</span>
+                                </button>
+                                <button type="button" onclick="selectRole('Secure Hub / Desk')" id="role-hub" class="role-btn p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-200 flex flex-col items-center justify-center transition-all cursor-pointer">
+                                    <i class="fa-solid fa-shield-halved mb-1 text-base"></i>
+                                    <span class="text-xs font-bold">Secure Hub</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="selected-role" value="People / Individual">
+                        </div>
+
+                        <!-- Full Name / Org Name -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Name or Organization Name</label>
+                            <div class="relative rounded-xl border border-slate-200 bg-slate-50/50 input-focus-glow transition-all">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-regular fa-user"></i>
+                                </div>
+                                <input type="text" id="signup-name" required placeholder="Alex Morgan" 
+                                    class="w-full pl-10 pr-4 py-2.5 bg-transparent text-slate-800 text-sm focus:outline-none rounded-xl">
+                            </div>
+                        </div>
+
+                        <!-- Email & City Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Email Address</label>
+                                <div class="relative rounded-xl border border-slate-200 bg-slate-50/50 input-focus-glow transition-all">
+                                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </div>
+                                    <input type="email" id="signup-email" required placeholder="alex@domain.com" 
+                                        class="w-full pl-10 pr-4 py-2.5 bg-transparent text-slate-800 text-sm focus:outline-none rounded-xl">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">City / Location</label>
+                                <div class="relative rounded-xl border border-slate-200 bg-slate-50/50 input-focus-glow transition-all">
+                                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <input type="text" id="signup-city" required placeholder="New York, London, Tokyo..." 
+                                        class="w-full pl-10 pr-4 py-2.5 bg-transparent text-slate-800 text-sm focus:outline-none rounded-xl">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password Field with strength indicator -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Password</label>
+                            <div class="relative rounded-xl border border-slate-200 bg-slate-50/50 input-focus-glow transition-all">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-lock text-xs"></i>
+                                </div>
+                                <input type="password" id="signup-password" oninput="checkPasswordStrength(this.value)" required placeholder="At least 8 characters" 
+                                    class="w-full pl-10 pr-10 py-2.5 bg-transparent text-slate-800 text-sm focus:outline-none rounded-xl">
+                                <button type="button" onclick="togglePasswordVisibility('signup-password', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <!-- Strength meter -->
+                            <div class="flex items-center gap-1.5 mt-2">
+                                <div id="str-1" class="h-1 flex-1 bg-slate-200 rounded-full transition-all"></div>
+                                <div id="str-2" class="h-1 flex-1 bg-slate-200 rounded-full transition-all"></div>
+                                <div id="str-3" class="h-1 flex-1 bg-slate-200 rounded-full transition-all"></div>
+                                <span id="str-label" class="text-[10px] font-semibold text-slate-400 ml-1">Weak</span>
+                            </div>
+                        </div>
+
+                        <!-- Terms Agreement -->
+                        <div class="pt-1">
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" required checked class="mt-0.5 w-4 h-4 rounded border-slate-300 text-brand-500 focus:ring-brand-400">
+                                <span class="text-xs text-slate-600">
+                                    I agree to FindIt's <a href="#" class="text-brand-600 underline font-medium">Terms of Service</a> and <a href="#" class="text-brand-600 underline font-medium">Global Privacy Policy</a>.
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full py-3.5 px-4 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 mt-2 cursor-pointer">
+                            <span>Register Account</span>
+                            <i class="fa-solid fa-user-plus text-sm"></i>
+                        </button>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
+                        <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-3 text-slate-400 font-semibold tracking-wider">Or Continue With</span></div>
+                    </div>
+
+                    <!-- Single Sign-On Options -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="handleSSO('Google')" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50/80 text-slate-700 text-xs font-bold transition-all cursor-pointer">
+                            <i class="fa-brands fa-google text-red-500"></i>
+                            <span>Google</span>
+                        </button>
+                        <button type="button" onclick="handleSSO('Apple ID')" class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50/80 text-slate-700 text-xs font-bold transition-all cursor-pointer">
+                            <i class="fa-brands fa-apple text-slate-900"></i>
+                            <span>Apple ID</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 relative z-10 gap-2">
+        <p>© 2026 FindIt Platform. Global Lost & Found Network.</p>
+        <div class="flex items-center space-x-4">
+            <a href="#" class="hover:text-brand-600 transition-colors">Privacy Policy</a>
+            <span>•</span>
+            <a href="#" class="hover:text-brand-600 transition-colors">Community Safety</a>
+            <span>•</span>
+            <a href="#" class="hover:text-brand-600 transition-colors">Help Center</a>
+        </div>
+    </footer>
+
+    <!-- Toast / Notification Element -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700 max-w-md">
+        <div id="toast-icon" class="w-8 h-8 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+            <h5 id="toast-title" class="text-sm font-bold text-white">Notification</h5>
+            <p id="toast-message" class="text-xs text-slate-300">Action performed successfully.</p>
+        </div>
+    </div>
+
+    <!-- Interactive JavaScript Implementation -->
+    <script>
+        // Tab Switch Logic
+        function switchTab(tab) {
+            const btnSignin = document.getElementById('tab-signin');
+            const btnSignup = document.getElementById('tab-signup');
+            const formSignin = document.getElementById('form-signin');
+            const formSignup = document.getElementById('form-signup');
+
+            if (tab === 'signin') {
+                btnSignin.className = 'text-lg font-bold pb-2 text-brand-600 border-b-2 border-brand-500 transition-all duration-200 cursor-pointer';
+                btnSignup.className = 'text-lg font-bold pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all duration-200 cursor-pointer';
+                formSignin.classList.remove('hidden');
+                formSignup.classList.add('hidden');
+            } else {
+                btnSignup.className = 'text-lg font-bold pb-2 text-brand-600 border-b-2 border-brand-500 transition-all duration-200 cursor-pointer';
+                btnSignin.className = 'text-lg font-bold pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-all duration-200 cursor-pointer';
+                formSignup.classList.remove('hidden');
+                formSignin.classList.add('hidden');
+            }
+        }
+
+        // Role Selection Handler (People, Business, Secure Hubs)
+        function selectRole(role) {
+            document.getElementById('selected-role').value = role;
+            const roles = [
+                { id: 'role-individual', val: 'People / Individual' },
+                { id: 'role-business', val: 'Business / Org' },
+                { id: 'role-hub', val: 'Secure Hub / Desk' }
+            ];
+            
+            roles.forEach(r => {
+                const btn = document.getElementById(r.id);
+                if (btn) {
+                    if (r.val === role) {
+                        btn.className = 'role-btn p-2.5 rounded-xl border-2 border-brand-500 bg-brand-50 text-brand-700 flex flex-col items-center justify-center transition-all shadow-sm cursor-pointer';
+                    } else {
+                        btn.className = 'role-btn p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-200 flex flex-col items-center justify-center transition-all cursor-pointer';
+                    }
+                }
+            });
+        }
+
+        // Password Visibility Toggle
+        function togglePasswordVisibility(fieldId, btn) {
+            const field = document.getElementById(fieldId);
+            const icon = btn.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash';
+            } else {
+                field.type = 'password';
+                icon.className = 'fa-regular fa-eye';
+            }
+        }
+
+        // Live Password Strength Indicator
+        function checkPasswordStrength(val) {
+            const s1 = document.getElementById('str-1');
+            const s2 = document.getElementById('str-2');
+            const s3 = document.getElementById('str-3');
+            const label = document.getElementById('str-label');
+
+            if (!s1 || !s2 || !s3 || !label) return;
+
+            if (val.length === 0) {
+                s1.className = 'h-1 flex-1 bg-slate-200 rounded-full transition-all';
+                s2.className = 'h-1 flex-1 bg-slate-200 rounded-full transition-all';
+                s3.className = 'h-1 flex-1 bg-slate-200 rounded-full transition-all';
+                label.textContent = 'Weak';
+                label.className = 'text-[10px] font-semibold text-slate-400 ml-1';
+            } else if (val.length < 6) {
+                s1.className = 'h-1 flex-1 bg-red-500 rounded-full transition-all';
+                s2.className = 'h-1 flex-1 bg-slate-200 rounded-full transition-all';
+                s3.className = 'h-1 flex-1 bg-slate-200 rounded-full transition-all';
+                label.textContent = 'Weak';
+                label.className = 'text-[10px] font-semibold text-red-500 ml-1';
+            } else if (val.length < 10) {
+                s1.className = 'h-1 flex-1 bg-amber-500 rounded-full transition-all';
+                s2.className = 'h-1 flex-1 bg-amber-500 rounded-full transition-all';
+                s3.className = 'h-1 flex-1 bg-slate-200 rounded-full transition-all';
+                label.textContent = 'Medium';
+                label.className = 'text-[10px] font-semibold text-amber-600 ml-1';
+            } else {
+                s1.className = 'h-1 flex-1 bg-emerald-500 rounded-full transition-all';
+                s2.className = 'h-1 flex-1 bg-emerald-500 rounded-full transition-all';
+                s3.className = 'h-1 flex-1 bg-emerald-500 rounded-full transition-all';
+                label.textContent = 'Strong';
+                label.className = 'text-[10px] font-semibold text-emerald-600 ml-1';
+            }
+        }
+
+        // Toast Notification Trigger
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            if (!toast || !toastTitle || !toastMsg || !toastIcon) return;
+
+            toastTitle.textContent = title;
+            toastMsg.textContent = message;
+
+            if (type === 'success') {
+                toastIcon.className = 'w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            } else if (type === 'info') {
+                toastIcon.className = 'w-8 h-8 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0';
+                toastIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3500);
+        }
+
+        // Quick SSO Handler
+        function handleSSO(provider) {
+            const user = {
+                name: "Alex Morgan",
+                email: "alex.morgan@domain.com",
+                role: "People / Individual",
+                points: 350,
+                avatar: "AM"
+            };
+            localStorage.setItem('findit_user', JSON.stringify(user));
+            localStorage.setItem('findit_logged_in', 'true');
+            showToast(provider, `Authenticating with ${provider}... Redirecting to Dashboard.`, 'success');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 850);
+        }
+
+        // Form Submit Handler
+        function handleAuthSubmit(e, mode) {
+            e.preventDefault();
+            
+            if (mode === 'signin') {
+                const identifier = document.getElementById('signin-identifier').value;
+                const cleanName = identifier.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                const user = {
+                    name: cleanName || "Alex Morgan",
+                    email: identifier,
+                    role: "People / Individual",
+                    points: parseInt(localStorage.getItem('findit_points') || '350', 10),
+                    avatar: (cleanName || "AM").split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
+                };
+                localStorage.setItem('findit_user', JSON.stringify(user));
+                localStorage.setItem('findit_logged_in', 'true');
+                showToast('Welcome Back!', `Signing in as ${identifier}... Redirecting to Dashboard.`, 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 850);
+            } else {
+                const name = document.getElementById('signup-name').value;
+                const role = document.getElementById('selected-role').value;
+                const email = document.getElementById('signup-email').value;
+                const city = document.getElementById('signup-city').value;
+                const user = {
+                    name: name || "Alex Morgan",
+                    email: email,
+                    role: role,
+                    location: city,
+                    points: 400, // +50 bonus points for signing up
+                    avatar: (name || "AM").split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
+                };
+                localStorage.setItem('findit_user', JSON.stringify(user));
+                localStorage.setItem('findit_points', '400');
+                localStorage.setItem('findit_logged_in', 'true');
+                showToast('Account Created!', `Welcome ${name} (${role})! Initialized for ${city || 'Worldwide'}.`, 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 850);
+            }
+        }
+    </script>
+</body>
+</html>

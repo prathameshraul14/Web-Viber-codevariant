@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Campus Recovery Protocol</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; margin: 0; }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="text-gray-900 selection:bg-orange-200">
+  
+  <!-- 1. HERO SECTION (Split-screen with smooth fade) -->
+  <section class="relative w-full h-screen flex items-center overflow-hidden bg-[#fdfcf8]">
+    
+    <!-- Background Video (Pushed to the right, naturally crops edges) -->
+    <div class="absolute inset-y-0 right-0 w-full md:w-[75%] z-0">
+      <video id="hero-video" autoplay loop muted playsinline class="w-full h-full object-cover">
+        <!-- REPLACE WITH YOUR VIDEO FILE NAME -->
+        <source src="finditintro.mp4" type="video/mp4">
+      </video>
+      <!-- The Smooth Fade Overlay: Fades from background color to clear, removing the hard line -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#fdfcf8] via-[#fdfcf8]/80 to-black/20 w-full h-full"></div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-6 md:px-12 py-6">
+      <div class="flex items-center space-x-3">
+        <div class="text-orange-500">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-extrabold tracking-tight leading-none text-gray-900">FindIt</span>
+          <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase mt-1">Recovery Protocol</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="#" class="text-sm font-bold text-gray-700 hover:text-black transition">Sign In</a>
+        <a href="#" class="px-5 py-2 bg-black text-white text-sm font-bold rounded-lg hover:bg-gray-800 transition shadow-lg">Log In</a>
+      </div>
+    </header>
+
+    <!-- Main Text Content (Left Side) -->
+    <div class="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12">
+      <div class="w-full md:w-[55%] space-y-6">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-orange-100 text-orange-800 text-[11px] font-bold tracking-widest uppercase rounded border border-orange-200">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+          </span>
+          <span>Live Campus Network 2024</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-[1.1] tracking-tight">
+          Building the <br /> Operating System <br /> for Lost & Found.
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-700 max-w-lg font-medium leading-relaxed">
+          AI-assisted matching connecting lost items, students, and campus security through one shared operational view.
+        </p>
+        
+        <div class="pt-4 flex space-x-4">
+          <a href="#how-it-works" class="inline-flex justify-center items-center px-8 py-4 bg-[#f97316] text-white font-bold rounded-lg hover:bg-orange-600 transition shadow-lg hover:-translate-y-1">
+            Enter Platform &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sound Toggle -->
+    <div class="absolute bottom-8 right-8 z-30">
+      <button id="mute-toggle" class="px-4 py-2 bg-white/90 backdrop-blur border border-gray-300 text-gray-800 text-xs font-bold uppercase rounded-full shadow-lg hover:bg-white hover:scale-105 transition-all cursor-pointer">
+        <span id="mute-text">Sound Off</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 2. STATS SECTION -->
+  <section class="py-12 bg-gray-900 text-white border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-700">
+      <div class="py-4">
+        <h4 class="text-4xl font-black text-orange-500 mb-1">70%</h4>
+        <p class="text-gray-400 font-medium text-sm uppercase tracking-wide">Less time searching</p>
+      </div>
+      <div class="py-4">
+        <h4 class="text-4xl font-black text-orange-500 mb-1">3x</h4>
+        <p class="text-gray-400 font-medium text-sm uppercase tracking-wide">Higher recovery rate</p>
+      </div>
+      <div class="py-4">
+        <h4 class="text-4xl font-black text-orange-500 mb-1">100%</h4>
+        <p class="text-gray-400 font-medium text-sm uppercase tracking-wide">Secure Verification</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. HOW IT WORKS SECTION -->
+  <section id="how-it-works" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-extrabold text-gray-900">A Complete Recovery Journey</h2>
+        <p class="text-gray-500 mt-4 text-lg">From scattered posts to a guided recovery system.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">1</div>
+          <h3 class="text-xl font-bold mb-3">Report</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Log the lost or found item with key details, a photo, and the last known location instantly.</p>
+        </div>
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">2</div>
+          <h3 class="text-xl font-bold mb-3">Match</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Our AI checks spatial hotspots and finds possible matches with a high-accuracy similarity score.</p>
+        </div>
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">3</div>
+          <h3 class="text-xl font-bold mb-3">Verify</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Confirm ownership safely using blind hidden details to prevent false claims.</p>
+        </div>
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold text-xl mb-6">4</div>
+          <h3 class="text-xl font-bold mb-3">Recover</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Arrange a secure and verified handover at the designated campus security desk.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ADVANCED CAPABILITIES SECTION -->
+  <section class="py-24 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="mb-16">
+        <h2 class="text-4xl font-extrabold text-gray-900">Powerful Capabilities</h2>
+        <p class="text-gray-500 mt-4 text-lg">Built with modern tools for a seamless experience.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Interactive Map -->
+        <div class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">📍 Interactive Campus Map</h3>
+            <p class="text-gray-600">Visual spatial tracking of lost items. See real-time hotspots, library drop zones, and campus desk locations directly on your screen.</p>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+
+        <!-- 100% Accuracy -->
+        <div class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">🔒 100% Verification Accuracy</h3>
+            <p class="text-gray-600">Zero-knowledge claim verification ensures that only the true owner can claim an item by answering hidden details.</p>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+
+        <!-- Multi-language -->
+        <div class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">🌍 Multi-Language Support</h3>
+            <p class="text-gray-600">Report and search in your preferred language. The system automatically translates descriptions to match across all languages.</p>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+
+        <!-- Audio Feature -->
+        <div class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">🎙️ Voice & Audio Integration</h3>
+            <p class="text-gray-600">In a rush? Use our voice-to-text audio feature to describe the lost item instantly while walking to class.</p>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. RIGHT TECHNOLOGIES SECTION -->
+  <section class="py-12 bg-white border-t border-gray-200 text-center">
+    <div class="max-w-4xl mx-auto px-6">
+      <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Powered by the Right Technologies</p>
+      <div class="flex flex-wrap justify-center gap-4 md:gap-8 text-gray-800 font-bold text-lg">
+        <span class="px-4 py-2 bg-gray-100 rounded-lg">AI Vision Matching</span>
+        <span class="px-4 py-2 bg-gray-100 rounded-lg">Real-Time Database</span>
+        <span class="px-4 py-2 bg-gray-100 rounded-lg">Secure Auth</span>
+        <span class="px-4 py-2 bg-gray-100 rounded-lg">Spatial Mapping</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. COMPREHENSIVE FOOTER -->
+  <footer class="bg-gray-900 text-gray-300 py-16 border-t-4 border-orange-500">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12">
+      
+      <!-- Column 1: Brand -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-2 text-white">
+          <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path>
+          </svg>
+          <span class="text-xl font-extrabold tracking-tight">FindIt</span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          A real-time, small footprint application built to connect students and streamline smart campus recovery.
+        </p>
+      </div>
+
+      <!-- Column 2: Platform -->
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Platform Navigation</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#how-it-works" class="hover:text-orange-400 transition-colors">How it works</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Interactive Map</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Report an Item</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Live Dashboard</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Trust -->
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Trusted & Governance</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Privacy Policy (Limited Data)</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Data Security Guidelines</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Gateways -->
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Optional Gateways</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:text-orange-400 transition-colors">University SSO Login</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Developer API</a></li>
+          <li><a href="#" class="hover:text-orange-400 transition-colors">Security Desk Portal</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-6 md:px-12 mt-12 pt-8 border-t border-gray-800 text-sm text-gray-500 flex flex-col md:flex-row justify-between items-center">
+      <p>&copy; 2024 FindIt Campus Protocol. All rights reserved.</p>
+      <p class="mt-2 md:mt-0">Designed for Hackathons & Smart Campuses.</p>
+    </div>
+  </footer>
+
+  <!-- Audio Control Javascript -->
+  <script>
+    const video = document.getElementById('hero-video');
+    const muteBtn = document.getElementById('mute-toggle');
+    const muteText = document.getElementById('mute-text');
+
+    muteBtn.addEventListener('click', () => {
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 1.0; 
+        muteText.textContent = 'Sound On';
+      } else {
+        video.muted = true;
+        muteText.textContent = 'Sound Off';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "find-it",
+  "version": "1.0.0",
+  "description": "FindIt - Campus Recovery Protocol Operating System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "lost-and-found",
+    "campus-protocol",
+    "zero-knowledge",
+    "neural-match"
+  ],
+  "author": "FindIt Team",
+  "license": "MIT"
+}
