@@ -11,6 +11,8 @@ const BASE_DIR = __dirname;
 // ALWAYS bundles them into the deployment package and serves them with 0ms latency.
 let MOCK_DATA_JS = '';
 let APP_JS = '';
+let LOGO_PNG = null;
+let LOGO_JPG = null;
 try {
   MOCK_DATA_JS = fs.readFileSync(path.join(BASE_DIR, 'js', 'mockData.js'), 'utf8');
 } catch (e) {
@@ -20,6 +22,16 @@ try {
   APP_JS = fs.readFileSync(path.join(BASE_DIR, 'js', 'app.js'), 'utf8');
 } catch (e) {
   console.warn('Could not pre-read app.js', e.message);
+}
+try {
+  LOGO_PNG = fs.readFileSync(path.join(BASE_DIR, 'assets', 'images', 'findit-logo.png'));
+} catch (e) {
+  console.warn('Could not pre-read findit-logo.png', e.message);
+}
+try {
+  LOGO_JPG = fs.readFileSync(path.join(BASE_DIR, 'assets', 'images', 'findit-logo.jpg'));
+} catch (e) {
+  console.warn('Could not pre-read findit-logo.jpg', e.message);
 }
 
 const HTML_PAGES = {
@@ -88,6 +100,39 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
     res.end(APP_JS);
     return;
+  }
+
+  // 1b. Direct in-memory serving for FindIt Brand Logo & Favicon
+  if (
+    pathname === '/assets/images/findit-logo.png' ||
+    pathname.endsWith('/findit-logo.png') ||
+    pathname === '/findit-logo.png' ||
+    pathname === '/favicon.ico'
+  ) {
+    if (LOGO_PNG) {
+      res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': LOGO_PNG.length,
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      });
+      res.end(LOGO_PNG);
+      return;
+    }
+  }
+  if (
+    pathname === '/assets/images/findit-logo.jpg' ||
+    pathname.endsWith('/findit-logo.jpg') ||
+    pathname === '/findit-logo.jpg'
+  ) {
+    if (LOGO_JPG) {
+      res.writeHead(200, {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': LOGO_JPG.length,
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      });
+      res.end(LOGO_JPG);
+      return;
+    }
   }
 
   // 2. Direct streaming for Hero MP4 Intro Video

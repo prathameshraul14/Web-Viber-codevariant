@@ -5,10 +5,11 @@
   "trailingSlash": false,
   "functions": {
     "server.js": {
-      "includeFiles": "finditintro.mp4"
+      "includeFiles": "{finditintro.mp4,assets/**}"
     }
   },
   "rewrites": [
+    { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/finditintro.mp4", "destination": "/finditintro.mp4" },
     { "source": "/login", "destination": "/login.html" },
     { "source": "/signin", "destination": "/login.html" },
