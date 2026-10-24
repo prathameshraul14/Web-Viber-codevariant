@@ -7,27 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Leaflet CSS & JS for Live Map -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <style>
-    .pulse-marker-wrapper { display: flex; align-items: center; justify-content: center; }
-    .pulse-marker {
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 rgba(249, 115, 22, 0.4);
-      animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-      70% { box-shadow: 0 0 0 20px rgba(249, 115, 22, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-    }
-    .leaflet-div-icon {
-      background: transparent !important;
-      border: none !important;
-    }
-  </style>
   <script>
     tailwind.config = {
       theme: {
@@ -311,18 +290,12 @@
 
       <!-- Neighborhood Radar Map (Interactive) -->
       <div id="radar" class="md:col-span-2 bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-gray-100">
-         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+         <div class="flex justify-between items-center mb-6">
            <div>
              <h2 class="text-2xl font-bold font-jakarta text-gray-900">Campus Spatial Radar</h2>
-             <p class="text-xs text-gray-500 mt-1">Live active hotspots and real-time mapping across campus.</p>
+             <p class="text-xs text-gray-500 mt-1">Live active hotspots across university grounds. Tap any hotspot to inspect items.</p>
            </div>
-           <div class="flex items-center gap-2 flex-wrap">
-             <!-- View Switcher -->
-             <div class="flex items-center bg-gray-100 p-1 rounded-xl text-xs font-bold">
-               <button type="button" id="btn-view-map" onclick="switchRadarView('map')" class="px-2.5 py-1 rounded-lg bg-white text-gray-900 shadow-sm transition">🗺️ Live Map</button>
-               <button type="button" id="btn-view-radar" onclick="switchRadarView('radar')" class="px-2.5 py-1 rounded-lg text-gray-500 hover:text-gray-900 transition">📡 Cyber Grid</button>
-             </div>
-
+           <div class="flex items-center gap-2.5">
              <a href="echo_radar.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 text-xs font-bold rounded-xl transition shadow-sm">
                <i class="fa-solid fa-satellite text-[11px]"></i>
                <span>Full Echo Radar ↗</span>
@@ -333,11 +306,8 @@
            </div>
          </div>
 
-         <!-- 1. Real Interactive Leaflet Live Map -->
-         <div id="dashboard-leaflet-map" class="h-80 rounded-2xl overflow-hidden border border-gray-200 z-10 relative"></div>
-
-         <!-- 2. Cyber Radar Map Box (Alternative View) -->
-         <div id="dashboard-radar-box" class="h-80 bg-slate-900 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group shadow-inner border border-slate-800 hidden">
+         <!-- Interactive Radar Map Box -->
+         <div class="h-80 bg-slate-900 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group shadow-inner border border-slate-800">
            
            <!-- Grid Background -->
            <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(90deg, #38bdf8 1px, transparent 1px); background-size: 40px 40px;"></div>
@@ -622,7 +592,6 @@
       loadUserInfo();
       renderCases();
       renderRadarHotspots();
-      initDashboardMap();
       renderCoupons();
       renderHubs();
     });
@@ -743,104 +712,6 @@
       document.getElementById('hotspot-name').textContent = `${spot.name} (${spot.area})`;
       document.getElementById('hotspot-desc').textContent = `${spot.itemsCount} items logged: ${spot.activeItems.slice(0, 2).join(', ')}`;
       window.FindIt.toast(spot.name, `Selected hotspot: ${spot.description}`, 'info');
-    }
-
-    let dashMap = null;
-
-    function initDashboardMap() {
-      if (dashMap || typeof L === 'undefined') return;
-      const container = document.getElementById('dashboard-leaflet-map');
-      if (!container) return;
-
-      try {
-        dashMap = L.map('dashboard-leaflet-map', {
-          zoomControl: false,
-          scrollWheelZoom: false,
-          center: [19.0760, 72.8777],
-          zoom: 14
-        });
-
-        L.control.zoom({ position: 'bottomright' }).addTo(dashMap);
-
-        // Standard OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; OpenStreetMap'
-        }).addTo(dashMap);
-
-        // 1.5km Campus Radius Circle
-        L.circle([19.0760, 72.8777], {
-          color: '#f97316',
-          weight: 2,
-          fillColor: '#f97316',
-          fillOpacity: 0.08,
-          radius: 1500
-        }).addTo(dashMap);
-
-        // Center Pulsing Marker
-        const centerIcon = L.divIcon({
-          className: 'pulse-marker-wrapper',
-          html: '<div class="pulse-marker" style="width:20px;height:20px;background:#f97316;"></div>',
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
-        });
-        L.marker([19.0760, 72.8777], { icon: centerIcon }).addTo(dashMap)
-          .bindPopup('<b>Campus Recovery Hub</b><br><span style="font-size:11px;color:gray;">Active Spatial Mesh</span>');
-
-        // Add Hotspots from FindItData
-        const hotspots = window.FindItData.hotspots || [];
-        hotspots.forEach(h => {
-          const offsetLat = 19.0760 + ((h.y - 50) * 0.00035);
-          const offsetLng = 72.8777 + ((h.x - 50) * 0.00035);
-
-          const spotIcon = L.divIcon({
-            className: '',
-            html: `<div style="background:white; border-radius:50%; border:2px solid #f97316; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 3px 10px rgba(0,0,0,0.18); cursor:pointer;" title="${h.name}">${h.icon}</div>`,
-            iconSize: [34, 34],
-            iconAnchor: [17, 17]
-          });
-
-          L.marker([offsetLat, offsetLng], { icon: spotIcon }).addTo(dashMap)
-            .bindPopup(`
-              <div style="font-family:'Plus Jakarta Sans',sans-serif; text-align:center; padding:4px;">
-                <b style="font-size:13px; color:#111827;">${h.name}</b><br>
-                <span style="font-size:11px; color:#6b7280;">${h.itemsCount} items logged (${h.area})</span><br>
-                <button onclick="selectHotspot('${h.id}')" style="margin-top:6px; padding:3px 8px; background:#f97316; color:white; font-size:10px; font-weight:bold; border-radius:6px; border:none; cursor:pointer;">Select Hotspot</button>
-              </div>
-            `);
-        });
-
-        setTimeout(() => {
-          if (dashMap) dashMap.invalidateSize();
-        }, 250);
-
-      } catch (err) {
-        console.error('Error initializing dashboard map:', err);
-      }
-    }
-
-    function switchRadarView(view) {
-      const mapEl = document.getElementById('dashboard-leaflet-map');
-      const radarEl = document.getElementById('dashboard-radar-box');
-      const btnMap = document.getElementById('btn-view-map');
-      const btnRadar = document.getElementById('btn-view-radar');
-
-      if (view === 'map') {
-        mapEl.classList.remove('hidden');
-        radarEl.classList.add('hidden');
-        btnMap.className = 'px-2.5 py-1 rounded-lg bg-white text-gray-900 shadow-sm transition';
-        btnRadar.className = 'px-2.5 py-1 rounded-lg text-gray-500 hover:text-gray-900 transition';
-        if (dashMap) {
-          setTimeout(() => dashMap.invalidateSize(), 50);
-        } else {
-          initDashboardMap();
-        }
-      } else {
-        mapEl.classList.add('hidden');
-        radarEl.classList.remove('hidden');
-        btnRadar.className = 'px-2.5 py-1 rounded-lg bg-white text-gray-900 shadow-sm transition';
-        btnMap.className = 'px-2.5 py-1 rounded-lg text-gray-500 hover:text-gray-900 transition';
-      }
     }
 
     // Case Details Modal
