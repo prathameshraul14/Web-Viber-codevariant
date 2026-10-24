@@ -2,9 +2,10 @@
 (function() {
   'use strict';
 
-  // Initialize storage with mock data if not set
-  if (!localStorage.getItem('findit_cases')) {
+  // Initialize storage with enriched mock data
+  if (!localStorage.getItem('findit_cases_v2') || !localStorage.getItem('findit_cases')) {
     localStorage.setItem('findit_cases', JSON.stringify(window.FindItData.cases));
+    localStorage.setItem('findit_cases_v2', 'true');
   }
   if (!localStorage.getItem('findit_user')) {
     // If not logged in yet, keep default in memory or initial template
