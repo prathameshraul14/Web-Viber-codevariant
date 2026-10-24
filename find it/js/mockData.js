@@ -29,17 +29,17 @@ window.FindItData = {
       badge: "FindIt's Choice",
       date: "Oct 24, 2024",
       time: "11:30 AM",
-      location: "William Central Library - 2nd Floor",
+      location: "Central Metro Transit Hub - 2nd Floor",
       hotspotId: "library",
-      hub: "William Central Library Escrow Desk",
+      hub: "Central Metro Station Escrow Desk",
       icon: "🎧",
       image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=600&q=80",
       description: "Authentic Apple AirPods Pro 2nd Gen charging case encased in a matte navy blue shockproof silicone sleeve with a mini brass carabiner attached. Minor cosmetic hairline scuff near the rear hinge.",
       features: [
         "Genuine Apple MagSafe Lightning/USB-C charging case with internal serial registered.",
         "Dark navy protective silicone skin with precise speaker cutout and lanyard loop.",
-        "Reported lost during midterm study hours near 2nd floor silent cubicles.",
-        "Matched with 87% confidence against security intake deposit FOUND-2091."
+        "Reported lost during morning commute near 2nd floor transit concourse.",
+        "Matched with 87% confidence against transit intake deposit FOUND-2091."
       ],
       specs: {
         "Brand": "Apple",
@@ -49,11 +49,11 @@ window.FindItData = {
         "Serial Check": "Matches on file"
       },
       secretQuestion: "What color is the protective silicone sleeve and what charm is attached?",
-      foundLocation: "Library Desk Turnstiles",
-      foundBy: "Officer Martinez (Security Staff)",
+      foundLocation: "Central Concourse Turnstiles",
+      foundBy: "Officer Martinez (Transit Security)",
       listerInfo: {
         name: "Officer Martinez",
-        role: "Head of Library Security",
+        role: "Transit Security Officer",
         avatar: "OM",
         verified: true,
         responseTime: "< 5 mins",

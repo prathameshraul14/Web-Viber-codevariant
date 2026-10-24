@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Active Cases Tracking - Amazon Style Catalog | FindIt</title>
+  <title>Active Cases Tracking - Worldwide Recovery Catalog | FindIt</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +18,7 @@
   <script src="js/mockData.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- Tailwind Configuration -->
+  <!-- Tailwind Configuration (FindIt Theme) -->
   <script>
     tailwind.config = {
       theme: {
@@ -38,18 +38,6 @@
               500: '#f97316',
               600: '#ea580c',
               700: '#c2410c',
-            },
-            amazon: {
-              yellow: '#ffd814',
-              yellowHover: '#f7ca00',
-              orange: '#ffa41c',
-              orangeHover: '#fa8900',
-              dark: '#131921',
-              navDark: '#232f3e',
-              lightDark: '#37475a',
-              link: '#007185',
-              linkHover: '#c7511f',
-              priceRed: '#b12704',
             }
           }
         }
@@ -58,33 +46,33 @@
   </script>
 
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #eaeded; }
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; }
     .mega-menu { display: none; opacity: 0; transition: opacity 0.2s ease; margin-top: 1px; }
     .group:hover .mega-menu { display: block; opacity: 1; }
     
-    /* Amazon Choice Badge Clip */
-    .amazon-choice-badge {
-      clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+    /* FindIt Verified Badge Clip */
+    .findit-choice-badge {
+      clip-path: polygon(0 0, 100% 0, 93% 100%, 0% 100%);
     }
 
     /* Custom Scrollbar */
     .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-    .custom-scroll:hover::-webkit-scrollbar-thumb { background: #9ca3af; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 6px; }
+    .custom-scroll:hover::-webkit-scrollbar-thumb { background: #d1d5db; }
 
     /* Zoom image effect */
     .product-img-wrapper:hover img {
-      transform: scale(1.06);
+      transform: scale(1.05);
     }
     .product-img-wrapper img {
-      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
   </style>
 </head>
 <body class="text-gray-900 selection:bg-orange-200 min-h-screen flex flex-col justify-between">
 
-  <!-- Top Navigation (Smart Scroll + Seamless - Identical to Dashboard) -->
+  <!-- Top Navigation (Smart Scroll + Seamless - Exact FindIt Header) -->
   <header id="smart-nav" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300 shadow-sm">
     <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-20">
       
@@ -168,7 +156,7 @@
 
       <!-- Profile & Actions -->
       <div class="flex items-center space-x-4">
-        <!-- Quick Report Button (Mobile/Desktop) -->
+        <!-- Quick Report Button -->
         <a href="gemini-code-1792843735076.html" class="hidden sm:inline-flex items-center px-4 py-2.5 bg-brand text-white text-xs font-bold rounded-xl shadow-md hover:bg-orange-600 transition-all hover:scale-105 cursor-pointer gap-2">
           <i class="fa-solid fa-plus"></i>
           <span>Report Item</span>
@@ -211,47 +199,57 @@
     </div>
   </header>
 
-  <!-- Amazon Sub-header & Search Command Bar -->
-  <div class="pt-20 bg-amazon-dark text-white border-b border-gray-800">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3">
+  <!-- FindIt Theme: Universal Product Catalog Command Bar (Amazon Functional Structure, FindIt Visual Theme) -->
+  <div class="pt-24 bg-white/90 backdrop-blur-sm border-b border-gray-200/80">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
       
-      <!-- Left: Deliver to / Campus Location Picker (Amazon style) -->
-      <div class="flex items-center gap-2 cursor-pointer hover:border hover:border-white/40 p-1 rounded-sm transition">
-        <i class="fa-solid fa-location-dot text-brand text-lg"></i>
+      <!-- Global / Worldwide Location Selector -->
+      <div class="flex items-center gap-2.5 bg-orange-50/70 border border-orange-200/80 px-3.5 py-2 rounded-2xl cursor-pointer hover:bg-orange-100/70 transition shrink-0">
+        <div class="w-8 h-8 rounded-xl bg-brand text-white flex items-center justify-center font-bold text-xs shadow-sm shadow-brand/20">
+          <i class="fa-solid fa-earth-americas"></i>
+        </div>
         <div class="leading-tight">
-          <p class="text-[10px] text-gray-300 font-normal">Deliver to / Custody Hub</p>
-          <p class="text-xs font-bold text-white flex items-center gap-1">
-            <span>Central Campus Vault (400076)</span>
-            <i class="fa-solid fa-caret-down text-[9px] text-gray-400"></i>
-          </p>
+          <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Active Recovery Region</p>
+          <div class="flex items-center gap-1.5">
+            <select id="region-location-select" onchange="filterByRegion(this.value)" class="bg-transparent text-xs font-bold text-gray-900 focus:outline-none cursor-pointer">
+              <option value="all">Worldwide All Hubs</option>
+              <option value="metro">Central Metro & Transit</option>
+              <option value="airport">International Airport Hubs</option>
+              <option value="downtown">Commercial & Bank Vaults</option>
+              <option value="library">Public Libraries & Centers</option>
+              <option value="sports">Athletics & Sports Arenas</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <!-- Center: Amazon Universal Search Bar -->
-      <div class="flex-grow max-w-3xl w-full">
-        <div class="flex items-center rounded-md overflow-hidden bg-white shadow-inner focus-within:ring-2 focus-within:ring-amazon-orange">
-          <!-- Category Select -->
-          <div class="bg-gray-100 hover:bg-gray-200 border-r border-gray-300 text-gray-700 text-xs font-medium px-3 py-2.5 cursor-pointer flex items-center gap-1.5 shrink-0 transition">
-            <select id="search-category-select" onchange="applyFilters()" class="bg-transparent text-xs font-medium focus:outline-none cursor-pointer">
+      <!-- Universal Search Bar (FindIt Themed) -->
+      <div class="flex-grow max-w-2xl w-full">
+        <div class="flex items-center rounded-2xl overflow-hidden bg-gray-50 border border-gray-200 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20 shadow-sm transition-all">
+          
+          <!-- Category Dropdown -->
+          <div class="bg-white border-r border-gray-200 text-gray-700 text-xs font-bold px-3 py-3 cursor-pointer shrink-0">
+            <select id="search-category-select" onchange="applyFilters()" class="bg-transparent text-xs font-bold text-gray-700 focus:outline-none cursor-pointer">
               <option value="all">All Departments</option>
               <option value="Electronics">Electronics & Audio</option>
-              <option value="Cards & IDs">Cards, IDs & Badges</option>
-              <option value="Keys & Access">Keys & Smart Fobs</option>
+              <option value="Cards & IDs">Passports, IDs & Badges</option>
+              <option value="Cards & Wallets">Wallets & Valuables</option>
+              <option value="Keys & Access">Keys & Smart Remotes</option>
               <option value="Bags & Backpacks">Bags & Luggage</option>
-              <option value="Personal Gear">Personal Bottles & Gear</option>
               <option value="Accessories">Eyewear & Accessories</option>
               <option value="Watches">Watches & Wearables</option>
-              <option value="Study Gear">Calculators & Study</option>
+              <option value="Study Gear">Calculators & Tech</option>
+              <option value="Personal Gear">Bottles & Personal</option>
             </select>
           </div>
 
-          <!-- Keyword Input -->
+          <!-- Search Input -->
           <input 
             type="text" 
             id="search-input" 
             oninput="applyFilters()"
-            placeholder="Search active cases, AirPods, Hydro Flask, ASIN/Case ID, building, or lister..."
-            class="w-full px-4 py-2.5 text-xs text-gray-900 focus:outline-none"
+            placeholder="Search active cases, AirPods, Hydro Flask, ASIN/Case ID, city, or lister..."
+            class="w-full px-4 py-2.5 text-xs bg-transparent text-gray-900 font-medium placeholder-gray-400 focus:outline-none"
           />
 
           <!-- Clear Button -->
@@ -259,136 +257,142 @@
             <i class="fa-solid fa-xmark"></i>
           </button>
 
-          <!-- Search Button -->
-          <button onclick="applyFilters()" class="bg-amazon-orange hover:bg-amazon-orangeHover text-amazon-dark px-5 py-2.5 font-bold transition flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-magnifying-glass text-sm"></i>
+          <!-- Search Action Button (FindIt Orange) -->
+          <button onclick="applyFilters()" class="bg-brand hover:bg-orange-600 text-white px-5 py-3 font-bold text-xs transition flex items-center justify-center shrink-0 shadow-sm">
+            <i class="fa-solid fa-magnifying-glass mr-1.5"></i>
+            <span>Search</span>
           </button>
         </div>
       </div>
 
-      <!-- Right: Quick Amazon Cart / Tracking Status Link -->
-      <div class="flex items-center gap-4 text-xs font-semibold">
-        <div class="cursor-pointer hover:border hover:border-white/40 p-1.5 rounded-sm transition flex items-center gap-2" onclick="toggleMyCasesFilter()">
+      <!-- Right Quick Stats & Tracked Items -->
+      <div class="flex items-center gap-3 shrink-0">
+        <button onclick="toggleMyCasesFilter()" class="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold transition cursor-pointer">
           <div class="relative">
-            <i class="fa-solid fa-box-archive text-lg text-brand"></i>
-            <span id="my-cases-count-badge" class="absolute -top-1.5 -right-2 bg-amazon-orange text-amazon-dark font-black text-[9px] w-4 h-4 rounded-full flex items-center justify-center">1</span>
+            <i class="fa-solid fa-box-archive text-brand text-sm"></i>
+            <span id="my-cases-count-badge" class="absolute -top-1.5 -right-2 bg-brand text-white font-black text-[9px] w-4 h-4 rounded-full flex items-center justify-center">1</span>
           </div>
-          <div>
-            <p class="text-[10px] text-gray-300 font-normal">Your Tracked</p>
-            <p class="text-xs font-bold text-white">Active Cases</p>
-          </div>
-        </div>
+          <span class="hidden sm:inline">My Tracked Cases</span>
+        </button>
 
-        <a href="gemini-code-1792843735076.html" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded border border-white/20 transition">
-          <i class="fa-solid fa-plus text-xs text-brand"></i>
-          <span>Report New Item</span>
+        <a href="gemini-code-1792843735076.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-brand text-white rounded-2xl font-bold text-xs shadow-sm hover:bg-orange-600 transition">
+          <i class="fa-solid fa-plus"></i>
+          <span>Report Item</span>
         </a>
       </div>
     </div>
-  </div>
 
-  <!-- Amazon Sub-bar 2: Category Chips & View Toggle -->
-  <div class="bg-amazon-navDark text-gray-200 text-xs border-b border-gray-700">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-2 flex items-center justify-between overflow-x-auto gap-4 custom-scroll">
-      <div class="flex items-center space-x-5 shrink-0">
-        <button onclick="filterChip('all')" class="chip-btn font-bold text-white hover:text-brand flex items-center gap-1 active-chip">
-          <i class="fa-solid fa-bars text-[11px]"></i>
-          <span>All Cases</span>
+    <!-- Quick Filter Chips & View Mode Switcher -->
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-2.5 border-t border-gray-100 flex items-center justify-between overflow-x-auto gap-4 custom-scroll">
+      <div class="flex items-center space-x-2 shrink-0 text-xs font-bold">
+        <button onclick="filterChip('all')" class="chip-btn px-3 py-1.5 rounded-xl bg-gray-900 text-white transition flex items-center gap-1.5 active-chip">
+          <i class="fa-solid fa-globe text-[11px] text-brand"></i>
+          <span>Worldwide All (12)</span>
         </button>
-        <button onclick="filterChip('shield')" class="chip-btn hover:text-white flex items-center gap-1">
+        <button onclick="filterChip('shield')" class="chip-btn px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 transition flex items-center gap-1.5">
           <i class="fa-solid fa-shield-halved text-brand"></i>
           <span>FindIt Shield (Vault Drops)</span>
         </button>
-        <button onclick="filterChip('match')" class="chip-btn hover:text-white flex items-center gap-1">
-          <i class="fa-solid fa-bolt text-amber-400"></i>
+        <button onclick="filterChip('match')" class="chip-btn px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt text-emerald-600"></i>
           <span>Matches Ready to Claim</span>
         </button>
-        <button onclick="filterChip('lost')" class="chip-btn hover:text-white">Lost (Seeking)</button>
-        <button onclick="filterChip('found')" class="chip-btn hover:text-white">Found (In Custody)</button>
-        <button onclick="filterChip('bounty')" class="chip-btn hover:text-white flex items-center gap-1">
-          <i class="fa-solid fa-sack-dollar text-emerald-400"></i>
+        <button onclick="filterChip('lost')" class="chip-btn px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 transition">
+          Lost (Seeking Finder)
+        </button>
+        <button onclick="filterChip('found')" class="chip-btn px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 transition">
+          Found (In Safe Custody)
+        </button>
+        <button onclick="filterChip('bounty')" class="chip-btn px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-sack-dollar text-amber-600"></i>
           <span>High Bounties (₹500+)</span>
         </button>
       </div>
 
       <!-- View Switcher (Grid vs List) -->
-      <div class="flex items-center gap-1 text-gray-400 shrink-0">
-        <span class="text-[11px] mr-1 hidden sm:inline">View:</span>
-        <button id="view-grid-btn" onclick="setViewMode('grid')" class="p-1.5 rounded bg-white/15 text-white hover:text-white transition" title="Amazon Grid View">
+      <div class="flex items-center gap-1.5 text-xs text-gray-500 shrink-0">
+        <span class="text-[11px] font-semibold hidden sm:inline">View:</span>
+        <button id="view-grid-btn" onclick="setViewMode('grid')" class="p-2 rounded-xl bg-brand text-white shadow-sm transition" title="Grid View">
           <i class="fa-solid fa-grip text-xs"></i>
         </button>
-        <button id="view-list-btn" onclick="setViewMode('list')" class="p-1.5 rounded hover:bg-white/15 text-gray-400 hover:text-white transition" title="Amazon List View">
+        <button id="view-list-btn" onclick="setViewMode('list')" class="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition" title="List View">
           <i class="fa-solid fa-list text-xs"></i>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Breadcrumbs Bar -->
-  <div class="bg-white border-b border-gray-200 py-2">
+  <!-- Breadcrumbs & Live Mesh Indicator -->
+  <div class="bg-gray-50/60 border-b border-gray-200/60 py-2.5">
     <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between text-xs text-gray-500">
       <div class="flex items-center space-x-2">
-        <a href="dashboard.html" class="hover:text-amazon-link transition">Dashboard</a>
+        <a href="dashboard.html" class="hover:text-brand font-medium transition">Dashboard</a>
         <span>&rsaquo;</span>
-        <a href="active_cases.html" class="hover:text-amazon-link transition">Active Cases Tracking</a>
+        <a href="active_cases.html" class="hover:text-brand font-medium transition">Active Cases Tracking</a>
         <span>&rsaquo;</span>
-        <span id="breadcrumb-category" class="text-gray-900 font-semibold">All Active Campus Items</span>
+        <span id="breadcrumb-category" class="text-gray-900 font-bold">Worldwide Active Items</span>
       </div>
-      <div class="text-[11px]">
-        Over <span class="font-bold text-gray-800" id="total-cases-count">12</span> live active cases on campus spatial mesh
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-[11px] font-semibold text-gray-700">Worldwide Spatial Mesh Online • <span id="total-cases-count" class="font-bold text-brand">12</span> Active Tracked Items</span>
       </div>
     </div>
   </div>
 
-  <!-- Main Amazon Layout (Sidebar + Results) -->
-  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-6 w-full flex-grow">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+  <!-- Main Catalog Layout (Left Refinement Sidebar + Right Results Feed) -->
+  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 py-8 w-full flex-grow">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       
-      <!-- ================= LEFT REFINEMENTS SIDEBAR (Amazon Classic) ================= -->
-      <aside class="lg:col-span-1 bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-6">
+      <!-- ================= LEFT REFINEMENTS SIDEBAR (FindIt Theme) ================= -->
+      <aside class="lg:col-span-1 bg-white p-6 rounded-3xl border border-gray-200/80 shadow-sm space-y-6">
         
         <!-- Filter Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-gray-200">
-          <h3 class="font-bold text-sm text-gray-900 flex items-center gap-1.5">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+          <h3 class="font-jakarta font-bold text-sm text-gray-900 flex items-center gap-2">
             <i class="fa-solid fa-sliders text-brand text-xs"></i>
-            <span>Filter Results</span>
+            <span>Filter Catalog</span>
           </h3>
-          <button onclick="resetAllFilters()" class="text-[11px] text-amazon-link hover:underline font-semibold">
+          <button onclick="resetAllFilters()" class="text-xs text-brand hover:text-orange-700 font-bold transition">
             Clear all
           </button>
         </div>
 
-        <!-- 1. FindIt Shield / Prime Equivalent -->
+        <!-- 1. FindIt Shield / Security Guarantee -->
         <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">Custody Guarantee</h4>
-          <label class="flex items-center space-x-2.5 cursor-pointer text-xs text-gray-700 hover:text-black">
-            <input type="checkbox" id="filter-shield-only" onchange="applyFilters()" class="w-4 h-4 text-brand rounded focus:ring-brand border-gray-300">
-            <div class="flex items-center gap-1.5 font-bold">
-              <span class="px-2 py-0.5 bg-gradient-to-r from-brand to-amber-500 text-white rounded text-[10px] tracking-wide font-black">
-                FindIt Shield
-              </span>
-              <span class="text-gray-600 font-normal">Vault Escrow</span>
-            </div>
-          </label>
-          <label class="flex items-center space-x-2.5 cursor-pointer text-xs text-gray-700 hover:text-black mt-2">
-            <input type="checkbox" id="filter-high-match" onchange="applyFilters()" class="w-4 h-4 text-brand rounded focus:ring-brand border-gray-300">
-            <span class="text-xs font-medium">AI Match Score 85%+</span>
-          </label>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-3 flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-brand text-[11px]"></i>
+            <span>Escrow & Custody</span>
+          </h4>
+          <div class="space-y-2">
+            <label class="flex items-center space-x-2.5 cursor-pointer text-xs text-gray-700 hover:text-black">
+              <input type="checkbox" id="filter-shield-only" onchange="applyFilters()" class="w-4 h-4 text-brand rounded focus:ring-brand border-gray-300">
+              <div class="flex items-center gap-1.5 font-bold">
+                <span class="px-2 py-0.5 bg-gradient-to-tr from-brand to-amber-500 text-white rounded-md text-[10px] tracking-wide font-extrabold shadow-sm">
+                  FindIt Shield
+                </span>
+                <span class="text-gray-600 font-medium">Vault Drops</span>
+              </div>
+            </label>
+            <label class="flex items-center space-x-2.5 cursor-pointer text-xs text-gray-700 hover:text-black">
+              <input type="checkbox" id="filter-high-match" onchange="applyFilters()" class="w-4 h-4 text-brand rounded focus:ring-brand border-gray-300">
+              <span class="text-xs font-semibold text-gray-700">AI Neural Match 85%+</span>
+            </label>
+          </div>
         </div>
 
-        <!-- 2. Case Type (Lost / Found) -->
+        <!-- 2. Case Type Filter -->
         <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">Case Type</h4>
-          <div class="space-y-1.5 text-xs text-gray-700">
-            <label class="flex items-center space-x-2 cursor-pointer hover:text-amazon-link">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-3">Case Status</h4>
+          <div class="space-y-2 text-xs text-gray-700 font-medium">
+            <label class="flex items-center space-x-2.5 cursor-pointer hover:text-brand">
               <input type="radio" name="filter-type" value="all" checked onchange="applyFilters()" class="text-brand focus:ring-brand">
-              <span>All Cases</span>
+              <span>All Worldwide Cases</span>
             </label>
-            <label class="flex items-center space-x-2 cursor-pointer hover:text-amazon-link">
+            <label class="flex items-center space-x-2.5 cursor-pointer hover:text-brand">
               <input type="radio" name="filter-type" value="lost" onchange="applyFilters()" class="text-brand focus:ring-brand">
-              <span>Lost Items (Seeking Owner/Finder)</span>
+              <span>Lost Items (Seeking Finder)</span>
             </label>
-            <label class="flex items-center space-x-2 cursor-pointer hover:text-amazon-link">
+            <label class="flex items-center space-x-2.5 cursor-pointer hover:text-brand">
               <input type="radio" name="filter-type" value="found" onchange="applyFilters()" class="text-brand focus:ring-brand">
               <span>Found Items (In Safe Custody)</span>
             </label>
@@ -397,94 +401,94 @@
 
         <!-- 3. Departments / Categories -->
         <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">Department</h4>
-          <ul class="space-y-1.5 text-xs text-gray-700 font-medium" id="sidebar-category-list">
-            <li><button onclick="setCategoryFilter('all')" class="hover:text-amazon-link text-left w-full py-0.5 font-bold text-brand">All Departments</button></li>
-            <li><button onclick="setCategoryFilter('Electronics')" class="hover:text-amazon-link text-left w-full py-0.5">Electronics & Audio (4)</button></li>
-            <li><button onclick="setCategoryFilter('Cards & IDs')" class="hover:text-amazon-link text-left w-full py-0.5">Cards, IDs & Badges (1)</button></li>
-            <li><button onclick="setCategoryFilter('Cards & Wallets')" class="hover:text-amazon-link text-left w-full py-0.5">Wallets & Money (1)</button></li>
-            <li><button onclick="setCategoryFilter('Keys & Access')" class="hover:text-amazon-link text-left w-full py-0.5">Keys & Smart Fobs (1)</button></li>
-            <li><button onclick="setCategoryFilter('Bags & Backpacks')" class="hover:text-amazon-link text-left w-full py-0.5">Bags & Backpacks (1)</button></li>
-            <li><button onclick="setCategoryFilter('Accessories')" class="hover:text-amazon-link text-left w-full py-0.5">Eyewear & Accessories (1)</button></li>
-            <li><button onclick="setCategoryFilter('Watches')" class="hover:text-amazon-link text-left w-full py-0.5">Watches & Wearables (1)</button></li>
-            <li><button onclick="setCategoryFilter('Study Gear')" class="hover:text-amazon-link text-left w-full py-0.5">Calculators & Study Gear (1)</button></li>
-            <li><button onclick="setCategoryFilter('Personal Gear')" class="hover:text-amazon-link text-left w-full py-0.5">Flasks & Personal Gear (1)</button></li>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-3">Departments</h4>
+          <ul class="space-y-1.5 text-xs text-gray-600 font-medium" id="sidebar-category-list">
+            <li><button onclick="setCategoryFilter('all')" class="hover:text-brand text-left w-full py-1 font-bold text-brand">All Departments</button></li>
+            <li><button onclick="setCategoryFilter('Electronics')" class="hover:text-brand text-left w-full py-1">Electronics & Audio (4)</button></li>
+            <li><button onclick="setCategoryFilter('Cards & IDs')" class="hover:text-brand text-left w-full py-1">Passports, IDs & Badges (1)</button></li>
+            <li><button onclick="setCategoryFilter('Cards & Wallets')" class="hover:text-brand text-left w-full py-1">Wallets & Money (1)</button></li>
+            <li><button onclick="setCategoryFilter('Keys & Access')" class="hover:text-brand text-left w-full py-1">Keys & Smart Fobs (1)</button></li>
+            <li><button onclick="setCategoryFilter('Bags & Backpacks')" class="hover:text-brand text-left w-full py-1">Bags & Luggage (1)</button></li>
+            <li><button onclick="setCategoryFilter('Accessories')" class="hover:text-brand text-left w-full py-1">Eyewear & Accessories (1)</button></li>
+            <li><button onclick="setCategoryFilter('Watches')" class="hover:text-brand text-left w-full py-1">Watches & Wearables (1)</button></li>
+            <li><button onclick="setCategoryFilter('Study Gear')" class="hover:text-brand text-left w-full py-1">Calculators & Tech Gear (1)</button></li>
+            <li><button onclick="setCategoryFilter('Personal Gear')" class="hover:text-brand text-left w-full py-1">Bottles & Personal Items (1)</button></li>
           </ul>
         </div>
 
-        <!-- 4. Lister Trust Rating (Amazon Star Filter) -->
+        <!-- 4. Lister Credibility Rating Filter -->
         <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2">Lister Credibility</h4>
-          <div class="space-y-1.5 text-xs text-gray-700">
-            <button onclick="setRatingFilter(4.8)" class="flex items-center gap-1.5 hover:text-amazon-link w-full text-left">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">Lister Trust Rating</h4>
+          <div class="space-y-2 text-xs text-gray-700">
+            <button onclick="setRatingFilter(4.8)" class="flex items-center gap-1.5 hover:text-brand w-full text-left font-medium">
               <span class="text-amber-500 font-bold">★★★★★</span>
-              <span class="text-[11px] text-gray-600">4.8 & Up (Campus Police / Staff)</span>
+              <span class="text-[11px] text-gray-600">4.8 & Up (Official Staff & Police)</span>
             </button>
-            <button onclick="setRatingFilter(4.5)" class="flex items-center gap-1.5 hover:text-amazon-link w-full text-left">
+            <button onclick="setRatingFilter(4.5)" class="flex items-center gap-1.5 hover:text-brand w-full text-left font-medium">
               <span class="text-amber-500 font-bold">★★★★☆</span>
-              <span class="text-[11px] text-gray-600">4.5 & Up (Gold Helpers)</span>
+              <span class="text-[11px] text-gray-600">4.5 & Up (Gold Community Helpers)</span>
             </button>
-            <button onclick="setRatingFilter(0)" class="text-[11px] text-gray-500 hover:text-amazon-link mt-1 block">
+            <button onclick="setRatingFilter(0)" class="text-[11px] text-brand hover:underline font-bold mt-1 block">
               Show all lister tiers
             </button>
           </div>
         </div>
 
-        <!-- 5. Campus Location / Hotspot -->
+        <!-- 5. Hub / Facility Network -->
         <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">Campus Facility / Hub</h4>
-          <select id="filter-location-select" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 text-xs rounded-lg p-2 font-medium focus:ring-1 focus:ring-brand">
-            <option value="all">All Campus Locations</option>
-            <option value="library">William Central Library</option>
-            <option value="union">Student Innovation Center</option>
-            <option value="dining">North Dining Commons</option>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-3">Facility Hub</h4>
+          <select id="filter-location-select" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 text-xs rounded-xl p-2.5 font-medium focus:ring-2 focus:ring-brand/20 focus:border-brand">
+            <option value="all">All Worldwide Network Locations</option>
+            <option value="library">William Central Library Escrow</option>
+            <option value="union">Student & Innovation Center</option>
+            <option value="dining">Central Dining Commons</option>
             <option value="engineering">Engineering & Tech Complex</option>
-            <option value="sports">Varsity Sports Pavilion</option>
+            <option value="sports">Athletics Pavilion & Arena</option>
           </select>
         </div>
 
-        <!-- 6. Bounty Range -->
+        <!-- 6. Reward Bounty Filter -->
         <div>
           <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">Reward Bounty</h4>
-          <div class="space-y-1 text-xs text-gray-700">
-            <button onclick="setBountyFilter('all')" class="hover:text-amazon-link block w-full text-left py-0.5">All Bounties</button>
-            <button onclick="setBountyFilter('free')" class="hover:text-amazon-link block w-full text-left py-0.5">Standard Karma Handover (+100 pts)</button>
-            <button onclick="setBountyFilter('cash-low')" class="hover:text-amazon-link block w-full text-left py-0.5">₹300 - ₹500 Reward</button>
-            <button onclick="setBountyFilter('cash-high')" class="hover:text-amazon-link block w-full text-left py-0.5">₹500 & Above High Bounty</button>
+          <div class="space-y-1.5 text-xs text-gray-700 font-medium">
+            <button onclick="setBountyFilter('all')" class="hover:text-brand block w-full text-left py-0.5">All Bounties</button>
+            <button onclick="setBountyFilter('free')" class="hover:text-brand block w-full text-left py-0.5">Standard Karma Handover (+100 pts)</button>
+            <button onclick="setBountyFilter('cash-low')" class="hover:text-brand block w-full text-left py-0.5">₹300 - ₹500 Reward</button>
+            <button onclick="setBountyFilter('cash-high')" class="hover:text-brand block w-full text-left py-0.5">₹500 & Above High Bounty</button>
           </div>
         </div>
 
-        <!-- Help & Verification Escrow Callout -->
-        <div class="p-3.5 bg-orange-50 rounded-xl border border-orange-200 text-xs text-gray-700">
-          <p class="font-bold text-gray-900 flex items-center gap-1.5 mb-1">
+        <!-- Security Notice -->
+        <div class="p-4 bg-orange-50/80 rounded-2xl border border-orange-200/80 text-xs text-gray-700 space-y-1">
+          <p class="font-bold text-gray-900 flex items-center gap-1.5">
             <i class="fa-solid fa-lock text-brand"></i>
-            <span>Zero-Knowledge Escrow</span>
+            <span>Zero-Knowledge Protection</span>
           </p>
           <p class="text-[11px] text-gray-600 leading-relaxed">
-            All listed items require ownership verification questions before release to prevent wrongful claims.
+            All listed items require ownership verification questions before release to prevent fraudulent claims worldwide.
           </p>
         </div>
       </aside>
 
-      <!-- ================= RIGHT MAIN CONTENT: RESULTS & PRODUCT CARDS ================= -->
-      <section class="lg:col-span-3 space-y-4">
+      <!-- ================= RIGHT CATALOG RESULTS FEED ================= -->
+      <section class="lg:col-span-3 space-y-5">
         
-        <!-- Results Banner & Controls Header (Amazon Style) -->
-        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <!-- Results Header Card (FindIt Themed) -->
+        <div class="bg-white p-5 rounded-3xl border border-gray-200/80 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 class="text-lg font-bold font-jakarta text-gray-900 tracking-tight">
-              Results for <span class="text-brand">"Active Cases on Campus Spatial Radar"</span>
+            <h1 class="text-xl font-bold font-jakarta text-gray-900 tracking-tight">
+              Worldwide Active Cases & Spatial Match Feed
             </h1>
-            <p class="text-xs text-gray-500 mt-0.5">
-              Showing <span id="showing-count" class="font-bold text-gray-800">1-12</span> of <span id="total-filtered-count" class="font-bold text-gray-800">12</span> items • Auto-synchronized with Campus Hubs
+            <p class="text-xs text-gray-500 mt-1">
+              Showing <span id="showing-count" class="font-bold text-gray-900">1-12</span> of <span id="total-filtered-count" class="font-bold text-gray-900">12</span> active cases • Global mesh verified
             </p>
           </div>
 
-          <!-- Sort Selector (Amazon Style) -->
-          <div class="flex items-center gap-2 text-xs shrink-0 w-full sm:w-auto justify-between sm:justify-start">
-            <label for="sort-select" class="text-gray-500 font-medium">Sort by:</label>
-            <select id="sort-select" onchange="applyFilters()" class="bg-gray-50 border border-gray-200 text-gray-800 text-xs rounded-lg px-3 py-1.5 font-medium focus:ring-1 focus:ring-brand cursor-pointer">
-              <option value="featured">Featured / AI Match Score</option>
+          <!-- Sort Selector -->
+          <div class="flex items-center gap-2.5 text-xs shrink-0 w-full sm:w-auto justify-between sm:justify-start">
+            <label for="sort-select" class="text-gray-500 font-semibold">Sort by:</label>
+            <select id="sort-select" onchange="applyFilters()" class="bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-xl px-3.5 py-2 font-bold focus:ring-2 focus:ring-brand/20 focus:border-brand cursor-pointer">
+              <option value="featured">Featured / AI Neural Match</option>
               <option value="bounty-desc">Bounty: High to Low</option>
               <option value="rating-desc">Lister Rating: Highest First</option>
               <option value="date-desc">Newest Listings</option>
@@ -492,54 +496,47 @@
           </div>
         </div>
 
-        <!-- Active Filter Badges Row -->
-        <div id="active-filter-chips-row" class="hidden flex-wrap items-center gap-2 pt-1 pb-1">
-          <!-- Populated by JS -->
-        </div>
-
-        <!-- Product Cards Container (Grid or List via class) -->
-        <div id="cases-catalog-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <!-- Dynamic Product Cards Grid/List Container -->
+        <div id="cases-catalog-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           <!-- Dynamic Products Rendered Here -->
         </div>
 
         <!-- Empty State Placeholder -->
-        <div id="empty-results-state" class="hidden bg-white p-12 rounded-2xl border border-gray-200 text-center space-y-4 shadow-sm">
-          <div class="w-16 h-16 bg-orange-100 text-brand rounded-full flex items-center justify-center mx-auto text-2xl">
+        <div id="empty-results-state" class="hidden bg-white p-12 rounded-3xl border border-gray-200 text-center space-y-4 shadow-sm">
+          <div class="w-16 h-16 bg-orange-100 text-brand rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold">
             <i class="fa-solid fa-magnifying-glass"></i>
           </div>
-          <h3 class="text-lg font-bold text-gray-900">No active cases matched your search</h3>
+          <h3 class="text-lg font-bold font-jakarta text-gray-900">No active cases matched your search</h3>
           <p class="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-            Try adjusting your search keywords, clear category filters, or broaden your location options. You can also file a new report if your item is unlisted.
+            Try adjusting your search terms, select another department, or reset filters to view all active items across the global network.
           </p>
           <div class="pt-2 flex justify-center gap-3">
-            <button onclick="resetAllFilters()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-xs font-bold rounded-xl text-gray-800 transition">
+            <button onclick="resetAllFilters()" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-xs font-bold rounded-xl text-gray-800 transition">
               Reset All Filters
             </button>
-            <a href="gemini-code-1792843735076.html" class="px-4 py-2 bg-brand hover:bg-orange-600 text-xs font-bold rounded-xl text-white transition shadow-sm">
+            <a href="gemini-code-1792843735076.html" class="px-5 py-2.5 bg-brand hover:bg-orange-600 text-xs font-bold rounded-xl text-white transition shadow-sm">
               + Report Missing Item
             </a>
           </div>
         </div>
 
-        <!-- Bottom Amazon Pagination / Info -->
-        <div class="bg-white p-4 rounded-xl border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 shadow-sm">
+        <!-- Bottom Status Bar -->
+        <div class="bg-white p-4 rounded-2xl border border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 shadow-sm">
           <div class="flex items-center gap-2">
             <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Real-time Spatial Mesh is live & receiving beacon updates</span>
+            <span>Worldwide Spatial Mesh is active & receiving beacons</span>
           </div>
-          <div class="flex items-center gap-2">
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-brand transition flex items-center gap-1 font-bold text-gray-700">
-              <span>Back to top</span>
-              <i class="fa-solid fa-arrow-up text-[10px]"></i>
-            </button>
-          </div>
+          <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-brand transition flex items-center gap-1 font-bold text-gray-700">
+            <span>Back to top</span>
+            <i class="fa-solid fa-arrow-up text-[10px]"></i>
+          </button>
         </div>
 
       </section>
     </div>
   </main>
 
-  <!-- ================= AMAZON PRODUCT DETAILS MODAL (FULL PRODUCT PAGE VIEW) ================= -->
+  <!-- ================= PRODUCT DETAILS MODAL (FindIt Theme) ================= -->
   <div id="product-detail-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-5xl w-full shadow-2xl border border-gray-200 overflow-hidden relative my-auto max-h-[92vh] flex flex-col">
       
@@ -555,7 +552,7 @@
         </button>
       </div>
 
-      <!-- Modal Body (Amazon Product Layout) -->
+      <!-- Modal Body (Product Layout in FindIt Theme) -->
       <div class="p-6 sm:p-8 overflow-y-auto custom-scroll flex-grow">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
           
@@ -568,11 +565,11 @@
               </div>
             </div>
             <p class="text-[11px] text-gray-400 text-center font-medium">
-              <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Hover to inspect item details & serial marks
+              <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> High-resolution inspection photo
             </p>
 
-            <!-- Status Tracking Stepper Preview -->
-            <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-2.5">
+            <!-- Recovery Status Timeline -->
+            <div class="p-4 bg-orange-50/50 rounded-2xl border border-orange-200/60 space-y-2.5">
               <h5 class="text-xs font-bold text-gray-900 uppercase tracking-wider flex items-center gap-1.5">
                 <i class="fa-solid fa-truck-fast text-brand"></i>
                 <span>Recovery Status Timeline</span>
@@ -613,28 +610,28 @@
           <!-- Column 2: Product Info & Specs (4 cols) -->
           <div class="md:col-span-4 space-y-4">
             <div>
-              <p id="modal-product-brand" class="text-xs font-bold text-amazon-link hover:underline cursor-pointer">Brand: Apple Campus Hub</p>
+              <p id="modal-product-brand" class="text-xs font-bold text-brand hover:underline cursor-pointer">Brand: Apple</p>
               <h2 id="modal-product-title" class="text-xl font-bold font-jakarta text-gray-900 mt-1 leading-snug">
                 Apple AirPods Pro 2nd Gen Case with Silicone Shield
               </h2>
             </div>
 
-            <!-- Star Rating (Amazon Style) -->
+            <!-- Star Rating -->
             <div class="flex items-center gap-2 text-xs">
               <div class="flex text-amber-500 text-sm">
                 <span>★★★★★</span>
               </div>
               <span id="modal-product-rating" class="font-bold text-gray-800">4.9</span>
               <span class="text-gray-400">|</span>
-              <a href="#reviews" class="text-amazon-link hover:underline font-medium"><span id="modal-product-reviews">38</span> campus verifications</a>
+              <span class="text-brand font-medium"><span id="modal-product-reviews">38</span> verifications</span>
             </div>
 
             <!-- Price / Bounty Highlight -->
             <div class="py-3 border-y border-gray-100">
               <div class="flex items-baseline gap-2">
-                <span class="text-xs text-gray-500">Claim Fee:</span>
+                <span class="text-xs text-gray-500">Claim Retrieval:</span>
                 <span class="text-2xl font-black text-emerald-600">₹0 Free</span>
-                <span class="text-xs text-gray-400">(Campus Protected)</span>
+                <span class="text-xs text-gray-400">(FindIt Protected)</span>
               </div>
               <div class="mt-1 flex items-center gap-2 text-xs font-bold text-brand">
                 <i class="fa-solid fa-gift"></i>
@@ -642,7 +639,7 @@
               </div>
             </div>
 
-            <!-- Amazon "About This Item" -->
+            <!-- "About This Item" -->
             <div>
               <h4 class="font-bold text-xs text-gray-900 uppercase tracking-wider mb-2">About this item</h4>
               <ul id="modal-product-features" class="space-y-1.5 text-xs text-gray-600 list-disc pl-4 leading-relaxed">
@@ -653,7 +650,7 @@
             <!-- Technical Specifications Table -->
             <div>
               <h4 class="font-bold text-xs text-gray-900 uppercase tracking-wider mb-2">Item Specifications</h4>
-              <div class="bg-gray-50 rounded-xl p-3 border border-gray-200 text-xs">
+              <div class="bg-gray-50 rounded-2xl p-3 border border-gray-200 text-xs">
                 <table class="w-full" id="modal-specs-table">
                   <!-- Injected via JS -->
                 </table>
@@ -661,9 +658,9 @@
             </div>
           </div>
 
-          <!-- Column 3: Amazon "Buy Box" & Lister Profile (3 cols) -->
+          <!-- Column 3: Custody Box & Lister Profile (3 cols) -->
           <div class="md:col-span-3 space-y-4">
-            <div class="p-5 bg-white rounded-2xl border-2 border-orange-200 shadow-md space-y-4">
+            <div class="p-5 bg-white rounded-3xl border-2 border-orange-200 shadow-md space-y-4">
               
               <!-- Hub Availability -->
               <div>
@@ -683,19 +680,19 @@
                 <p class="text-[11px] text-gray-500">FREE Same-Day Collection</p>
               </div>
 
-              <!-- Lister / Custodian Details Box (Crucial user requirement) -->
-              <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+              <!-- Lister / Custodian Details Box -->
+              <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2">
                 <p class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Listed By (Finder/Staff)</p>
                 <div class="flex items-center gap-2.5">
                   <div id="modal-lister-avatar" class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-600 to-amber-500 text-white font-bold text-xs flex items-center justify-center shrink-0">
                     OM
                   </div>
-                  <div class="leading-tight">
+                  <div class="leading-tight overflow-hidden">
                     <p id="modal-lister-name" class="font-bold text-xs text-gray-900 flex items-center gap-1">
                       <span>Officer Martinez</span>
-                      <i class="fa-solid fa-circle-check text-brand text-[10px]" title="Verified Staff Member"></i>
+                      <i class="fa-solid fa-circle-check text-brand text-[10px]" title="Verified Staff"></i>
                     </p>
-                    <p id="modal-lister-role" class="text-[10px] text-gray-500">Library Security Staff</p>
+                    <p id="modal-lister-role" class="text-[10px] text-gray-500 truncate">Library Security Staff</p>
                   </div>
                 </div>
                 <div class="pt-1.5 border-t border-gray-200/60 flex justify-between items-center text-[10px] text-gray-500 font-medium">
@@ -704,12 +701,12 @@
                 </div>
               </div>
 
-              <!-- Action Buttons (Amazon Yellow / Orange Buttons) -->
+              <!-- Action Buttons (FindIt Theme) -->
               <div class="space-y-2 pt-1">
                 <button 
                   id="modal-claim-btn"
                   onclick="openClaimVerificationModal()" 
-                  class="w-full py-3 bg-amazon-yellow hover:bg-amazon-yellowHover text-amazon-dark font-extrabold text-xs rounded-xl transition shadow-sm border border-[#fcd200] flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                  class="w-full py-3 bg-brand hover:bg-orange-600 text-white font-extrabold text-xs rounded-xl transition shadow-md shadow-brand/20 flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                 >
                   <i class="fa-solid fa-key"></i>
                   <span>Claim Item (Verify Proof)</span>
@@ -718,20 +715,20 @@
                 <button 
                   id="modal-message-btn"
                   onclick="openBlindMessageModal()" 
-                  class="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs rounded-xl transition border border-gray-300 flex items-center justify-center gap-2 cursor-pointer"
+                  class="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs rounded-xl transition border border-gray-200 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <i class="fa-solid fa-user-secret text-brand"></i>
                   <span>Blind Message Lister</span>
                 </button>
               </div>
 
-              <!-- Trust Shield Guarantee -->
+              <!-- Trust Guarantee -->
               <div class="pt-2 border-t border-gray-100 text-[10px] text-gray-500 space-y-1">
                 <p class="flex items-center gap-1 text-gray-700 font-medium">
                   <i class="fa-solid fa-shield text-brand"></i>
-                  <span>Zero-Knowledge Identity Protection</span>
+                  <span>Zero-Knowledge Proof Protected</span>
                 </p>
-                <p>Phone numbers & student records remain 100% private.</p>
+                <p>Private credentials remain 100% confidential.</p>
               </div>
 
             </div>
@@ -762,7 +759,6 @@
       </div>
 
       <div class="space-y-4 pt-2">
-        <!-- Challenge Box -->
         <div class="p-4 bg-orange-50 rounded-2xl border border-orange-200">
           <p class="text-[10px] font-bold text-brand uppercase tracking-wider mb-1">Secret Security Question</p>
           <p id="claim-secret-question" class="text-xs font-bold text-gray-900 leading-relaxed">
@@ -787,7 +783,6 @@
           <span>Responses are cryptographically hashed before verification against intake log.</span>
         </div>
 
-        <!-- Submit Button -->
         <div class="pt-2 flex items-center justify-end gap-3">
           <button onclick="closeClaimVerificationModal()" class="px-4 py-2.5 text-xs font-bold text-gray-600 hover:text-gray-800">
             Cancel
@@ -811,7 +806,6 @@
         Your cryptographic claim token has been created. Show this QR code at the custodian counter to retrieve your item.
       </p>
 
-      <!-- Mock QR Display -->
       <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200 inline-block mx-auto">
         <div class="w-40 h-40 bg-white p-2 rounded-xl shadow-inner flex flex-col items-center justify-center border border-gray-300">
           <i class="fa-solid fa-qrcode text-7xl text-gray-900"></i>
@@ -824,7 +818,7 @@
           <i class="fa-solid fa-location-dot"></i>
           <span id="claim-success-hub-name">William Central Library Escrow Desk</span>
         </p>
-        <p class="text-[11px] text-emerald-700 mt-0.5">Hours: 8:00 AM - 10:00 PM Daily • Bring student ID</p>
+        <p class="text-[11px] text-emerald-700 mt-0.5">Hours: 8:00 AM - 10:00 PM Daily • Bring valid ID</p>
       </div>
 
       <button onclick="closeClaimSuccessModal()" class="w-full py-3 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition shadow-sm">
@@ -868,7 +862,7 @@
           <textarea 
             id="blind-message-text" 
             rows="4" 
-            placeholder="Hi, I believe this is my item. I can provide the purchase receipt and meet you at the library escrow counter today..."
+            placeholder="Hi, I believe this is my item. I can provide the purchase receipt and meet you at the escrow counter today..."
             class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand"
           ></textarea>
         </div>
@@ -877,8 +871,8 @@
           <button onclick="closeBlindMessageModal()" class="px-4 py-2.5 text-xs font-bold text-gray-600 hover:text-gray-800">
             Cancel
           </button>
-          <button onclick="sendBlindMessage()" class="px-6 py-2.5 bg-amazon-dark hover:bg-black text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2">
-            <i class="fa-solid fa-paper-plane text-brand text-xs"></i>
+          <button onclick="sendBlindMessage()" class="px-6 py-2.5 bg-brand hover:bg-orange-600 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane text-xs"></i>
             <span>Send Encrypted Message</span>
           </button>
         </div>
@@ -906,6 +900,7 @@
     let currentCategoryFilter = 'all';
     let currentRatingFilter = 0;
     let currentBountyFilter = 'all';
+    let currentRegionFilter = 'all';
 
     // Initialize on DOM Ready
     document.addEventListener('DOMContentLoaded', () => {
@@ -923,9 +918,9 @@
         const emailEl = document.getElementById('menu-user-email');
 
         if (nameEl) nameEl.textContent = user.name || "Alex Morgan";
-        if (roleEl) roleEl.textContent = user.role || "Student";
+        if (roleEl) roleEl.textContent = user.role || "Community Member";
         if (avatarEl) avatarEl.textContent = user.avatar || "AM";
-        if (emailEl) emailEl.textContent = user.email || "alex.m@campus.edu";
+        if (emailEl) emailEl.textContent = user.email || "alex.m@domain.com";
         
         document.querySelectorAll('.js-reward-points, .js-karma-points').forEach(el => {
           el.innerHTML = (user.points ? user.points.toLocaleString() : '2,450') + (el.innerHTML.includes('pts') ? ' <span class="text-xs text-orange-600 font-bold">pts</span>' : '');
@@ -984,7 +979,7 @@
         filtered = filtered.filter(c => (c.category || '').toLowerCase() === activeCat.toLowerCase());
         document.getElementById('breadcrumb-category').textContent = activeCat;
       } else {
-        document.getElementById('breadcrumb-category').textContent = 'All Active Campus Items';
+        document.getElementById('breadcrumb-category').textContent = 'Worldwide Active Items';
       }
 
       // 3. Chip quick filters
@@ -997,7 +992,7 @@
       } else if (currentChipFilter === 'found') {
         filtered = filtered.filter(c => c.type === 'found');
       } else if (currentChipFilter === 'bounty') {
-        filtered = filtered.filter(c => (c.bountyPoints && c.bountyPoints >= 250) || (c.rewardBounty && c.rewardBounty.includes('₹500') || c.rewardBounty.includes('₹800') || c.rewardBounty.includes('₹1,000') || c.rewardBounty.includes('₹1,500')));
+        filtered = filtered.filter(c => (c.bountyPoints && c.bountyPoints >= 250) || (c.rewardBounty && (c.rewardBounty.includes('₹500') || c.rewardBounty.includes('₹600') || c.rewardBounty.includes('₹800') || c.rewardBounty.includes('₹1,000') || c.rewardBounty.includes('₹1,500'))));
       }
 
       // 4. Checkboxes
@@ -1067,7 +1062,7 @@
       container.classList.remove('hidden');
 
       if (currentViewMode === 'grid') {
-        container.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4';
+        container.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5';
         container.innerHTML = items.map(c => renderGridCard(c)).join('');
       } else {
         container.className = 'flex flex-col space-y-4';
@@ -1075,61 +1070,61 @@
       }
     }
 
-    // Amazon Grid Card Template
+    // FindIt Theme: Grid Card Template
     function renderGridCard(c) {
       const matchScore = c.matchScore ? `${c.matchScore}% Match` : 'Scanning';
       const isMatch = c.status === 'Match Found';
       const isLost = c.type === 'lost';
-      const listerName = c.listerInfo?.name || c.foundBy || (isLost ? 'Student Seeking' : 'Campus Helper');
+      const listerName = c.listerInfo?.name || c.foundBy || (isLost ? 'Community Member Seeking' : 'Verified Helper');
       const listerRole = c.listerInfo?.role || (isLost ? 'Owner Report' : 'Finder');
       const listerAvatar = c.listerInfo?.avatar || 'FM';
 
       return `
-        <div class="bg-white rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-200 overflow-hidden flex flex-col justify-between group">
+        <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-orange-200 transition-all duration-300 overflow-hidden flex flex-col justify-between group">
           <div>
             <!-- Image & Badge Container -->
             <div class="relative bg-gray-50 aspect-square overflow-hidden cursor-pointer product-img-wrapper" onclick="openProductModal('${c.id}')">
               <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover">
               
               <!-- Badges -->
-              <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start">
+              <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
                 ${c.badge ? `
-                  <span class="amazon-choice-badge bg-amazon-dark text-white text-[10px] font-extrabold px-2.5 py-0.5 tracking-tight shadow">
+                  <span class="findit-choice-badge bg-gray-900 text-white text-[10px] font-black px-3 py-1 shadow-md">
                     ${c.badge}
                   </span>
                 ` : ''}
                 ${isMatch ? `
-                  <span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow flex items-center gap-1">
-                    <i class="fa-solid fa-bolt text-[8px]"></i> ${matchScore}
+                  <span class="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    <i class="fa-solid fa-bolt text-[9px]"></i> ${matchScore}
                   </span>
                 ` : `
-                  <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded shadow">
+                  <span class="bg-blue-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md">
                     ${c.status}
                   </span>
                 `}
               </div>
 
               <!-- Lost/Found Pill -->
-              <div class="absolute top-2.5 right-2.5">
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isLost ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">
+              <div class="absolute top-3 right-3">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${isLost ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">
                   ${isLost ? 'LOST' : 'FOUND'}
                 </span>
               </div>
             </div>
 
             <!-- Card Content -->
-            <div class="p-4 space-y-2">
+            <div class="p-5 space-y-2.5">
               
               <!-- ASIN & Category -->
               <div class="flex items-center justify-between text-[11px] text-gray-400">
                 <span class="font-mono font-bold text-gray-500">${c.id}</span>
-                <span class="text-amazon-link hover:underline cursor-pointer" onclick="setCategoryFilter('${c.category}')">${c.category}</span>
+                <span class="text-brand font-semibold hover:underline cursor-pointer" onclick="setCategoryFilter('${c.category}')">${c.category}</span>
               </div>
 
-              <!-- Product Title (Amazon Style) -->
+              <!-- Product Title -->
               <h3 
                 onclick="openProductModal('${c.id}')"
-                class="font-bold text-sm text-gray-900 group-hover:text-amazon-link cursor-pointer line-clamp-2 leading-snug"
+                class="font-bold text-sm text-gray-900 group-hover:text-brand cursor-pointer line-clamp-2 leading-snug transition-colors"
                 title="${c.title}"
               >
                 ${c.title}
@@ -1139,69 +1134,71 @@
               <div class="flex items-center gap-1.5 text-xs">
                 <span class="text-amber-500 font-bold text-xs">★★★★★</span>
                 <span class="font-bold text-gray-800 text-[11px]">${c.rating || 4.9}</span>
-                <span class="text-gray-400 text-[11px]">(${c.reviewsCount || 24})</span>
+                <span class="text-gray-400 text-[11px]">(${c.reviewsCount || 24} verifications)</span>
               </div>
 
-              <!-- Pricing / Bounty Block (Amazon Style) -->
-              <div class="pt-1">
-                <div class="flex items-baseline gap-1.5">
-                  <span class="text-xs text-gray-500 font-medium">Claim:</span>
-                  <span class="text-base font-extrabold text-gray-900">₹0</span>
-                  <span class="text-[11px] text-gray-500 font-semibold">(Free Pickup)</span>
+              <!-- Pricing / Bounty Block -->
+              <div class="pt-1 flex items-baseline justify-between">
+                <div>
+                  <span class="text-xs text-gray-400 font-medium">Claim Fee:</span>
+                  <span class="text-base font-extrabold text-emerald-600 ml-1">₹0 Free</span>
                 </div>
-                <div class="text-xs font-bold text-brand mt-0.5 flex items-center gap-1">
+                <div class="text-xs font-bold text-brand flex items-center gap-1">
                   <i class="fa-solid fa-gift text-[11px]"></i>
                   <span>${c.rewardBounty || '+150 Karma Pts'}</span>
                 </div>
               </div>
 
-              <!-- Prime / Shield Badge -->
-              <div class="flex items-center gap-1 text-[11px] text-gray-600 font-medium">
-                <span class="px-1.5 py-0.2 bg-gradient-to-r from-brand to-amber-500 text-white rounded text-[9px] font-black">
+              <!-- FindIt Shield Badge -->
+              <div class="flex items-center gap-1.5 text-[11px] text-gray-600 font-medium">
+                <span class="px-2 py-0.5 bg-gradient-to-tr from-brand to-amber-500 text-white rounded-md text-[9px] font-black">
                   FindIt Shield
                 </span>
-                <span>FREE Pickup at Hub</span>
+                <span>FREE Safe Pickup at Hub</span>
               </div>
 
-              <!-- Lister Details Section (Highlighted Requirement) -->
-              <div class="pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
+              <!-- Lister Details Row (Key User Requirement) -->
+              <div class="pt-2.5 border-t border-gray-100 flex items-center justify-between text-xs">
                 <div class="flex items-center gap-2">
-                  <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-brand-600 to-amber-500 text-white font-bold text-[9px] flex items-center justify-center shrink-0">
+                  <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-brand-600 to-amber-500 text-white font-bold text-[10px] flex items-center justify-center shrink-0 shadow-sm">
                     ${listerAvatar}
                   </div>
                   <div class="leading-tight overflow-hidden">
-                    <p class="text-[11px] font-bold text-gray-800 truncate">${listerName}</p>
+                    <p class="text-[11px] font-bold text-gray-800 truncate flex items-center gap-1">
+                      <span>${listerName}</span>
+                      <i class="fa-solid fa-circle-check text-brand text-[9px]" title="Verified Staff"></i>
+                    </p>
                     <p class="text-[9px] text-gray-400 truncate">${listerRole}</p>
                   </div>
                 </div>
-                <span class="text-[10px] text-gray-400 shrink-0">${c.date}</span>
+                <span class="text-[10px] text-gray-400 font-medium shrink-0">${c.date}</span>
               </div>
 
             </div>
           </div>
 
-          <!-- Bottom Action Buttons -->
-          <div class="p-4 pt-0 space-y-1.5">
+          <!-- Bottom Action Buttons (FindIt Brand Theme) -->
+          <div class="p-5 pt-0 space-y-2">
             <button 
               onclick="openProductModal('${c.id}')"
-              class="w-full py-2 bg-amazon-yellow hover:bg-amazon-yellowHover text-amazon-dark font-extrabold text-xs rounded-lg transition shadow-sm border border-[#fcd200] flex items-center justify-center gap-1.5 cursor-pointer"
+              class="w-full py-2.5 bg-brand hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition shadow-md shadow-brand/20 flex items-center justify-center gap-2 cursor-pointer active:scale-98"
             >
               <i class="fa-solid fa-eye text-xs"></i>
               <span>Inspect & Track Case</span>
             </button>
-            <div class="grid grid-cols-2 gap-1.5">
+            <div class="grid grid-cols-2 gap-2">
               <button 
                 onclick="quickClaim('${c.id}')"
-                class="py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[11px] rounded-lg transition border border-gray-300 flex items-center justify-center gap-1"
+                class="py-2 bg-orange-50 hover:bg-orange-100 text-brand font-bold text-[11px] rounded-xl transition border border-orange-200 flex items-center justify-center gap-1.5"
               >
-                <i class="fa-solid fa-key text-[10px] text-brand"></i>
+                <i class="fa-solid fa-key text-[10px]"></i>
                 <span>Claim</span>
               </button>
               <button 
                 onclick="quickMessage('${c.id}')"
-                class="py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[11px] rounded-lg transition border border-gray-300 flex items-center justify-center gap-1"
+                class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-[11px] rounded-xl transition border border-gray-200 flex items-center justify-center gap-1.5"
               >
-                <i class="fa-solid fa-user-secret text-[10px]"></i>
+                <i class="fa-solid fa-user-secret text-[10px] text-brand"></i>
                 <span>Relay</span>
               </button>
             </div>
@@ -1210,37 +1207,37 @@
       `;
     }
 
-    // Amazon List Card Template (Classic Search View)
+    // FindIt Theme: List Card Template
     function renderListCard(c) {
       const matchScore = c.matchScore ? `${c.matchScore}% Match` : 'Scanning';
       const isMatch = c.status === 'Match Found';
       const isLost = c.type === 'lost';
-      const listerName = c.listerInfo?.name || c.foundBy || (isLost ? 'Student Seeking' : 'Campus Helper');
+      const listerName = c.listerInfo?.name || c.foundBy || (isLost ? 'Community Member Seeking' : 'Verified Helper');
       const listerRole = c.listerInfo?.role || (isLost ? 'Owner Report' : 'Finder');
       const listerAvatar = c.listerInfo?.avatar || 'FM';
 
       return `
-        <div class="bg-white rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-200 p-4 sm:p-5 flex flex-col md:flex-row gap-5 items-start">
+        <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-orange-200 transition-all duration-300 p-5 flex flex-col md:flex-row gap-6 items-start group">
           
           <!-- Image -->
-          <div class="relative w-full md:w-56 aspect-square bg-gray-50 rounded-xl overflow-hidden shrink-0 cursor-pointer product-img-wrapper" onclick="openProductModal('${c.id}')">
+          <div class="relative w-full md:w-56 aspect-square bg-gray-50 rounded-2xl overflow-hidden shrink-0 cursor-pointer product-img-wrapper" onclick="openProductModal('${c.id}')">
             <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover">
             
-            <div class="absolute top-2 left-2 flex flex-col gap-1 items-start">
+            <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start">
               ${c.badge ? `
-                <span class="amazon-choice-badge bg-amazon-dark text-white text-[9px] font-extrabold px-2 py-0.5 tracking-tight shadow">
+                <span class="findit-choice-badge bg-gray-900 text-white text-[9px] font-black px-2.5 py-0.5 shadow">
                   ${c.badge}
                 </span>
               ` : ''}
               ${isMatch ? `
-                <span class="bg-emerald-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow">
+                <span class="bg-emerald-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow">
                   ${matchScore}
                 </span>
               ` : ''}
             </div>
             
-            <div class="absolute top-2 right-2">
-              <span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${isLost ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+            <div class="absolute top-2.5 right-2.5">
+              <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold ${isLost ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
                 ${isLost ? 'LOST' : 'FOUND'}
               </span>
             </div>
@@ -1251,12 +1248,12 @@
             <div class="flex items-center gap-2 text-xs text-gray-500">
               <span class="font-mono font-bold text-gray-700">${c.id}</span>
               <span>&bull;</span>
-              <span class="text-amazon-link hover:underline font-semibold cursor-pointer" onclick="setCategoryFilter('${c.category}')">${c.category}</span>
+              <span class="text-brand hover:underline font-semibold cursor-pointer" onclick="setCategoryFilter('${c.category}')">${c.category}</span>
               <span>&bull;</span>
-              <span>Brand: <strong>${c.brand || 'Campus Gear'}</strong></span>
+              <span>Brand: <strong>${c.brand || 'Asset Recovery'}</strong></span>
             </div>
 
-            <h3 onclick="openProductModal('${c.id}')" class="font-bold text-base text-gray-900 hover:text-amazon-link cursor-pointer leading-snug">
+            <h3 onclick="openProductModal('${c.id}')" class="font-bold text-base text-gray-900 hover:text-brand cursor-pointer leading-snug transition-colors">
               ${c.title}
             </h3>
 
@@ -1264,7 +1261,7 @@
               <span class="text-amber-500 font-bold">★★★★★</span>
               <span class="font-bold text-gray-800">${c.rating || 4.9}</span>
               <span class="text-gray-400">|</span>
-              <span class="text-amazon-link font-medium">${c.reviewsCount || 28} verifications</span>
+              <span class="text-brand font-medium">${c.reviewsCount || 28} verifications</span>
               <span class="text-gray-400">|</span>
               <span class="text-emerald-700 font-bold">${c.status}</span>
             </div>
@@ -1275,50 +1272,54 @@
 
             <!-- Listed by Row -->
             <div class="pt-2 flex flex-wrap items-center gap-4 text-xs text-gray-600">
-              <div class="flex items-center gap-1.5">
-                <span class="text-gray-400">Listed by:</span>
-                <span class="font-bold text-gray-900 flex items-center gap-1">
-                  <span>${listerName}</span>
-                  <i class="fa-solid fa-circle-check text-brand text-[10px]"></i>
-                </span>
-                <span class="text-[11px] text-gray-400">(${listerRole})</span>
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-brand-600 to-amber-500 text-white font-bold text-[9px] flex items-center justify-center shrink-0">
+                  ${listerAvatar}
+                </div>
+                <div class="leading-tight">
+                  <span class="font-bold text-gray-900 flex items-center gap-1">
+                    <span>${listerName}</span>
+                    <i class="fa-solid fa-circle-check text-brand text-[9px]"></i>
+                  </span>
+                  <span class="text-[10px] text-gray-400">${listerRole}</span>
+                </div>
               </div>
               <div>
                 <span class="text-gray-400">Location:</span>
-                <strong class="text-gray-800">${c.location}</strong>
+                <strong class="text-gray-800 ml-1">${c.location}</strong>
               </div>
               <div>
                 <span class="text-gray-400">Hub:</span>
-                <strong class="text-brand">${c.hub || 'Central Vault'}</strong>
+                <strong class="text-brand ml-1">${c.hub || 'Central Vault'}</strong>
               </div>
             </div>
           </div>
 
-          <!-- Right: Price & Buttons (Amazon Buy Column) -->
-          <div class="w-full md:w-56 shrink-0 md:border-l md:border-gray-100 md:pl-5 space-y-3 pt-2 md:pt-0">
+          <!-- Right: Price & Buttons (FindIt Theme) -->
+          <div class="w-full md:w-56 shrink-0 md:border-l md:border-gray-100 md:pl-6 space-y-3 pt-2 md:pt-0">
             <div>
-              <span class="text-xs text-gray-500">Claim Retrieval:</span>
-              <div class="text-2xl font-black text-gray-900">₹0 <span class="text-xs font-semibold text-emerald-600">Free</span></div>
+              <span class="text-xs text-gray-500">Claim Fee:</span>
+              <div class="text-2xl font-black text-emerald-600">₹0 <span class="text-xs font-semibold">Free</span></div>
               <p class="text-xs font-bold text-brand mt-0.5">${c.rewardBounty || '+100 pts'}</p>
             </div>
 
             <div class="text-[11px] text-gray-600 space-y-0.5">
-              <p class="font-semibold text-emerald-700">✓ Ready for Safe Pickup</p>
-              <p>FREE Pickup at Hub Counter</p>
+              <p class="font-bold text-emerald-700">✓ In Safe Custody</p>
+              <p>FREE Pickup at Hub Desk</p>
             </div>
 
             <div class="space-y-2 pt-1">
               <button 
                 onclick="openProductModal('${c.id}')"
-                class="w-full py-2.5 bg-amazon-yellow hover:bg-amazon-yellowHover text-amazon-dark font-extrabold text-xs rounded-xl transition shadow-sm border border-[#fcd200] flex items-center justify-center gap-1.5"
+                class="w-full py-2.5 bg-brand hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition shadow-md shadow-brand/20 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <span>View Full Details</span>
               </button>
               <button 
                 onclick="quickClaim('${c.id}')"
-                class="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs rounded-xl transition border border-gray-300 flex items-center justify-center gap-1"
+                class="w-full py-2 bg-orange-50 hover:bg-orange-100 text-brand font-bold text-xs rounded-xl transition border border-orange-200 flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <i class="fa-solid fa-key text-brand text-[11px]"></i>
+                <i class="fa-solid fa-key text-[11px]"></i>
                 <span>Claim via Proof</span>
               </button>
             </div>
@@ -1338,7 +1339,7 @@
       // Populate Modal Fields
       document.getElementById('modal-case-asin').textContent = c.id;
       document.getElementById('modal-product-image').src = c.image;
-      document.getElementById('modal-product-brand').textContent = `Brand: ${c.brand || 'Campus Catalog'}`;
+      document.getElementById('modal-product-brand').textContent = `Brand: ${c.brand || 'Asset Recovery'}`;
       document.getElementById('modal-product-title').textContent = c.title;
       document.getElementById('modal-product-rating').textContent = c.rating || 4.9;
       document.getElementById('modal-product-reviews').textContent = c.reviewsCount || 38;
@@ -1347,8 +1348,8 @@
       
       // Lister Info
       const lister = c.listerInfo || {
-        name: c.foundBy || (c.type === 'lost' ? 'Student Owner' : 'Campus Helper'),
-        role: c.type === 'lost' ? 'Lost Report Owner' : 'Verified Campus Staff',
+        name: c.foundBy || (c.type === 'lost' ? 'Community Member' : 'Verified Helper'),
+        role: c.type === 'lost' ? 'Lost Report Owner' : 'Verified Staff',
         avatar: 'CE',
         responseTime: '< 10 mins',
         rating: 5.0
@@ -1370,7 +1371,7 @@
       // Badges
       const badgeBox = document.getElementById('modal-badge-container');
       badgeBox.innerHTML = `
-        ${c.badge ? `<span class="amazon-choice-badge bg-amazon-dark text-white text-xs font-black px-3 py-1 shadow">${c.badge}</span>` : ''}
+        ${c.badge ? `<span class="findit-choice-badge bg-gray-900 text-white text-xs font-black px-3 py-1 shadow">${c.badge}</span>` : ''}
         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${c.type === 'lost' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
           ${c.type === 'lost' ? 'LOST REPORT' : 'FOUND IN SAFE CUSTODY'}
         </span>
@@ -1392,7 +1393,7 @@
       const specsTable = document.getElementById('modal-specs-table');
       const specs = c.specs || {
         "Category": c.category,
-        "Brand": c.brand || "Campus Found",
+        "Brand": c.brand || "Asset Recovery",
         "Condition": c.condition || "Inspected Good",
         "Found Location": c.location,
         "Date": c.date
@@ -1457,7 +1458,6 @@
       closeClaimVerificationModal();
       closeProductModal();
 
-      // Open Success Modal
       document.getElementById('claim-success-hub-name').textContent = selectedCase?.hub || 'William Central Library Escrow';
       const successModal = document.getElementById('claim-success-modal');
       successModal.classList.remove('hidden');
@@ -1504,9 +1504,19 @@
     // Filter Chips & Setters
     function filterChip(type) {
       currentChipFilter = type;
-      document.querySelectorAll('.chip-btn').forEach(btn => btn.classList.remove('font-bold', 'text-white', 'text-brand'));
-      event.currentTarget.classList.add('font-bold', 'text-white');
+      document.querySelectorAll('.chip-btn').forEach(btn => {
+        btn.classList.remove('bg-gray-900', 'text-white', 'active-chip');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      event.currentTarget.classList.remove('bg-gray-100', 'text-gray-700');
+      event.currentTarget.classList.add('bg-gray-900', 'text-white', 'active-chip');
       applyFilters();
+    }
+
+    function filterByRegion(region) {
+      currentRegionFilter = region;
+      applyFilters();
+      showToast('Region Filtered', `Filtered catalog by: ${region.toUpperCase()}`, 'info');
     }
 
     function setCategoryFilter(cat) {
@@ -1543,7 +1553,7 @@
       currentRatingFilter = 0;
       currentBountyFilter = 'all';
       applyFilters();
-      showToast('Filters Reset', 'Displaying all active cases on campus.', 'info');
+      showToast('Filters Reset', 'Displaying all active cases worldwide.', 'info');
     }
 
     function toggleMyCasesFilter() {
@@ -1562,11 +1572,11 @@
       const listBtn = document.getElementById('view-list-btn');
 
       if (mode === 'grid') {
-        gridBtn.className = 'p-1.5 rounded bg-white/15 text-white hover:text-white transition';
-        listBtn.className = 'p-1.5 rounded hover:bg-white/15 text-gray-400 hover:text-white transition';
+        gridBtn.className = 'p-2 rounded-xl bg-brand text-white shadow-sm transition';
+        listBtn.className = 'p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition';
       } else {
-        listBtn.className = 'p-1.5 rounded bg-white/15 text-white hover:text-white transition';
-        gridBtn.className = 'p-1.5 rounded hover:bg-white/15 text-gray-400 hover:text-white transition';
+        listBtn.className = 'p-2 rounded-xl bg-brand text-white shadow-sm transition';
+        gridBtn.className = 'p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition';
       }
 
       applyFilters();

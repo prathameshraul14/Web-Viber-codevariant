@@ -2,10 +2,10 @@
 (function() {
   'use strict';
 
-  // Initialize storage with enriched mock data
-  if (!localStorage.getItem('findit_cases_v2') || !localStorage.getItem('findit_cases')) {
+  // Initialize storage with enriched worldwide mock data
+  if (!localStorage.getItem('findit_cases_v3') || !localStorage.getItem('findit_cases')) {
     localStorage.setItem('findit_cases', JSON.stringify(window.FindItData.cases));
-    localStorage.setItem('findit_cases_v2', 'true');
+    localStorage.setItem('findit_cases_v3', 'true');
   }
   if (!localStorage.getItem('findit_user')) {
     // If not logged in yet, keep default in memory or initial template
