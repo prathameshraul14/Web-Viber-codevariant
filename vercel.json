@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/login", "dest": "/login.html" },
+    { "src": "/dashboard", "dest": "/dashboard.html" },
+    { "src": "/home", "dest": "/dashboard.html" },
+    { "src": "/cases", "dest": "/active_cases.html" },
+    { "src": "/active_cases", "dest": "/active_cases.html" },
+    { "src": "/rewards", "dest": "/karma_rewards.html" },
+    { "src": "/karma", "dest": "/karma_rewards.html" },
+    { "src": "/coupons", "dest": "/karma_rewards.html" },
+    { "src": "/report", "dest": "/gemini-code-1792843735076.html" },
+    { "src": "/hubs", "dest": "/trusted_hubs_page.html" },
+    { "src": "/radar", "dest": "/echo_radar.html" },
+    { "src": "/neural", "dest": "/NeuralMatchEngine.html" },
+    { "src": "/profile", "dest": "/profile.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
