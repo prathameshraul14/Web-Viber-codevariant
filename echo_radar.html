@@ -17,9 +17,9 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Leaflet CSS & JS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Leaflet CSS & JS (High reliability CDN without fragile SRI blocks) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
   <!-- FindIt Ecosystem Scripts -->
   <script src="js/mockData.js"></script>
@@ -52,19 +52,25 @@
     .custom-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
     .custom-scroll:hover::-webkit-scrollbar-thumb { background: #d1d5db; }
     
+    /* Reset Leaflet DivIcon default borders & backgrounds */
+    .leaflet-div-icon {
+      background: transparent !important;
+      border: none !important;
+    }
+
     /* Map Marker Animations */
     .pulse-marker-wrapper { display: flex; align-items: center; justify-content: center; }
     .pulse-marker {
-      width: 22px; height: 22px;
-      background-color: #3b82f6; /* Blue for user */
+      width: 24px; height: 24px;
+      background-color: #3b82f6; /* Blue for user scanner node */
       border-radius: 50%;
-      border: 3px solid white;
+      border: 3.5px solid white;
       box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
       animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
     }
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-      70% { box-shadow: 0 0 0 26px rgba(59, 130, 246, 0); }
+      70% { box-shadow: 0 0 0 28px rgba(59, 130, 246, 0); }
       100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
     }
 
@@ -72,9 +78,9 @@
       background-color: white;
       border-radius: 50%;
       border: 2.5px solid #f97316;
-      width: 42px !important; height: 42px !important;
+      width: 44px !important; height: 44px !important;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
+      font-size: 22px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.18);
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       cursor: pointer;
@@ -83,12 +89,12 @@
       border-color: #10b981;
     }
     .item-marker-icon:hover {
-      transform: scale(1.22) translateY(-6px) !important;
+      transform: scale(1.25) translateY(-6px) !important;
       z-index: 1000 !important;
-      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
     }
     .item-marker-icon.found-marker:hover {
-      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
     }
   </style>
 </head>
@@ -161,7 +167,7 @@
   </header>
 
   <!-- Main Content Container -->
-  <main class="py-10 max-w-7xl mx-auto px-6 md:px-8 space-y-10 flex-grow w-full">
+  <main class="py-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 space-y-10 flex-grow w-full">
     
     <!-- 1. Header Section -->
     <header class="flex flex-col md:flex-row md:items-end justify-between space-y-4 md:space-y-0">
@@ -177,9 +183,19 @@
         <p class="text-gray-500 text-base md:text-xl font-medium leading-relaxed">
           Real-time spatial mapping of lost and found items. Scanning a <strong id="headerRadiusLabel" class="text-gray-800">2km radius</strong> around your location.
         </p>
+
+        <!-- Quick City Presets -->
+        <div class="flex flex-wrap items-center gap-2 mt-4">
+          <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Quick Jump:</span>
+          <button onclick="setCityCoords(19.0760, 72.8777, 'Mumbai')" class="px-2.5 py-1 bg-white hover:bg-orange-50 border border-gray-200 hover:border-brand text-gray-700 hover:text-brand text-xs font-bold rounded-lg transition shadow-2xs">📍 Mumbai</button>
+          <button onclick="setCityCoords(28.6139, 77.2090, 'Delhi NCR')" class="px-2.5 py-1 bg-white hover:bg-orange-50 border border-gray-200 hover:border-brand text-gray-700 hover:text-brand text-xs font-bold rounded-lg transition shadow-2xs">📍 Delhi NCR</button>
+          <button onclick="setCityCoords(12.9716, 77.5946, 'Bengaluru')" class="px-2.5 py-1 bg-white hover:bg-orange-50 border border-gray-200 hover:border-brand text-gray-700 hover:text-brand text-xs font-bold rounded-lg transition shadow-2xs">📍 Bengaluru</button>
+          <button onclick="setCityCoords(18.5204, 73.8567, 'Pune')" class="px-2.5 py-1 bg-white hover:bg-orange-50 border border-gray-200 hover:border-brand text-gray-700 hover:text-brand text-xs font-bold rounded-lg transition shadow-2xs">📍 Pune</button>
+        </div>
       </div>
+
       <div class="flex items-center space-x-3 shrink-0">
-        <button onclick="locateUser()" class="px-5 py-3.5 bg-white border border-gray-200 text-gray-900 font-bold rounded-[1rem] shadow-sm hover:border-gray-300 hover:bg-gray-50 transition flex items-center cursor-pointer">
+        <button id="recenterBtn" onclick="locateUser(true)" class="px-5 py-3.5 bg-white border border-gray-200 text-gray-900 font-bold rounded-[1rem] shadow-sm hover:border-gray-300 hover:bg-gray-50 transition flex items-center cursor-pointer">
           <span class="mr-2">🎯</span> Recenter Map
         </button>
         <a href="report.html" class="px-5 py-3.5 bg-brand text-white font-bold rounded-[1rem] shadow-lg shadow-brand/25 hover:bg-orange-600 transition flex items-center cursor-pointer">
@@ -189,10 +205,10 @@
     </header>
 
     <!-- 2. Real Map (Leaflet) with Floating Controls -->
-    <div class="relative bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden h-[600px]">
+    <div class="relative bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden h-[620px] w-full">
       
       <!-- Glassmorphic Floating Control Panel -->
-      <div class="absolute top-6 left-6 z-[1000] bg-white/90 backdrop-blur-xl border border-white/60 shadow-xl rounded-[1.5rem] p-5 w-64 pointer-events-auto">
+      <div class="absolute top-6 left-6 z-[1000] bg-white/95 backdrop-blur-xl border border-white/60 shadow-xl rounded-[1.5rem] p-5 w-64 pointer-events-auto">
         <h3 class="font-bold font-jakarta text-gray-900 text-lg mb-4 flex items-center">
           Radar Settings <span class="ml-auto text-xs bg-brand/10 text-brand px-2 py-0.5 rounded-full font-bold">Live</span>
         </h3>
@@ -235,15 +251,18 @@
           </div>
         </div>
 
-        <div class="mt-4 pt-3 border-t border-gray-200/50 text-center">
-          <a href="NeuralMatchEngine.html" class="text-xs font-bold text-brand hover:underline flex items-center justify-center gap-1">
-            <span>Launch Neural Match</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        <div class="mt-4 pt-3 border-t border-gray-200/50 flex items-center justify-between">
+          <span id="mapStatusBadge" class="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Mesh Active
+          </span>
+          <a href="NeuralMatchEngine.html" class="text-xs font-bold text-brand hover:underline flex items-center gap-1">
+            <span>Neural Match</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
           </a>
         </div>
       </div>
 
       <!-- The Leaflet Map Container -->
-      <div id="map" class="w-full h-full z-0"></div>
+      <div id="map" class="w-full h-full min-h-[600px] z-0"></div>
     </div>
 
     <!-- 3. Radar Stats Grid (4 Bento Boxes) -->
@@ -414,12 +433,13 @@
 
   <!-- Leaflet Map & Radar Engine Script -->
   <script>
-    let map;
-    let userCircle;
-    let userMarker;
+    let map = null;
+    let userCircle = null;
+    let userMarker = null;
     let currentRadius = 2; // km
     let userCoords = [19.0760, 72.8777]; // Default Mumbai
     let allRenderedMarkers = [];
+    let isMapReady = false;
 
     // Base radar simulated pins
     const defaultRadarItems = [
@@ -431,21 +451,70 @@
       { emoji: '💻', title: 'MacBook Air M2 (Grey)', type: 'Found', desc: 'Deposited at Library Desk', match: 96, offset: [-0.002, 0.003] }
     ];
 
-    // Initialize Map
-    map = L.map('map', {
-      zoomControl: false,
-      scrollWheelZoom: false 
-    }).setView(userCoords, 14);
+    // Initialize Leaflet Map with robust fallback tile servers
+    function initLeafletMap() {
+      if (typeof L === 'undefined') {
+        console.warn('Leaflet library is still loading, retrying in 100ms...');
+        setTimeout(initLeafletMap, 100);
+        return;
+      }
 
-    // Add Zoom Control to bottom right
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+      if (map) return; // Already initialized
 
-    // CartoDB Positron clean map tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 20
-    }).addTo(map);
+      const mapContainer = document.getElementById('map');
+      if (!mapContainer) return;
+
+      try {
+        map = L.map('map', {
+          zoomControl: false,
+          scrollWheelZoom: false,
+          center: userCoords,
+          zoom: 14
+        });
+
+        // Add Zoom Control to bottom right
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // OpenStreetMap standard tile server (100% free, reliable, no API key or referrer restriction)
+        const osmTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        });
+
+        // CartoDB Positron clean light layer option
+        const cartoTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          maxZoom: 20,
+          subdomains: 'abcd',
+          attribution: '&copy; OpenStreetMap &copy; CARTO'
+        });
+
+        // Add OSM as primary tile layer
+        osmTiles.addTo(map);
+
+        // Optional layer switcher for user convenience
+        L.control.layers({
+          "Street View (OSM)": osmTiles,
+          "Positron Light": cartoTiles
+        }, null, { position: 'topright' }).addTo(map);
+
+        // Enable scroll wheel zoom on user focus
+        map.on('focus', () => map.scrollWheelZoom.enable());
+        map.on('blur', () => map.scrollWheelZoom.disable());
+
+        isMapReady = true;
+
+        // Render features immediately at default coords (0ms delay!)
+        renderMapFeatures(userCoords[0], userCoords[1], false);
+
+        // Ensure Leaflet recalculates layout bounds
+        setTimeout(() => {
+          if (map) map.invalidateSize();
+        }, 200);
+
+      } catch (err) {
+        console.error('Error creating Leaflet map:', err);
+      }
+    }
 
     function updateScanRadius(radiusKm) {
       currentRadius = parseFloat(radiusKm);
@@ -460,38 +529,59 @@
       applyFilters();
     }
 
-    function renderMapFeatures(lat, lng) {
+    function setCityCoords(lat, lng, cityName) {
+      userCoords = [lat, lng];
+      const headerLabel = document.getElementById('headerRadiusLabel');
+      if (headerLabel) {
+        headerLabel.innerHTML = `${currentRadius}km radius near <span class="text-brand">${cityName}</span>`;
+      }
+      renderMapFeatures(lat, lng, true);
+    }
+
+    function renderMapFeatures(lat, lng, shouldFly = true) {
+      if (!map) return;
       userCoords = [lat, lng];
 
-      // Smooth pan
-      map.flyTo([lat, lng], 14, { duration: 1.5 });
+      // Smooth pan if requested
+      if (shouldFly) {
+        map.flyTo([lat, lng], 14, { duration: 1.2 });
+      } else {
+        map.setView([lat, lng], 14);
+      }
 
-      // Clear old layers
+      // Clear previous layers
       if (userCircle) map.removeLayer(userCircle);
       if (userMarker) map.removeLayer(userMarker);
-      allRenderedMarkers.forEach(item => map.removeLayer(item.marker));
+      allRenderedMarkers.forEach(item => {
+        if (map.hasLayer(item.marker)) map.removeLayer(item.marker);
+      });
       allRenderedMarkers = [];
 
-      // Draw Radius Circle in Brand Orange
+      // 1. Draw Radius Circle in Brand Orange
       userCircle = L.circle([lat, lng], {
         color: '#f97316',
         weight: 2,
         fillColor: '#f97316',
-        fillOpacity: 0.07,
+        fillOpacity: 0.08,
         radius: currentRadius * 1000
       }).addTo(map);
 
-      // Pulsing User Marker
+      // 2. Pulsing User Location Marker
       const pulseIcon = L.divIcon({
         className: 'pulse-marker-wrapper',
-        html: '<div class="pulse-marker"></div>',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
+        html: '<div class="pulse-marker" title="Your Scanner Location"></div>',
+        iconSize: [26, 26],
+        iconAnchor: [13, 13]
       });
       userMarker = L.marker([lat, lng], { icon: pulseIcon }).addTo(map);
-      userMarker.bindPopup('<div style="font-family:Inter; text-align:center; padding:4px;"><b>Your Live Location</b><br><span style="font-size:11px;color:#6b7280;">Active Scanner Node</span></div>');
+      userMarker.bindPopup(`
+        <div style="font-family:'Plus Jakarta Sans',sans-serif; text-align:center; padding:6px;">
+          <b style="font-size:13px; color:#111827;">📍 Your Live Location</b><br>
+          <span style="font-size:11px;color:#6b7280;">Active Scanner Node &middot; Scanning ${currentRadius}km</span>
+        </div>
+      `);
 
-      // Aggregate simulated + active live cases from window.FindIt
+      // 3. Aggregate simulated + active live cases from window.FindIt
       let liveItems = [...defaultRadarItems];
 
       if (window.FindIt && typeof window.FindIt.getCases === 'function') {
@@ -501,15 +591,15 @@
             emoji: c.icon || (c.type === 'lost' ? '🔍' : '✨'),
             title: c.title,
             type: c.type === 'found' ? 'Found' : 'Lost',
-            desc: `Live Report at ${c.location || 'Campus'}`,
-            match: c.matchScore || 88,
-            offset: [(idx * 0.003) - 0.004, (idx * -0.003) + 0.004],
+            desc: `Live Report: ${c.location || 'Campus Center'}`,
+            match: c.matchScore || 90,
+            offset: [(idx * 0.0035) - 0.004, (idx * -0.0035) + 0.004],
             isPlatformCase: true
           });
         });
       }
 
-      // Populate markers on map
+      // 4. Populate markers on map
       liveItems.forEach((item, index) => {
         const itemLat = lat + (item.offset ? item.offset[0] : (Math.random() - 0.5) * 0.02);
         const itemLng = lng + (item.offset ? item.offset[1] : (Math.random() - 0.5) * 0.02);
@@ -520,21 +610,21 @@
         const itemIcon = L.divIcon({
           className: '',
           html: `<div class="${markerClass}" title="${item.title}">${item.emoji}</div>`,
-          iconSize: [42, 42],
-          iconAnchor: [21, 21]
+          iconSize: [44, 44],
+          iconAnchor: [22, 22]
         });
 
         const marker = L.marker([itemLat, itemLng], { icon: itemIcon }).addTo(map);
         
         marker.bindPopup(`
-          <div style="font-family: 'Plus Jakarta Sans', sans-serif; text-align:center; padding: 6px; min-width: 160px;">
-            <div style="display:inline-block; font-size:10px; font-weight:800; color: ${isFound ? '#10b981' : '#f97316'}; background:${isFound ? '#ecfdf5' : '#fff7ed'}; border-radius:6px; padding: 2px 8px; text-transform:uppercase; margin-bottom:4px;">
-              ${item.type}
+          <div style="font-family:'Plus Jakarta Sans', sans-serif; text-align:center; padding: 6px; min-width: 170px;">
+            <div style="display:inline-block; font-size:10px; font-weight:800; color: ${isFound ? '#10b981' : '#f97316'}; background:${isFound ? '#ecfdf5' : '#fff7ed'}; border-radius:6px; padding: 2px 8px; text-transform:uppercase; margin-bottom:5px;">
+              ${item.type} Item
             </div>
-            <b style="font-size:13px; color:#111827; display:block; line-height:1.3;">${item.title}</b>
+            <b style="font-size:14px; color:#111827; display:block; line-height:1.3;">${item.title}</b>
             <span style="font-size:11px; color:#6b7280; display:block; margin:4px 0;">${item.desc}</span>
-            <div style="margin-top:6px; padding-top:6px; border-top: 1px solid #f3f4f6; display:flex; justify-content:center; gap:8px;">
-              <a href="dashboard.html" style="color:#f97316; font-size:11px; font-weight:bold; text-decoration:none;">View on Radar &rarr;</a>
+            <div style="margin-top:8px; padding-top:6px; border-top: 1px solid #f3f4f6;">
+              <a href="dashboard.html" style="color:#f97316; font-size:11px; font-weight:bold; text-decoration:none;">View on Dashboard &rarr;</a>
             </div>
           </div>
         `);
@@ -547,6 +637,11 @@
 
       renderPingFeed(liveItems);
       applyFilters();
+
+      // Invalidate size once after rendering
+      setTimeout(() => {
+        if (map) map.invalidateSize();
+      }, 150);
     }
 
     function renderPingFeed(items) {
@@ -555,14 +650,14 @@
 
       container.innerHTML = '';
 
-      items.forEach(item => {
+      items.forEach((item, idx) => {
         const isFound = item.type.toLowerCase() === 'found';
         const pingCard = document.createElement('div');
         pingCard.className = `p-4 sm:p-5 rounded-[1.5rem] border transition-all cursor-pointer ${
           isFound 
             ? 'bg-[#fcfdfd] border-emerald-100 hover:border-emerald-300' 
             : 'bg-white border-orange-100 hover:border-orange-300'
-        } shadow-sm`;
+        } shadow-sm hover:shadow-md`;
 
         pingCard.setAttribute('data-type', item.type.toLowerCase());
 
@@ -583,7 +678,7 @@
                 <div class="${isFound ? 'bg-emerald-500' : 'bg-brand'} h-1.5 rounded-full" style="width: ${item.match}%"></div>
               </div>
               <div class="flex justify-between items-center text-[10px] text-gray-400 font-bold mt-1.5">
-                <span class="text-gray-400">${item.isPlatformCase ? '📡 Campus Radar' : 'Nearby Mesh'}</span>
+                <span class="text-gray-400">${item.isPlatformCase ? '📡 Active Case' : 'Nearby Mesh'}</span>
                 <span class="${isFound ? 'text-emerald-600' : 'text-brand'}">${item.match}% Match Confidence</span>
               </div>
             </div>
@@ -591,8 +686,13 @@
         `;
 
         pingCard.onclick = () => {
-          map.flyTo(item.marker ? item.marker.getLatLng() : userCoords, 15);
-          if (item.marker) item.marker.openPopup();
+          if (allRenderedMarkers[idx] && allRenderedMarkers[idx].marker) {
+            const m = allRenderedMarkers[idx].marker;
+            map.flyTo(m.getLatLng(), 15, { duration: 1.0 });
+            m.openPopup();
+          } else {
+            map.flyTo(userCoords, 15);
+          }
         };
 
         container.appendChild(pingCard);
@@ -639,32 +739,38 @@
       }
     }
 
-    // Geolocation API
-    function locateUser() {
+    // Geolocation API (Asynchronous, does not block initial map render)
+    function locateUser(fly = true) {
+      const btn = document.getElementById('recenterBtn');
+      if (btn) btn.innerHTML = '<span class="mr-2">⏳</span> Locating...';
+
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            renderMapFeatures(position.coords.latitude, position.coords.longitude);
+            if (btn) btn.innerHTML = '<span class="mr-2">🎯</span> Recenter Map';
+            renderMapFeatures(position.coords.latitude, position.coords.longitude, fly);
           },
           (error) => {
-            console.warn("Location denied or timed out. Falling back to default campus coordinates.");
-            renderMapFeatures(19.0760, 72.8777); 
+            console.warn("Location permission denied or timed out. Campus location is active.");
+            if (btn) btn.innerHTML = '<span class="mr-2">🎯</span> Recenter Map';
           },
-          { timeout: 8000 }
+          { timeout: 5000, maximumAge: 60000 }
         );
       } else {
-        renderMapFeatures(19.0760, 72.8777);
+        if (btn) btn.innerHTML = '<span class="mr-2">🎯</span> Recenter Map';
       }
     }
 
-    // UX: Enable scroll zoom only after user clicks the map
-    map.on('focus', function() { map.scrollWheelZoom.enable(); });
-    map.on('blur', function() { map.scrollWheelZoom.disable(); });
-
-    // Initial Load
+    // Auto-init on DOM ready
     window.addEventListener('DOMContentLoaded', () => {
-      locateUser();
+      initLeafletMap();
+      locateUser(false); // background location detection
       if (window.lucide) lucide.createIcons();
+    });
+
+    // Window resize handler to maintain full width
+    window.addEventListener('resize', () => {
+      if (map) map.invalidateSize();
     });
   </script>
 </body>
