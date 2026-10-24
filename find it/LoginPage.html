@@ -75,20 +75,19 @@
 
     <!-- Header Navigation Bar -->
     <header class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between relative z-10">
-        <a href="index.html" class="flex items-center space-x-3 cursor-pointer group">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/30 group-hover:scale-105 transition-transform">
-                <i class="fa-solid fa-magnifying-glass-location text-lg"></i>
-            </div>
-            <div>
-                <span class="text-2xl font-extrabold tracking-tight text-slate-900">Find<span class="text-brand-500">It</span></span>
-                <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 -mt-1">Global Recovery Network</span>
-            </div>
+        <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
+            <img src="assets/images/findit-logo.png" alt="FindIt Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform">
+            <span class="hidden sm:inline-block text-[9px] font-bold uppercase tracking-widest text-brand-600 bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">Global Network</span>
         </a>
 
         <div class="flex items-center gap-3">
             <a href="index.html" class="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-white text-slate-700 border border-slate-200 hidden sm:inline-flex items-center gap-1.5 transition shadow-sm">
                 <i class="fa-solid fa-arrow-left text-[10px]"></i>
                 Back to Home
+            </a>
+            <a href="profile.html" class="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 hidden sm:inline-flex items-center gap-1.5 transition shadow-sm">
+                <i class="fa-solid fa-user-circle text-xs"></i>
+                View Profile
             </a>
             <span class="text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-100 text-brand-700 border border-brand-200 hidden sm:inline-flex items-center gap-1.5">
                 <i class="fa-solid fa-earth-americas text-xs text-brand-600"></i>
@@ -498,14 +497,16 @@
 
         // Quick SSO Handler
         function handleSSO(provider) {
+            const currentPts = Math.max(parseInt(localStorage.getItem('findit_points') || '25000', 10), 25000);
             const user = {
                 name: "Alex Morgan",
                 email: "alex.morgan@domain.com",
                 role: "People / Individual",
-                points: 350,
+                points: currentPts,
                 avatar: "AM"
             };
             localStorage.setItem('findit_user', JSON.stringify(user));
+            localStorage.setItem('findit_points', currentPts.toString());
             localStorage.setItem('findit_logged_in', 'true');
             showToast(provider, `Authenticating with ${provider}... Redirecting to Dashboard.`, 'success');
             setTimeout(() => {
@@ -516,6 +517,7 @@
         // Form Submit Handler
         function handleAuthSubmit(e, mode) {
             e.preventDefault();
+            const currentPts = Math.max(parseInt(localStorage.getItem('findit_points') || '25000', 10), 25000);
             
             if (mode === 'signin') {
                 const identifier = document.getElementById('signin-identifier').value;
@@ -524,10 +526,11 @@
                     name: cleanName || "Alex Morgan",
                     email: identifier,
                     role: "People / Individual",
-                    points: parseInt(localStorage.getItem('findit_points') || '350', 10),
+                    points: currentPts,
                     avatar: (cleanName || "AM").split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
                 };
                 localStorage.setItem('findit_user', JSON.stringify(user));
+                localStorage.setItem('findit_points', currentPts.toString());
                 localStorage.setItem('findit_logged_in', 'true');
                 showToast('Welcome Back!', `Signing in as ${identifier}... Redirecting to Dashboard.`, 'success');
                 setTimeout(() => {
@@ -543,11 +546,11 @@
                     email: email,
                     role: role,
                     location: city,
-                    points: 400, // +50 bonus points for signing up
+                    points: currentPts + 50, // +50 bonus points for signing up
                     avatar: (name || "AM").split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
                 };
                 localStorage.setItem('findit_user', JSON.stringify(user));
-                localStorage.setItem('findit_points', '400');
+                localStorage.setItem('findit_points', (currentPts + 50).toString());
                 localStorage.setItem('findit_logged_in', 'true');
                 showToast('Account Created!', `Welcome ${name} (${role})! Initialized for ${city || 'Worldwide'}.`, 'success');
                 setTimeout(() => {

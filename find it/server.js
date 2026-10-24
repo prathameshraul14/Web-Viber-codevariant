@@ -25,6 +25,9 @@ try {
 const HTML_PAGES = {
   '/index.html': 'index.html',
   '/login.html': 'login.html',
+  '/LoginPage.html': 'LoginPage.html',
+  '/HOME PAGE AFTERR LOGIN.html': 'HOME PAGE AFTERR LOGIN.html',
+  '/LANDING PAGE.html': 'LANDING PAGE.html',
   '/dashboard.html': 'dashboard.html',
   '/active_cases.html': 'active_cases.html',
   '/karma_rewards.html': 'karma_rewards.html',
@@ -87,11 +90,45 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // 2. Friendly route aliases
+  // 2. Direct streaming for Hero MP4 Intro Video
+  if (pathname === '/finditintro.mp4' || pathname.endsWith('finditintro.mp4')) {
+    const videoFile = path.join(BASE_DIR, 'finditintro.mp4');
+    if (fs.existsSync(videoFile)) {
+      const stat = fs.statSync(videoFile);
+      const range = req.headers.range;
+      if (range) {
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
+        const chunksize = (end - start) + 1;
+        res.writeHead(206, {
+          'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunksize,
+          'Content-Type': 'video/mp4'
+        });
+        fs.createReadStream(videoFile, { start, end }).pipe(res);
+        return;
+      } else {
+        res.writeHead(200, {
+          'Content-Length': stat.size,
+          'Content-Type': 'video/mp4',
+          'Accept-Ranges': 'bytes',
+          'Cache-Control': 'public, max-age=86400'
+        });
+        fs.createReadStream(videoFile).pipe(res);
+        return;
+      }
+    }
+  }
+
+  // 3. Friendly route aliases
   if (pathname === '/' || pathname === '') {
     pathname = '/index.html';
-  } else if (pathname === '/login') {
+  } else if (pathname === '/login' || pathname === '/signin' || pathname === '/LoginPage' || pathname === '/loginpage') {
     pathname = '/login.html';
+  } else if (pathname === '/home-page-after-login' || pathname === '/homepageafterlogin') {
+    pathname = '/HOME PAGE AFTERR LOGIN.html';
   } else if (pathname === '/dashboard' || pathname === '/home') {
     pathname = '/dashboard.html';
   } else if (pathname === '/active_cases' || pathname === '/active-cases' || pathname === '/cases' || pathname === '/catalog') {
@@ -112,7 +149,7 @@ const server = http.createServer((req, res) => {
     pathname = '/find it/index.html';
   }
 
-  // 3. Direct in-memory serving for HTML cache
+  // 4. Direct in-memory serving for HTML cache
   if (HTML_CACHE[pathname]) {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
     res.end(HTML_CACHE[pathname]);

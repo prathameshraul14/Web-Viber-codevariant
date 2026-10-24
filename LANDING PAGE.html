@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Campus Recovery Protocol | Lost & Found Operating System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#f97316',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; margin: 0; }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="text-gray-900 selection:bg-orange-200">
+
+  <!-- 1. HERO SECTION (Split-screen with smooth fade) -->
+  <section class="relative w-full min-h-screen flex items-center overflow-hidden bg-[#fdfcf8]">
+    
+    <!-- Background Video (Pushed to the right, naturally crops edges) -->
+    <div class="absolute inset-y-0 right-0 w-full md:w-[75%] z-0">
+      <video id="hero-video" autoplay loop muted playsinline class="w-full h-full object-cover">
+        <source src="finditintro.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <!-- The Smooth Fade Overlay: Fades from background color to clear, removing the hard line -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#fdfcf8] via-[#fdfcf8]/85 to-black/25 w-full h-full"></div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-6 md:px-12 py-6">
+      <a href="index.html" class="flex items-center space-x-3 group">
+        <div class="text-brand-500 transition-transform group-hover:scale-110">
+          <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-extrabold tracking-tight leading-none text-gray-900 font-jakarta">Find<span class="text-brand-500">It</span></span>
+          <span class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase mt-1">Recovery Protocol</span>
+        </div>
+      </a>
+
+      <!-- Navigation Actions -->
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-bold text-gray-700">
+        <a href="#how-it-works" class="hover:text-brand-600 transition">How It Works</a>
+        <a href="echo_radar.html" class="hover:text-brand-600 transition">Echo Radar</a>
+        <a href="report.html" class="text-brand hover:text-orange-600 transition">Report Item</a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand-600 transition">Secure Hubs</a>
+        <a href="karma_rewards.html" class="hover:text-brand-600 transition">Karma Rewards</a>
+        <a href="dashboard.html" class="hover:text-brand-600 transition">Live Dashboard</a>
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <a href="login.html" class="text-sm font-bold text-gray-700 hover:text-black transition">Sign In</a>
+        <a href="login.html" class="px-5 py-2.5 bg-black text-white text-sm font-bold rounded-xl hover:bg-gray-800 transition shadow-lg hover:shadow-xl">Log In</a>
+      </div>
+    </header>
+
+    <!-- Main Text Content (Left Side) -->
+    <div class="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-12">
+      <div class="w-full md:w-[58%] space-y-6">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-orange-100/90 text-orange-900 text-[11px] font-bold tracking-widest uppercase rounded-full border border-orange-200 backdrop-blur-sm">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500"></span>
+          </span>
+          <span>Live Campus Network 2026</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-[1.1] tracking-tight font-jakarta">
+          Building the <br /> 
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-brand-500 to-amber-600">Operating System</span> <br /> 
+          for Lost & Found.
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-700 max-w-lg font-medium leading-relaxed">
+          AI-assisted spatial matching connecting lost items, students, and campus security through one shared operational view.
+        </p>
+        
+        <div class="pt-4 flex flex-wrap gap-4 items-center">
+          <a href="dashboard.html" class="inline-flex justify-center items-center px-8 py-4 bg-brand text-white font-bold rounded-xl hover:bg-orange-600 transition shadow-lg shadow-orange-500/25 hover:-translate-y-0.5 text-base">
+            <span>Enter Platform</span>
+            <i class="fa-solid fa-arrow-right ml-2.5 text-sm"></i>
+          </a>
+          <a href="login.html" class="inline-flex justify-center items-center px-6 py-4 bg-white/90 backdrop-blur-md text-gray-800 font-bold rounded-xl border border-gray-200 hover:bg-white hover:border-gray-300 transition text-base shadow-sm">
+            <span>Sign In / Register</span>
+          </a>
+        </div>
+
+        <!-- Quick Proof Metrics -->
+        <div class="pt-6 flex items-center space-x-6 text-xs text-gray-500 font-semibold">
+          <div class="flex items-center space-x-1.5">
+            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+            <span>Zero-Knowledge Proofs</span>
+          </div>
+          <a href="NeuralMatchEngine.html" class="flex items-center space-x-1.5 hover:text-brand transition">
+            <i class="fa-solid fa-brain text-brand-500"></i>
+            <span>Neural Match Engine</span>
+          </a>
+          <a href="trusted_hubs_page.html" class="flex items-center space-x-1.5 hover:text-brand transition">
+            <i class="fa-solid fa-building-shield text-blue-600"></i>
+            <span>Verified Secure Hubs</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sound Toggle -->
+    <div class="absolute bottom-8 right-8 z-30">
+      <button id="mute-toggle" class="flex items-center space-x-2 px-4 py-2.5 bg-white/95 backdrop-blur border border-gray-200 text-gray-800 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg hover:bg-white hover:scale-105 transition-all cursor-pointer">
+        <i id="mute-icon" class="fa-solid fa-volume-xmark text-brand-500"></i>
+        <span id="mute-text">Sound Off</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 2. STATS SECTION -->
+  <section class="py-12 bg-gray-900 text-white border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-800">
+      <div class="py-4">
+        <h4 class="text-5xl font-black text-brand mb-1 font-jakarta">70%</h4>
+        <p class="text-gray-400 font-semibold text-sm uppercase tracking-wider">Less time spent searching</p>
+      </div>
+      <div class="py-4">
+        <h4 class="text-5xl font-black text-brand mb-1 font-jakarta">3x</h4>
+        <p class="text-gray-400 font-semibold text-sm uppercase tracking-wider">Higher recovery success rate</p>
+      </div>
+      <div class="py-4">
+        <h4 class="text-5xl font-black text-brand mb-1 font-jakarta">100%</h4>
+        <p class="text-gray-400 font-semibold text-sm uppercase tracking-wider">Blind Secure Verification</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. HOW IT WORKS SECTION -->
+  <section id="how-it-works" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="text-center mb-16 max-w-2xl mx-auto">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-brand-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-100">Step-by-Step Workflow</span>
+        <h2 class="text-4xl font-extrabold text-gray-900 font-jakarta mt-3">A Complete Recovery Journey</h2>
+        <p class="text-gray-500 mt-3 text-base">From scattered lost posts to an automated, guided recovery loop on campus.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-brand-600 rounded-2xl flex items-center justify-center font-bold text-xl mb-6 shadow-sm">1</div>
+          <h3 class="text-xl font-bold mb-3 font-jakarta">1. Report</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Log the lost or found item with key details, high-res photo, and last known campus location hotspot.</p>
+        </div>
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-brand-600 rounded-2xl flex items-center justify-center font-bold text-xl mb-6 shadow-sm">2</div>
+          <h3 class="text-xl font-bold mb-3 font-jakarta">2. Match</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Neural Match Engine cross-checks spatial proximity and visual similarity score within seconds.</p>
+        </div>
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-brand-600 rounded-2xl flex items-center justify-center font-bold text-xl mb-6 shadow-sm">3</div>
+          <h3 class="text-xl font-bold mb-3 font-jakarta">3. Verify</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Confirm ownership safely using blind hidden details (stickers, serials, engraving) to block fraudulent claims.</p>
+        </div>
+        <div class="p-8 bg-[#fdfcf8] rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+          <div class="w-12 h-12 bg-orange-100 text-brand-600 rounded-2xl flex items-center justify-center font-bold text-xl mb-6 shadow-sm">4</div>
+          <h3 class="text-xl font-bold mb-3 font-jakarta">4. Recover</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">Arrange a verified handover at a 24/7 designated campus security desk or trusted library locker.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ADVANCED CAPABILITIES SECTION -->
+  <section id="capabilities" class="py-24 bg-gray-50/80 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="mb-16 flex flex-col md:flex-row justify-between md:items-end gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest text-brand-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-100">Next-Gen Architecture</span>
+          <h2 class="text-4xl font-extrabold text-gray-900 font-jakarta mt-3">Powerful Capabilities</h2>
+          <p class="text-gray-500 mt-2 text-base">Built with high-fidelity algorithms for a frictionless campus experience.</p>
+        </div>
+        <a href="dashboard.html" class="inline-flex items-center text-sm font-bold text-brand hover:underline">
+          Explore Dashboard Capabilities &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Interactive Map -->
+        <div onclick="window.location.href='dashboard.html#radar'" class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <div class="w-12 h-12 bg-orange-50 text-brand rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors font-jakarta">Interactive Campus Map & Radar</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Visual spatial tracking of lost items. See real-time hotspots, library drop zones, and campus desk locations directly on your screen.</p>
+            <div class="mt-4 inline-flex items-center text-xs font-bold text-brand uppercase tracking-wider">
+              Launch Live Radar &rarr;
+            </div>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.8] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+
+        <!-- 100% Accuracy -->
+        <div onclick="showCapabilityDemo('verification')" class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <div class="w-12 h-12 bg-orange-50 text-brand rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors font-jakarta">100% Blind Verification Accuracy</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Zero-knowledge claim verification ensures that only the true owner can claim an item by answering hidden details.</p>
+            <div class="mt-4 inline-flex items-center text-xs font-bold text-brand uppercase tracking-wider">
+              See Blind Protocol Demo &rarr;
+            </div>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.8] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+
+        <!-- Multi-language -->
+        <div onclick="showCapabilityDemo('multilingual')" class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <div class="w-12 h-12 bg-orange-50 text-brand rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-globe"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors font-jakarta">Multi-Language Support</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">Report and search in your preferred language. The system automatically translates descriptions to match across all campus dialects.</p>
+            <div class="mt-4 inline-flex items-center text-xs font-bold text-brand uppercase tracking-wider">
+              Preview Language Switcher &rarr;
+            </div>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.8] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+
+        <!-- Audio Feature -->
+        <div onclick="showCapabilityDemo('voice')" class="group p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-2xl hover:border-orange-300 transition-all duration-300 cursor-pointer overflow-hidden relative">
+          <div class="relative z-10">
+            <div class="w-12 h-12 bg-orange-50 text-brand rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-microphone"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors font-jakarta">Voice & Audio Transcription</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">In a rush? Use our voice-to-text audio feature to describe the lost item instantly while walking between classes.</p>
+            <div class="mt-4 inline-flex items-center text-xs font-bold text-brand uppercase tracking-wider">
+              Test Audio Note &rarr;
+            </div>
+          </div>
+          <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-50 rounded-full group-hover:scale-[2.8] transition-transform duration-500 ease-in-out z-0"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. RIGHT TECHNOLOGIES SECTION -->
+  <section class="py-16 bg-white border-t border-gray-200 text-center">
+    <div class="max-w-4xl mx-auto px-6">
+      <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Powered by the Right Modern Technologies</p>
+      <div class="flex flex-wrap justify-center gap-3 md:gap-6 text-gray-800 font-bold text-base">
+        <span class="px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl hover:border-orange-300 transition shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-brain text-brand"></i> AI Vision Matching
+        </span>
+        <span class="px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl hover:border-orange-300 transition shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-database text-brand"></i> Real-Time State Store
+        </span>
+        <span class="px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl hover:border-orange-300 transition shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-key text-brand"></i> Zero-Knowledge Auth
+        </span>
+        <span class="px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl hover:border-orange-300 transition shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-satellite text-brand"></i> Campus Spatial Hotspots
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="py-16 bg-gradient-to-br from-orange-500 via-brand to-orange-700 text-white text-center relative overflow-hidden">
+    <div class="relative z-10 max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl md:text-5xl font-extrabold font-jakarta mb-4">Never Lose Sight of What Matters.</h2>
+      <p class="text-orange-100 text-lg max-w-xl mx-auto mb-8 font-medium">Join thousands of students and faculty streamlining recovery across campus today.</p>
+      <div class="flex justify-center gap-4">
+        <a href="login.html" class="px-8 py-4 bg-white text-brand font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all hover:scale-105 text-base">
+          Get Started Now
+        </a>
+        <a href="dashboard.html" class="px-8 py-4 bg-black/30 backdrop-blur-md text-white font-bold rounded-xl border border-white/20 hover:bg-black/50 transition-all text-base">
+          View Demo Dashboard
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. COMPREHENSIVE FOOTER -->
+  <footer class="bg-gray-900 text-gray-300 py-16 border-t-4 border-brand">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12">
+      
+      <!-- Column 1: Brand -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-2 text-white">
+          <svg class="w-7 h-7 text-brand" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path>
+          </svg>
+          <span class="text-2xl font-extrabold tracking-tight font-jakarta">Find<span class="text-brand">It</span></span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          A real-time, zero-friction web platform built to connect students, staff, and campus security for smart campus item recovery.
+        </p>
+      </div>
+
+      <!-- Column 2: Platform -->
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Platform Navigation</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#how-it-works" class="hover:text-brand transition-colors">How It Works</a></li>
+          <li><a href="trusted_hubs_page.html" class="hover:text-brand transition-colors">Secure Hubs Directory</a></li>
+          <li><a href="dashboard.html#radar" class="hover:text-brand transition-colors">Interactive Campus Map</a></li>
+          <li><a href="dashboard.html" class="hover:text-brand transition-colors">Live Dashboard</a></li>
+          <li><a href="login.html" class="hover:text-brand transition-colors">Sign In / Register</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Trust -->
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Security & Trust</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#" onclick="window.FindIt.toast('Privacy Protected', 'No personally identifiable tracking data is stored without permission.', 'info'); return false;" class="hover:text-brand transition-colors">Privacy Policy (Limited Data)</a></li>
+          <li><a href="#" onclick="window.FindIt.toast('Zero-Knowledge', 'Item secrets are stored hashed and verified blindly.', 'info'); return false;" class="hover:text-brand transition-colors">Zero-Knowledge Verification</a></li>
+          <li><a href="trusted_hubs_page.html" class="hover:text-brand transition-colors">Secure Hub Protocols</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Gateways -->
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Connected Gateways</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="login.html" class="hover:text-brand transition-colors">University SSO Portal</a></li>
+          <li><a href="dashboard.html" class="hover:text-brand transition-colors">Security Desk Dashboard</a></li>
+          <li><a href="dashboard.html" class="hover:text-brand transition-colors">Campus Lost & Found Feed</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-6 md:px-12 mt-12 pt-8 border-t border-gray-800 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-3">
+      <p>&copy; 2026 FindIt Campus Recovery Protocol. All rights reserved.</p>
+      <p>Designed for Smart Campuses & Connected Communities.</p>
+    </div>
+  </footer>
+
+  <!-- Capability Demo Modal -->
+  <div id="demo-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-gray-100 relative">
+      <button onclick="closeCapabilityDemo()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="demo-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Video audio controller
+    const video = document.getElementById('hero-video');
+    const muteBtn = document.getElementById('mute-toggle');
+    const muteText = document.getElementById('mute-text');
+    const muteIcon = document.getElementById('mute-icon');
+
+    if (muteBtn && video) {
+      muteBtn.addEventListener('click', () => {
+        if (video.muted) {
+          video.muted = false;
+          video.volume = 1.0; 
+          muteText.textContent = 'Sound On';
+          muteIcon.className = 'fa-solid fa-volume-high text-brand-500';
+          window.FindIt.toast('Audio Unmuted', 'Playing intro video sound.', 'info');
+        } else {
+          video.muted = true;
+          muteText.textContent = 'Sound Off';
+          muteIcon.className = 'fa-solid fa-volume-xmark text-brand-500';
+        }
+      });
+    }
+
+    // Interactive Demo Modal Handler
+    function showCapabilityDemo(type) {
+      const modal = document.getElementById('demo-modal');
+      const content = document.getElementById('demo-modal-content');
+      
+      if (type === 'verification') {
+        content.innerHTML = `
+          <div class="w-12 h-12 rounded-2xl bg-orange-100 text-brand flex items-center justify-center text-xl mb-4 font-bold">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-jakarta text-gray-900 mb-2">Zero-Knowledge Verification</h3>
+          <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+            When an item is found, key identifying marks (like serial numbers, lockscreen wallpapers, or sticker details) are kept hidden from the public feed.
+          </p>
+          <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs space-y-2 mb-6">
+            <div class="flex justify-between font-bold text-gray-800">
+              <span>Public Feed View:</span>
+              <span class="text-brand">Protected</span>
+            </div>
+            <p class="text-gray-500 italic">"AirPods Pro 2nd Gen found in Library 2nd floor."</p>
+            <div class="border-t border-gray-200 pt-2 font-bold text-gray-800">Secret Challenge Question:</div>
+            <p class="text-gray-700">"What color silicone protective case is on it?"</p>
+          </div>
+          <button onclick="window.location.href='dashboard.html'" class="w-full py-3 bg-brand text-white font-bold rounded-xl shadow-lg hover:bg-orange-600 transition">
+            Test on Dashboard
+          </button>
+        `;
+      } else if (type === 'multilingual') {
+        content.innerHTML = `
+          <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-4 font-bold">
+            <i class="fa-solid fa-language"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-jakarta text-gray-900 mb-2">Campus Multi-Language Match</h3>
+          <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+            Our neural pipeline parses reports in English, Spanish, Mandarin, Hindi, and more. A report submitted in Spanish matches against an English search seamlessly.
+          </p>
+          <div class="grid grid-cols-2 gap-2 text-xs font-bold mb-6">
+            <div class="p-3 bg-gray-50 rounded-lg border text-center">🇪🇸 Mochila negra</div>
+            <div class="p-3 bg-gray-50 rounded-lg border text-center">🇺🇸 Black backpack</div>
+            <div class="p-3 bg-gray-50 rounded-lg border text-center">🇨🇳 黑色背包</div>
+            <div class="p-3 bg-gray-50 rounded-lg border text-center">🇮🇳 काला बैग</div>
+          </div>
+          <button onclick="closeCapabilityDemo()" class="w-full py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition">
+            Got It
+          </button>
+        `;
+      } else if (type === 'voice') {
+        content.innerHTML = `
+          <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center text-xl mb-4 font-bold">
+            <i class="fa-solid fa-microphone-lines"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-jakarta text-gray-900 mb-2">Voice-to-Report Engine</h3>
+          <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+            Tap and speak while walking to class. The AI extracts the category, colors, brand, and campus location automatically into a structured lost report.
+          </p>
+          <div class="p-4 bg-orange-50 rounded-xl border border-orange-200 text-xs mb-6 text-gray-700">
+            <span class="font-bold text-orange-800">Simulated Dictation:</span>
+            <p class="mt-1">"Hey FindIt, I left my blue Hydro Flask at the second-floor quiet study table in the library about twenty minutes ago."</p>
+          </div>
+          <button onclick="closeCapabilityDemo()" class="w-full py-3 bg-brand text-white font-bold rounded-xl hover:bg-orange-600 transition">
+            Close Preview
+          </button>
+        `;
+      }
+      
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCapabilityDemo() {
+      const modal = document.getElementById('demo-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  </script>
+</body>
+</html>

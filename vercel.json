@@ -3,7 +3,17 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "server.js": {
+      "includeFiles": "finditintro.mp4"
+    }
+  },
   "rewrites": [
+    { "source": "/finditintro.mp4", "destination": "/finditintro.mp4" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/signin", "destination": "/login.html" },
+    { "source": "/LoginPage", "destination": "/login.html" },
+    { "source": "/loginpage", "destination": "/login.html" },
     { "source": "/active_cases", "destination": "/active_cases.html" },
     { "source": "/active-cases", "destination": "/active_cases.html" },
     { "source": "/cases", "destination": "/active_cases.html" },
@@ -20,7 +30,6 @@
     { "source": "/echo_radar", "destination": "/echo_radar.html" },
     { "source": "/neural", "destination": "/NeuralMatchEngine.html" },
     { "source": "/NeuralMatchEngine", "destination": "/NeuralMatchEngine.html" },
-    { "source": "/profile", "destination": "/profile.html" },
-    { "source": "/login", "destination": "/login.html" }
+    { "source": "/profile", "destination": "/profile.html" }
   ]
 }
