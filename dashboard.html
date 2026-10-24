@@ -71,10 +71,10 @@
           <i class="fa-solid fa-gauge-high text-xs"></i>
           <span>My Dashboard</span>
         </a>
-        <button type="button" onclick="openReportWizard()" class="hover:text-brand flex items-center gap-1.5 transition-colors cursor-pointer">
+        <a href="gemini-code-1792843735076.html" class="hover:text-brand flex items-center gap-1.5 transition-colors cursor-pointer">
           <i class="fa-solid fa-plus-circle text-xs text-brand"></i>
           <span>Report Item</span>
-        </button>
+        </a>
         
         <!-- Mega Menu Dropdown -->
         <div class="group h-full flex items-center cursor-pointer relative">
@@ -135,10 +135,10 @@
       <!-- Profile & Actions -->
       <div class="flex items-center space-x-4">
         <!-- Quick Report Button (Mobile/Desktop) -->
-        <button onclick="openReportWizard()" class="hidden sm:inline-flex items-center px-4 py-2.5 bg-brand text-white text-xs font-bold rounded-xl shadow-md hover:bg-orange-600 transition-all hover:scale-105 cursor-pointer gap-2">
+        <a href="gemini-code-1792843735076.html" class="hidden sm:inline-flex items-center px-4 py-2.5 bg-brand text-white text-xs font-bold rounded-xl shadow-md hover:bg-orange-600 transition-all hover:scale-105 cursor-pointer gap-2">
           <i class="fa-solid fa-plus"></i>
           <span>Report Item</span>
-        </button>
+        </a>
 
         <!-- User Profile Dropdown -->
         <div class="relative group">
@@ -200,10 +200,10 @@
           <i class="fa-solid fa-gift text-brand"></i>
           <span>Rewards (<span class="js-reward-points">2,450</span> pts)</span>
         </a>
-        <button onclick="openReportWizard()" class="px-6 py-3.5 bg-brand text-white text-sm font-bold rounded-2xl shadow-lg shadow-brand-500/25 hover:bg-orange-600 transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer">
+        <a href="gemini-code-1792843735076.html" class="px-6 py-3.5 bg-brand text-white text-sm font-bold rounded-2xl shadow-lg shadow-brand-500/25 hover:bg-orange-600 transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer">
           <i class="fa-solid fa-plus-circle text-base"></i>
           <span>Report New Item</span>
-        </button>
+        </a>
       </div>
     </div>
 
@@ -235,9 +235,9 @@
 
         <div class="pt-6 mt-6 border-t border-gray-100 flex justify-between items-center text-xs">
           <span class="text-gray-500 font-medium">Have you spotted an unclaimed item in a classroom or cafe?</span>
-          <button onclick="openReportWizard('found')" class="font-bold text-brand hover:underline cursor-pointer">
+          <a href="gemini-code-1792843735076.html?type=found" class="font-bold text-brand hover:underline cursor-pointer">
             + Quick Found Deposit
-          </button>
+          </a>
         </div>
       </div>
 
@@ -796,20 +796,11 @@
 
     // Report Wizard Handlers
     function openReportWizard(defaultType = 'lost', hotspotId = null) {
-      if (defaultType === 'found') {
-        toggleReportType('found');
-      } else {
-        toggleReportType('lost');
-      }
-      const modal = document.getElementById('modal-report-wizard');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      window.location.href = `gemini-code-1792843735076.html?type=${defaultType}`;
     }
 
     function closeReportWizard() {
-      const modal = document.getElementById('modal-report-wizard');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      // Handled in dedicated page
     }
 
     function toggleReportType(type) {

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt - Report Campus Item</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#f97316',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fdfcf8;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 560px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f3f4f6;
+    }
+
+    .modal-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .modal-subtitle {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 22px;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #4b5563;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* Toggle Status Buttons */
+    .status-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .toggle-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid #e5e7eb;
+      background: #ffffff;
+      color: #374151;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      border-color: #d1d5db;
+      transform: translateY(-1px);
+    }
+
+    /* Active States */
+    .toggle-btn.active-lost {
+      border-color: #f97316;
+      background-color: #fff7ed;
+      color: #ea580c;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+    }
+
+    .toggle-btn.active-found {
+      border-color: #10b981;
+      background-color: #ecfdf5;
+      color: #059669;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    }
+
+    /* Inputs & Selects */
+    .input-field, .select-field, .textarea-field {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 12px;
+      border: 1.5px solid #e5e7eb;
+      background-color: #f9fafb;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus, .select-field:focus, .textarea-field:focus {
+      border-color: #f97316;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+    }
+
+    .input-field::placeholder, .textarea-field::placeholder {
+      color: #9ca3af;
+      font-weight: 400;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .textarea-field {
+      resize: vertical;
+      min-height: 85px;
+    }
+
+    /* Challenge Card Box */
+    .challenge-card {
+      background-color: #fffaf5;
+      border: 1.5px solid #ffedd5;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+      margin-bottom: 22px;
+    }
+
+    .challenge-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #c2410c;
+      margin-bottom: 4px;
+    }
+
+    .challenge-desc {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 12px;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .challenge-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #fed7aa;
+      background-color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .challenge-input:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px -4px rgba(249, 115, 22, 0.35);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+      transform: translateY(-1.5px);
+      box-shadow: 0 12px 24px -4px rgba(249, 115, 22, 0.45);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="text-gray-900 selection:bg-orange-200 min-h-screen flex flex-col justify-between">
+
+  <!-- Top Navigation (Seamlessly Connected to Platform) -->
+  <header id="smart-nav" class="sticky top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center h-20">
+      
+      <!-- Brand Logo -->
+      <a href="dashboard.html" class="flex items-center space-x-2.5 group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-plus-circle text-lg"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
+          <span class="text-[9px] font-bold uppercase tracking-widest text-brand mt-1">Report Desk</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs text-gray-400"></i>
+          <span>My Dashboard</span>
+        </a>
+        <a href="gemini-code-1792843735076.html" class="text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-plus-circle text-xs text-brand"></i>
+          <span>Report Item</span>
+        </a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-shield-halved text-xs text-gray-400"></i>
+          <span>Secure Hubs</span>
+        </a>
+        <a href="karma_rewards.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gift text-xs text-gray-400"></i>
+          <span>Rewards & Coupons</span>
+        </a>
+      </nav>
+
+      <!-- Back to Dashboard & Live Points -->
+      <div class="flex items-center space-x-3">
+        <a href="dashboard.html" class="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-50 hover:bg-orange-100 text-brand border border-orange-200 text-xs font-bold rounded-xl transition shadow-sm">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Back to Dashboard</span>
+        </a>
+
+        <!-- Live Points Badge -->
+        <a href="karma_rewards.html" class="px-3.5 py-1.5 bg-gray-900 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm hover:bg-gray-800 transition">
+          <i class="fa-solid fa-coins text-amber-400"></i>
+          <span class="js-reward-points">2,450</span> pts
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="py-10 px-4 sm:px-6 md:px-8 flex-grow flex flex-col items-center justify-center max-w-7xl mx-auto w-full">
+    
+    <!-- Breadcrumb -->
+    <div class="w-full max-w-[560px] mb-4 flex items-center justify-between text-xs font-bold text-gray-400">
+      <div class="flex items-center space-x-2">
+        <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+        <span>/</span>
+        <span class="text-gray-700">Report Lost or Found Item</span>
+      </div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-orange-100 text-brand rounded-full text-[10px] font-extrabold uppercase tracking-wide">
+        <i class="fa-solid fa-award"></i> +50 Karma Points
+      </span>
+    </div>
+
+    <!-- The Report Card Form -->
+    <div class="modal-card">
+      <div class="flex items-start justify-between">
+        <div>
+          <h1 class="modal-title">Report Campus Item</h1>
+          <p class="modal-subtitle">Fill in details to activate AI matching across campus radar.</p>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-orange-50 text-brand flex items-center justify-center text-lg font-bold shrink-0 border border-orange-100">
+          <i class="fa-solid fa-radar"></i>
+        </div>
+      </div>
+
+      <form id="reportForm" onsubmit="handleFormSubmit(event)">
+        <!-- ITEM STATUS TOGGLE -->
+        <div class="form-group">
+          <label class="label">ITEM STATUS</label>
+          <div class="status-toggle">
+            <button type="button" class="toggle-btn active-lost" id="lostBtn" onclick="setStatus('lost')">
+              <i data-lucide="help-circle" style="width: 17px; height: 17px;"></i>
+              <span>I Lost Something</span>
+            </button>
+            <button type="button" class="toggle-btn" id="foundBtn" onclick="setStatus('found')">
+              <i data-lucide="heart-handshake" style="width: 17px; height: 17px;"></i>
+              <span>I Found An Item</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="form-group">
+          <label class="label" for="category">CATEGORY</label>
+          <select class="select-field" id="category" required>
+            <option value="Electronics">🎧 Electronics (AirPods, Phones, Chargers, Laptops)</option>
+            <option value="Keys & Cards">🔑 Keys & Access Cards</option>
+            <option value="Personal Gear">🍶 Water Bottles, Flasks, Umbrellas</option>
+            <option value="Bags & Clothing">🎒 Bags & Clothing</option>
+            <option value="Books & Documents">📄 Books & Documents</option>
+            <option value="Other Belongings">📦 Other Belongings</option>
+          </select>
+        </div>
+
+        <!-- ITEM NAME & BRAND -->
+        <div class="form-group">
+          <label class="label" for="itemName">ITEM NAME & BRAND</label>
+          <input type="text" class="input-field" id="itemName" placeholder="e.g. Sony WH-1000XM4 Headphones (Silver)" required>
+        </div>
+
+        <!-- LOCATION & DATE/TIME -->
+        <div class="grid-2 form-group">
+          <div>
+            <label class="label" for="location">CAMPUS LOCATION</label>
+            <select class="select-field" id="location" required>
+              <option value="William Central Library - 2nd Floor">William Central Library</option>
+              <option value="Student Innovation Center - Atrium">Student Innovation Center</option>
+              <option value="North Dining Hall - Register #3">North Dining Hall</option>
+              <option value="Engineering Hall B - Lab 304">Engineering Hall B</option>
+              <option value="Varsity Sports Complex - Gym">Varsity Sports Complex</option>
+              <option value="Campus Transit Center">Campus Transit Center</option>
+              <option value="Main Quad / Outdoor">Main Quad / Outdoor</option>
+            </select>
+          </div>
+          <div>
+            <label class="label" for="itemDate">DATE & TIME</label>
+            <input type="text" class="input-field" id="itemDate" value="Today, Just now" required>
+          </div>
+        </div>
+
+        <!-- DETAILED DESCRIPTION -->
+        <div class="form-group">
+          <label class="label" for="itemDesc">DETAILED DESCRIPTION</label>
+          <textarea class="textarea-field" id="itemDesc" required placeholder="Color, distinguishing scratches, stickers, condition..."></textarea>
+        </div>
+
+        <!-- BLIND PROOF CHALLENGE -->
+        <div class="challenge-card" id="challengeCard">
+          <div class="challenge-header" id="challengeTitle">
+            <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
+            <span>Blind Proof Challenge (Protects from False Claims)</span>
+          </div>
+          <p class="challenge-desc" id="challengeDesc">
+            Ask a question only the legitimate owner would know (e.g., lock screen wallpaper or sticker name).
+          </p>
+          <input type="text" class="challenge-input" id="challengeInput" required placeholder="e.g. What sticker is on the back or what wallpaper is on screen?">
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i data-lucide="send" style="width: 17px; height: 17px;"></i>
+          <span>Submit & Launch Campus Match</span>
+        </button>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Minimal Footer -->
+  <footer class="border-t border-gray-200 py-8 bg-white text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-magnifying-glass-location text-brand text-base"></i>
+        <span class="font-bold font-jakarta text-sm text-gray-900">Find<span class="text-brand">It</span> Campus Network</span>
+      </div>
+      <p>&copy; 2026 FindIt Platform. Connected Lost & Found Operating System.</p>
+      <div class="flex items-center space-x-4">
+        <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+        <span>&middot;</span>
+        <a href="trusted_hubs_page.html" class="hover:text-brand transition">Secure Hubs</a>
+        <span>&middot;</span>
+        <a href="karma_rewards.html" class="hover:text-brand transition">Rewards & Coupons</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl border border-gray-700 max-w-md">
+    <div id="toast-icon" class="w-8 h-8 rounded-xl bg-brand/20 text-brand flex items-center justify-center font-bold shrink-0">✓</div>
+    <div>
+      <h5 id="toast-title" class="text-sm font-bold text-white font-jakarta">Notification</h5>
+      <p id="toast-msg" class="text-xs text-gray-300 mt-0.5">Operation successful.</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Initialize Lucide Icons
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    let currentStatus = 'lost';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Refresh points counter
+      const pts = window.FindIt ? window.FindIt.getPoints() : 2450;
+      document.querySelectorAll('.js-reward-points').forEach(el => {
+        el.textContent = pts.toLocaleString();
+      });
+
+      // Check URL query parameters for pre-selected type
+      const urlParams = new URLSearchParams(window.location.search);
+      const preType = urlParams.get('type');
+      if (preType === 'found') {
+        setStatus('found');
+      } else {
+        setStatus('lost');
+      }
+
+      // Check location parameter if passed
+      const preLocation = urlParams.get('location');
+      if (preLocation) {
+        const locSelect = document.getElementById('location');
+        if (locSelect) locSelect.value = preLocation;
+      }
+    });
+
+    function setStatus(status) {
+      currentStatus = status;
+      const lostBtn = document.getElementById('lostBtn');
+      const foundBtn = document.getElementById('foundBtn');
+      const challengeTitle = document.getElementById('challengeTitle');
+      const challengeDesc = document.getElementById('challengeDesc');
+      const challengeInput = document.getElementById('challengeInput');
+
+      if (status === 'lost') {
+        lostBtn.className = 'toggle-btn active-lost';
+        foundBtn.className = 'toggle-btn';
+
+        challengeTitle.innerHTML = `<i data-lucide="lock" style="width:16px;height:16px;"></i><span>Blind Proof Challenge (Protects from False Claims)</span>`;
+        challengeDesc.innerText = 'Ask a question only the legitimate owner would know (e.g., lock screen wallpaper or sticker name).';
+        challengeInput.placeholder = 'e.g. What sticker is on the back or what wallpaper is on screen?';
+      } else {
+        foundBtn.className = 'toggle-btn active-found';
+        lostBtn.className = 'toggle-btn';
+
+        challengeTitle.innerHTML = `<i data-lucide="shield-check" style="width:16px;height:16px;"></i><span>Ownership Verification (For Claimants)</span>`;
+        challengeDesc.innerText = 'Specify a hidden detail you noticed so potential owners can prove it belongs to them.';
+        challengeInput.placeholder = 'e.g. What unique item or initial is inside the case?';
+      }
+
+      // Re-render icons dynamically
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const itemName = document.getElementById('itemName').value.trim();
+      const category = document.getElementById('category').value;
+      const location = document.getElementById('location').value;
+      const itemDate = document.getElementById('itemDate').value.trim();
+      const itemDesc = document.getElementById('itemDesc').value.trim();
+      const challenge = document.getElementById('challengeInput').value.trim();
+
+      if (!itemName) {
+        showToast('Required Field', 'Please enter the item name and brand.', 'warning');
+        return;
+      }
+
+      // Category Icon Mapping
+      const categoryIcons = {
+        'Electronics': '🎧',
+        'Keys & Cards': '🔑',
+        'Personal Gear': '🍶',
+        'Bags & Clothing': '🎒',
+        'Books & Documents': '📄',
+        'Other Belongings': '📦'
+      };
+
+      const icon = categoryIcons[category] || '📦';
+
+      const newCase = {
+        id: 'CASE-' + Math.floor(1000 + Math.random() * 9000),
+        title: itemName,
+        category: category,
+        status: currentStatus === 'lost' ? 'Scanning Campus' : 'Deposited at Hub',
+        type: currentStatus,
+        matchScore: currentStatus === 'lost' ? 88 : 95,
+        date: itemDate || 'Today, Just now',
+        time: 'Just now',
+        location: location,
+        icon: icon,
+        description: itemDesc,
+        secretQuestion: challenge,
+        foundLocation: currentStatus === 'found' ? location : null
+      };
+
+      // Add to persistent storage and award +50 points
+      if (window.FindIt) {
+        window.FindIt.addCase(newCase);
+      }
+
+      // Submit button loading animation
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        <span>Broadcasting to Campus Radar...</span>
+      `;
+
+      showToast('Report Published!', `"${itemName}" is now live on the radar. +50 Karma Points awarded!`, 'success');
+
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1200);
+    }
+
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const titleEl = document.getElementById('toast-title');
+      const msgEl = document.getElementById('toast-msg');
+      const iconEl = document.getElementById('toast-icon');
+
+      if (!toast) return;
+
+      titleEl.textContent = title;
+      msgEl.textContent = message;
+
+      if (type === 'warning') {
+        iconEl.className = 'w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold shrink-0';
+        iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+      } else {
+        iconEl.className = 'w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold shrink-0';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
