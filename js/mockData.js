@@ -4,11 +4,18 @@ window.FindItData = {
   defaultUser: {
     name: "Alex Morgan",
     email: "alex.morgan@domain.com",
-    role: "People / Individual",
+    role: "Global Campus Helper",
     points: 2450,
     avatar: "AM",
-    campusId: "STU-88492",
-    joinedDate: "Fall 2024"
+    campusId: "FINDIT-88492",
+    phone: "+1 (555) 382-9910",
+    location: "Central Campus & Transit Escrow Hub",
+    rank: "Gold Tier Helper",
+    level: 4,
+    joinedDate: "October 2024",
+    itemsReported: 3,
+    itemsRecovered: 12,
+    trustScore: "99.4%"
   },
 
   // Active cases in the system (Amazon-style Catalog Data)

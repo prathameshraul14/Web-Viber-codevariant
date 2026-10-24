@@ -171,33 +171,43 @@
 
         <!-- User Profile Dropdown -->
         <div class="relative group">
-          <button class="flex items-center space-x-3 p-1.5 rounded-2xl hover:bg-gray-100/80 transition cursor-pointer">
+          <button onclick="window.location.href='profile.html'" class="flex items-center space-x-2.5 p-1 rounded-2xl hover:bg-gray-100/80 transition cursor-pointer" title="View Profile">
             <div class="hidden sm:block text-right">
-              <p id="nav-user-name" class="text-xs font-bold text-gray-900 leading-tight">Alex Morgan</p>
-              <p id="nav-user-role" class="text-[10px] text-gray-500 font-medium leading-none">Student</p>
+              <p id="nav-user-name" class="text-xs font-bold text-gray-900 leading-tight js-user-name">Alex Morgan</p>
+              <p id="nav-user-role" class="text-[10px] text-gray-500 font-medium leading-none js-user-role">Global Helper</p>
             </div>
-            <div id="nav-user-avatar" class="w-10 h-10 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md shadow-brand-500/20">
+            <div id="nav-user-avatar" class="w-10 h-10 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md shadow-brand-500/20 js-user-avatar">
               AM
             </div>
           </button>
 
           <!-- Dropdown menu -->
-          <div class="absolute right-0 top-14 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 hidden group-hover:block transition-all z-50">
-            <div class="px-4 py-2 border-b border-gray-100">
-              <p class="text-xs font-bold text-gray-900" id="menu-user-email">alex.m@campus.edu</p>
+          <div class="absolute right-0 top-14 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 hidden group-hover:block transition-all z-50">
+            <div class="px-4 py-2.5 border-b border-gray-100 bg-orange-50/50">
+              <p class="text-xs font-bold text-gray-900 js-user-email" id="menu-user-email">alex.morgan@domain.com</p>
               <div class="mt-1 flex items-center gap-1.5 text-[11px] text-brand font-bold">
                 <i class="fa-solid fa-coins"></i>
-                <span class="js-reward-points">350</span> points available
+                <span class="js-reward-points">2,450</span> pts available
               </div>
             </div>
-            <a href="index.html" class="block px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
-              <i class="fa-solid fa-house mr-2 text-gray-400"></i> Landing Page
+            <a href="profile.html" class="flex items-center justify-between px-4 py-2.5 text-xs text-gray-800 hover:bg-orange-50 hover:text-brand font-bold border-b border-gray-100 group/prof">
+              <span class="flex items-center"><i class="fa-solid fa-user-circle mr-2 text-brand text-sm"></i> My Profile & Activity</span>
+              <span class="text-[9px] bg-orange-100 text-brand px-1.5 py-0.5 rounded-md font-bold group-hover/prof:bg-brand group-hover/prof:text-white transition">View</span>
             </a>
-            <a href="karma_rewards.html" class="w-full text-left px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium block">
-              <i class="fa-solid fa-ticket mr-2 text-gray-400"></i> Redeem Rewards (1500+ pts)
+            <a href="dashboard.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-gauge-high mr-2 text-gray-400"></i> Command Dashboard
+            </a>
+            <a href="active_cases.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-list-check mr-2 text-gray-400"></i> Active Cases Catalog
+            </a>
+            <a href="trusted_hubs_page.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-building-shield mr-2 text-gray-400"></i> Secure Drop Hubs
+            </a>
+            <a href="karma_rewards.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-ticket mr-2 text-gray-400"></i> Redeem Brand Coupons
             </a>
             <div class="border-t border-gray-100 my-1"></div>
-            <button onclick="window.FindIt.logout()" class="w-full text-left px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold flex items-center cursor-pointer">
+            <button onclick="window.FindIt.logout()" class="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 font-bold flex items-center cursor-pointer">
               <i class="fa-solid fa-arrow-right-from-bracket mr-2 text-red-400"></i> Log Out
             </button>
           </div>
@@ -922,21 +932,8 @@
 
     // Populate user profile info in navigation panel
     function loadUserInfo() {
-      if (window.FindIt && typeof window.FindIt.getUser === 'function') {
-        const user = window.FindIt.getUser();
-        const nameEl = document.getElementById('nav-user-name');
-        const roleEl = document.getElementById('nav-user-role');
-        const avatarEl = document.getElementById('nav-user-avatar');
-        const emailEl = document.getElementById('menu-user-email');
-
-        if (nameEl) nameEl.textContent = user.name || "Alex Morgan";
-        if (roleEl) roleEl.textContent = user.role || "Community Member";
-        if (avatarEl) avatarEl.textContent = user.avatar || "AM";
-        if (emailEl) emailEl.textContent = user.email || "alex.m@domain.com";
-        
-        document.querySelectorAll('.js-reward-points, .js-karma-points').forEach(el => {
-          el.innerHTML = (user.points ? user.points.toLocaleString() : '2,450') + (el.innerHTML.includes('pts') ? ' <span class="text-xs text-orange-600 font-bold">pts</span>' : '');
-        });
+      if (window.FindIt && window.FindIt.updateAllUI) {
+        window.FindIt.updateAllUI();
       }
     }
 

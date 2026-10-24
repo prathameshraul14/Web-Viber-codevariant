@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile & Karma Activity - FindIt</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FindIt Ecosystem Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#f97316',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #fdfcf8; }
+    .mega-menu { display: none; opacity: 0; transition: opacity 0.2s ease; margin-top: 1px; }
+    .group:hover .mega-menu { display: block; opacity: 1; }
+    .tab-btn.active {
+      background-color: #111827;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-[#1d1d1f] selection:bg-orange-200 min-h-screen flex flex-col justify-between">
+
+  <!-- ================= TOP NAVIGATION (Permanent FindIt Nav) ================= -->
+  <header id="smart-nav" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300 shadow-sm">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center h-20">
+      
+      <!-- Brand Logo (Official FindIt) -->
+      <a href="index.html" class="flex items-center gap-2 group cursor-pointer">
+        <img src="assets/images/findit-logo.png" alt="FindIt Logo" class="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform">
+        <span class="hidden sm:inline-block text-[9px] font-bold uppercase tracking-widest text-brand bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">Secure Hub</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-7 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs text-gray-400"></i>
+          <span>My Dashboard</span>
+        </a>
+        <a href="active_cases.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-list-check text-xs text-gray-400"></i>
+          <span>Active Cases (12)</span>
+        </a>
+        <a href="echo_radar.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-satellite text-xs text-gray-400"></i>
+          <span>Echo Radar</span>
+        </a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-building-shield text-xs text-gray-400"></i>
+          <span>Secure Hubs</span>
+        </a>
+        <a href="karma_rewards.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gift text-xs text-gray-400"></i>
+          <span>Rewards & Coupons</span>
+        </a>
+
+        <!-- Mega Menu Dropdown (Clean 3-Column Layout without Verification Suite) -->
+        <div class="group h-full flex items-center cursor-pointer relative">
+          <span class="hover:text-brand transition-colors flex items-center gap-1">
+            <span>All Features</span>
+            <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+          </span>
+          
+          <!-- Full-width Dropdown Panel -->
+          <div class="mega-menu absolute top-20 left-1/2 -translate-x-1/2 w-screen max-w-4xl bg-white shadow-2xl border-t border-gray-100 rounded-b-3xl z-50 py-8 px-10 cursor-default">
+            <div class="w-full grid grid-cols-3 gap-8">
+              <div>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🧠</span> Core Tools & Engines</h4>
+                <ul class="space-y-3 text-xs font-semibold text-gray-500">
+                  <li><a href="NeuralMatchEngine.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-brain text-[10px] text-brand"></i> Neural Match Engine</a></li>
+                  <li><a href="echo_radar.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-satellite text-[10px] text-brand"></i> Echo Radar (Spatial Mesh)</a></li>
+                  <li><a href="active_cases.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-boxes-stacked text-[10px] text-brand"></i> Worldwide Active Cases (12)</a></li>
+                  <li><a href="gemini-code-1792843735076.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-plus-circle text-[10px] text-emerald-600"></i> AI Report Intake</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🏢</span> Secure Network</h4>
+                <ul class="space-y-3 text-xs font-semibold text-gray-500">
+                  <li><a href="trusted_hubs_page.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-building-shield text-[10px] text-brand"></i> 9 Verified Secure Hubs</a></li>
+                  <li><a href="karma_rewards.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-ticket text-[10px] text-brand"></i> Partner Brand Coupons (1500+ pts)</a></li>
+                  <li><a href="trusted_hubs_page.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-map-location-dot text-[10px] text-brand"></i> City Escrow Desks & Vaults</a></li>
+                </ul>
+              </div>
+              <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-2xl border border-orange-200/80 flex flex-col justify-between">
+                <div>
+                  <h4 class="font-jakarta text-xs font-bold text-gray-900 mb-1">Your Karma Balance</h4>
+                  <p class="text-3xl font-black text-brand font-jakarta js-karma-points js-reward-points">2,450 <span class="text-xs text-orange-600 font-bold">pts</span></p>
+                  <p class="text-[11px] text-gray-600 mt-2 font-medium">Rank: Gold Tier Global Helper</p>
+                </div>
+                <a href="karma_rewards.html" class="mt-4 w-full py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition shadow-sm text-center block">
+                  Redeem Rewards &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Profile & Actions -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <!-- Quick Report Button -->
+        <a href="gemini-code-1792843735076.html" class="inline-flex items-center px-4 py-2.5 bg-brand text-white text-xs font-bold rounded-xl shadow-md hover:bg-orange-600 transition-all hover:scale-105 cursor-pointer gap-2 active:scale-95">
+          <i class="fa-solid fa-plus"></i>
+          <span class="hidden sm:inline">Report Item</span>
+          <span class="sm:hidden">Report</span>
+        </a>
+
+        <!-- User Profile Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center space-x-2.5 p-1 rounded-2xl bg-orange-50/80 border border-orange-200/60 hover:bg-orange-100/70 transition cursor-pointer">
+            <div class="hidden sm:block text-right pl-2">
+              <p id="nav-user-name" class="text-xs font-bold text-gray-900 leading-tight js-user-name">Alex Morgan</p>
+              <p id="nav-user-role" class="text-[10px] text-brand font-bold leading-none js-user-role">Global Helper</p>
+            </div>
+            <div id="nav-user-avatar" class="w-10 h-10 bg-gradient-to-tr from-brand-600 to-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md shadow-brand-500/20 js-user-avatar">
+              AM
+            </div>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div class="absolute right-0 top-14 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 hidden group-hover:block transition-all z-50">
+            <div class="px-4 py-2.5 border-b border-gray-100 bg-orange-50/50">
+              <p class="text-xs font-bold text-gray-900 js-user-email" id="menu-user-email">alex.morgan@domain.com</p>
+              <div class="mt-1 flex items-center gap-1.5 text-[11px] text-brand font-bold">
+                <i class="fa-solid fa-coins"></i>
+                <span class="js-reward-points">2,450</span> pts available
+              </div>
+            </div>
+            <a href="profile.html" class="flex items-center justify-between px-4 py-2.5 text-xs text-brand bg-orange-50/60 font-bold border-b border-gray-100">
+              <span class="flex items-center"><i class="fa-solid fa-user-circle mr-2 text-brand"></i> My Profile & Activity</span>
+              <span class="text-[9px] bg-orange-200 text-orange-900 px-1.5 py-0.5 rounded font-extrabold">Active</span>
+            </a>
+            <a href="dashboard.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-gauge-high mr-2 text-gray-400"></i> Command Dashboard
+            </a>
+            <a href="active_cases.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-list-check mr-2 text-gray-400"></i> Active Cases Catalog
+            </a>
+            <a href="trusted_hubs_page.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-building-shield mr-2 text-gray-400"></i> Secure Drop Hubs
+            </a>
+            <a href="karma_rewards.html" class="block px-4 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand font-medium">
+              <i class="fa-solid fa-ticket mr-2 text-gray-400"></i> Redeem Brand Coupons
+            </a>
+            <div class="border-t border-gray-100 my-1"></div>
+            <button onclick="window.FindIt.logout()" class="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 font-bold flex items-center cursor-pointer">
+              <i class="fa-solid fa-arrow-right-from-bracket mr-2 text-red-400"></i> Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN PROFILE CONTENT ================= -->
+  <main class="pt-28 pb-20 max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 flex-grow w-full space-y-8">
+
+    <!-- Breadcrumb -->
+    <div class="flex items-center space-x-2 text-xs font-bold text-gray-400">
+      <a href="dashboard.html" class="hover:text-brand transition">Dashboard</a>
+      <span>/</span>
+      <span class="text-gray-700">User Profile & Activity Ledger</span>
+    </div>
+
+    <!-- 1. PROFILE HERO CARD -->
+    <div class="bg-gradient-to-r from-orange-50/90 via-amber-50/40 to-white p-6 sm:p-8 md:p-10 rounded-3xl border border-orange-200/80 shadow-sm relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-64 h-64 bg-orange-300/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <!-- Avatar & Basic Details -->
+        <div class="flex items-center gap-5 sm:gap-6">
+          <div class="relative group">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-brand-600 via-brand-500 to-amber-500 rounded-3xl flex items-center justify-center text-2xl sm:text-3xl font-black text-white shadow-xl shadow-brand/25 js-user-avatar">
+              AM
+            </div>
+            <span class="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center text-white text-[11px]" title="Identity Verified">
+              <i class="fa-solid fa-check"></i>
+            </span>
+          </div>
+
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-jakarta tracking-tight text-gray-900 js-user-name">
+                Alex Morgan
+              </h1>
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full border border-emerald-200">
+                <i class="fa-solid fa-shield-halved text-[9px]"></i> Verified Helper
+              </span>
+            </div>
+
+            <p class="text-sm font-semibold text-gray-500 flex flex-wrap items-center gap-y-1 gap-x-3">
+              <span class="text-brand font-bold js-user-role">Global Campus Helper</span>
+              <span>&bull;</span>
+              <span class="flex items-center gap-1"><i class="fa-solid fa-id-card text-xs text-gray-400"></i> ID: <span class="js-user-campus-id">FINDIT-88492</span></span>
+              <span>&bull;</span>
+              <span class="flex items-center gap-1"><i class="fa-solid fa-envelope text-xs text-gray-400"></i> <span class="js-user-email">alex.morgan@domain.com</span></span>
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <span class="px-3 py-1 bg-white/90 border border-gray-200 rounded-full font-medium text-gray-700 shadow-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-location-dot text-brand"></i> Central Campus Node
+              </span>
+              <span class="px-3 py-1 bg-white/90 border border-gray-200 rounded-full font-medium text-gray-700 shadow-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-calendar-days text-gray-400"></i> Member since Oct 2024
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-row md:flex-col gap-2.5 w-full md:w-auto shrink-0">
+          <button onclick="openEditProfileModal()" class="flex-1 md:flex-none px-5 py-3 bg-gray-900 text-white font-bold rounded-2xl hover:bg-black transition-all shadow-md text-xs flex items-center justify-center gap-2 cursor-pointer hover:scale-105 active:scale-95">
+            <i class="fa-solid fa-user-pen"></i>
+            <span>Edit Profile</span>
+          </button>
+          <a href="karma_rewards.html" class="flex-1 md:flex-none px-5 py-3 bg-brand text-white font-bold rounded-2xl hover:bg-orange-600 transition-all shadow-md shadow-brand/20 text-xs flex items-center justify-center gap-2 cursor-pointer hover:scale-105 active:scale-95 text-center">
+            <i class="fa-solid fa-ticket"></i>
+            <span>Redeem Points</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. FOUR KEY METRIC TILES (Live Synced) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      
+      <!-- Card 1: Available Karma Points -->
+      <div class="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Available Balance</span>
+            <div class="w-8 h-8 rounded-xl bg-orange-100 text-brand flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+          </div>
+          <p class="text-4xl font-black font-jakarta text-brand js-reward-points js-karma-points" data-points-format="number">2,450</p>
+          <p class="text-xs font-semibold text-gray-500 mt-1">Karma Reward Points</p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+          <span class="text-emerald-600 font-bold flex items-center gap-1"><i class="fa-solid fa-arrow-up"></i> +250 this week</span>
+          <a href="karma_rewards.html" class="text-brand font-bold hover:underline">Coupons (1500+) &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Helper Tier -->
+      <div class="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Helper Rank</span>
+            <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-award"></i>
+            </div>
+          </div>
+          <p class="text-2xl font-black font-jakarta text-gray-900">Gold Tier</p>
+          <p class="text-xs font-semibold text-gray-500 mt-1">Level 4 · Global Specialist</p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-gray-100">
+          <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden mb-1.5">
+            <div class="bg-gradient-to-r from-amber-400 to-brand h-2 rounded-full" style="width: 82%"></div>
+          </div>
+          <div class="flex justify-between text-[11px] font-bold text-gray-400">
+            <span>2,450 pts</span>
+            <span class="text-brand">3,000 pts (Platinum)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Recovered Items -->
+      <div class="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Items Recovered</span>
+            <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-box-open"></i>
+            </div>
+          </div>
+          <p class="text-4xl font-black font-jakarta text-gray-900">12</p>
+          <p class="text-xs font-semibold text-gray-500 mt-1">Safely Returned via Escrow Hubs</p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+          <span class="text-gray-500 font-medium">100% Verified Returns</span>
+          <a href="trusted_hubs_page.html" class="text-brand font-bold hover:underline">Drop Hubs &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card 4: Trust Score -->
+      <div class="bg-white p-6 rounded-3xl border border-gray-200/80 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">Community Trust</span>
+            <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-fingerprint"></i>
+            </div>
+          </div>
+          <p class="text-4xl font-black font-jakarta text-gray-900">99.4%</p>
+          <p class="text-xs font-semibold text-gray-500 mt-1">Zero-Knowledge Trust Index</p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+          <span class="text-emerald-600 font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> High Reputation</span>
+          <span class="text-gray-400">0 Disputes</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 3. INTERACTIVE SECTION TABS -->
+    <div class="flex overflow-x-auto space-x-2.5 pb-2 no-scrollbar" id="profile-tabs">
+      <button onclick="switchTab('vouchers', this)" class="tab-btn active shrink-0 px-5 py-2.5 rounded-2xl font-bold text-xs transition-all cursor-pointer flex items-center gap-2">
+        <i class="fa-solid fa-ticket text-xs"></i>
+        <span>Redeemed Vouchers & Coupons (<span id="vouchers-count">1</span>)</span>
+      </button>
+      <button onclick="switchTab('reports', this)" class="tab-btn shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-2xl font-bold text-xs hover:border-gray-300 hover:text-gray-900 transition-all cursor-pointer flex items-center gap-2">
+        <i class="fa-solid fa-boxes-stacked text-xs"></i>
+        <span>My Reported Items (<span id="reports-count">3</span>)</span>
+      </button>
+      <button onclick="switchTab('ledger', this)" class="tab-btn shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-2xl font-bold text-xs hover:border-gray-300 hover:text-gray-900 transition-all cursor-pointer flex items-center gap-2">
+        <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+        <span>Points Activity Ledger</span>
+      </button>
+      <button onclick="switchTab('security', this)" class="tab-btn shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-2xl font-bold text-xs hover:border-gray-300 hover:text-gray-900 transition-all cursor-pointer flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved text-xs"></i>
+        <span>Security & Linked Hubs</span>
+      </button>
+    </div>
+
+    <!-- ================= TAB CONTENT PANELS ================= -->
+
+    <!-- TAB 1: REDEEMED VOUCHERS -->
+    <div id="tab-vouchers" class="tab-content block space-y-4">
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="text-xl font-bold font-jakarta text-gray-900">Your Claimed Brand Vouchers</h3>
+            <p class="text-xs text-gray-500 font-medium mt-0.5">Use these coupon codes online or at participating brand partner outlets.</p>
+          </div>
+          <a href="karma_rewards.html" class="inline-flex items-center gap-2 px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition shadow-sm">
+            <i class="fa-solid fa-plus"></i>
+            <span>Browse More Coupons (1500+ pts)</span>
+          </a>
+        </div>
+
+        <!-- Vouchers List Container -->
+        <div id="vouchers-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="no-vouchers" class="hidden text-center py-12">
+          <div class="w-16 h-16 bg-orange-100 text-brand rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
+            <i class="fa-solid fa-ticket-simple"></i>
+          </div>
+          <h4 class="text-base font-bold text-gray-900">No Vouchers Redeemed Yet</h4>
+          <p class="text-xs text-gray-500 mt-1 max-w-sm mx-auto">Use your 2,450+ karma points to unlock Starbucks, Nike, Spotify, or Uber vouchers.</p>
+          <a href="karma_rewards.html" class="mt-4 inline-block px-5 py-2.5 bg-brand text-white font-bold text-xs rounded-xl hover:bg-orange-600 transition">
+            Explore Rewards Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: MY REPORTED ITEMS -->
+    <div id="tab-reports" class="tab-content hidden space-y-4">
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="text-xl font-bold font-jakarta text-gray-900">Items You've Reported</h3>
+            <p class="text-xs text-gray-500 font-medium mt-0.5">Active cases tracked across the spatial Echo Radar and Neural Match Engine.</p>
+          </div>
+          <a href="gemini-code-1792843735076.html" class="inline-flex items-center gap-2 px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition shadow-sm">
+            <i class="fa-solid fa-plus"></i>
+            <span>Report Another Item (+50 pts)</span>
+          </a>
+        </div>
+
+        <div id="user-cases-list" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: POINTS & KARMA LEDGER -->
+    <div id="tab-ledger" class="tab-content hidden space-y-4">
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h3 class="text-xl font-bold font-jakarta text-gray-900">Karma Points Ledger</h3>
+            <p class="text-xs text-gray-500 font-medium mt-0.5">Every point earned through returning items or spent on brand rewards.</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-bold bg-orange-50 border border-orange-200 px-3.5 py-1.5 rounded-xl text-brand">
+            <i class="fa-solid fa-coins"></i>
+            <span>Current Balance: <span class="js-reward-points">2,450</span> pts</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="border-b border-gray-100 text-gray-400 uppercase tracking-wider font-bold">
+                <th class="py-3 px-4">Transaction ID</th>
+                <th class="py-3 px-4">Activity Description</th>
+                <th class="py-3 px-4">Category</th>
+                <th class="py-3 px-4">Timestamp</th>
+                <th class="py-3 px-4 text-right">Points Delta</th>
+              </tr>
+            </thead>
+            <tbody id="ledger-table-body" class="divide-y divide-gray-100 font-medium text-gray-700">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: SECURITY & LINKED HUBS -->
+    <div id="tab-security" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Hub Preferences -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-2xl bg-orange-100 text-brand flex items-center justify-center font-bold">
+              <i class="fa-solid fa-building-shield"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold font-jakarta text-gray-900">Preferred Safe Drop Hubs</h3>
+              <p class="text-xs text-gray-500 font-medium">Items matched to you will automatically be directed here.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl border border-gray-200 bg-gray-50/50 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-xl">🏢</span>
+              <div>
+                <h5 class="text-xs font-bold text-gray-900">Central Metro Station Escrow Desk</h5>
+                <p class="text-[11px] text-gray-500">24/7 Verified Transit Vault &bull; 0.4 km away</p>
+              </div>
+            </div>
+            <span class="text-[10px] bg-brand text-white font-bold px-2.5 py-1 rounded-full">Primary</span>
+          </div>
+
+          <div class="p-4 rounded-2xl border border-gray-200 bg-white flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-xl">☕</span>
+              <div>
+                <h5 class="text-xs font-bold text-gray-900">Campus Library Cafe Drop Locker</h5>
+                <p class="text-[11px] text-gray-500">Automated Smart Lockers &bull; PIN Protected</p>
+              </div>
+            </div>
+            <span class="text-[10px] bg-gray-100 text-gray-600 font-bold px-2.5 py-1 rounded-full">Secondary</span>
+          </div>
+
+          <a href="trusted_hubs_page.html" class="inline-block text-xs font-bold text-brand hover:underline pt-2">
+            View All 9 Verified Secure Drop Hubs &rarr;
+          </a>
+        </div>
+
+        <!-- Privacy & Zero-Knowledge Settings -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold font-jakarta text-gray-900">Privacy & Mesh Protection</h3>
+              <p class="text-xs text-gray-500 font-medium">Zero-knowledge proof keeps your identity confidential.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex items-center justify-between p-3.5 bg-gray-50/60 rounded-2xl border border-gray-200/60">
+              <div>
+                <p class="font-bold text-gray-900">Blind Messaging Relay</p>
+                <p class="text-[11px] text-gray-500">Contact finders without exposing phone or email</p>
+              </div>
+              <input type="checkbox" checked class="w-4 h-4 text-brand rounded accent-brand cursor-pointer">
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 bg-gray-50/60 rounded-2xl border border-gray-200/60">
+              <div>
+                <p class="font-bold text-gray-900">Echo Spatial Mesh Node</p>
+                <p class="text-[11px] text-gray-500">Anonymously scan for lost item Bluetooth beacons</p>
+              </div>
+              <input type="checkbox" checked class="w-4 h-4 text-brand rounded accent-brand cursor-pointer">
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 bg-gray-50/60 rounded-2xl border border-gray-200/60">
+              <div>
+                <p class="font-bold text-gray-900">Points & Bounty Auto-Deposit</p>
+                <p class="text-[11px] text-gray-500">Credit karma points immediately on escrow verification</p>
+              </div>
+              <input type="checkbox" checked class="w-4 h-4 text-brand rounded accent-brand cursor-pointer">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= EDIT PROFILE MODAL ================= -->
+  <div id="edit-profile-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-gray-100 relative">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h3 class="text-xl font-bold font-jakarta text-gray-900">Edit Profile Details</h3>
+          <p class="text-xs text-gray-500 mt-0.5">Updates immediately synchronize across all pages.</p>
+        </div>
+        <button onclick="closeEditProfileModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="editProfileForm" onsubmit="saveProfileChanges(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Full Name</label>
+          <input type="text" id="edit-name" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Helper Role / Title</label>
+          <input type="text" id="edit-role" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Email Address</label>
+          <input type="email" id="edit-email" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Campus ID Number</label>
+          <input type="text" id="edit-campus-id" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition">
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeEditProfileModal()" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2.5 bg-brand hover:bg-orange-600 text-white text-xs font-bold rounded-xl shadow-md transition">
+            Save & Sync Details
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-100 py-8">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+      <div class="flex items-center gap-2">
+        <img src="assets/images/findit-logo.png" alt="FindIt Logo" class="h-6 w-auto object-contain">
+        <span>&copy; 2026 FindIt Global Protocol &bull; User Profile System</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="dashboard.html" class="hover:text-brand transition font-medium">Dashboard</a>
+        <a href="active_cases.html" class="hover:text-brand transition font-medium">Active Cases</a>
+        <a href="echo_radar.html" class="hover:text-brand transition font-medium">Echo Radar</a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand transition font-medium">Secure Hubs</a>
+        <a href="karma_rewards.html" class="hover:text-brand transition font-medium">Rewards</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Profile Page Logic -->
+  <script>
+    // Tab switching
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.className = 'tab-btn shrink-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-2xl font-bold text-xs hover:border-gray-300 hover:text-gray-900 transition-all cursor-pointer flex items-center gap-2';
+      });
+      btn.className = 'tab-btn active shrink-0 px-5 py-2.5 rounded-2xl font-bold text-xs transition-all cursor-pointer flex items-center gap-2';
+
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+      const activeContent = document.getElementById('tab-' + tabId);
+      if (activeContent) activeContent.classList.remove('hidden');
+    }
+
+    // Render Redeemed Vouchers
+    function renderVouchers() {
+      const vouchers = window.FindIt.getRedeemedCoupons();
+      const container = document.getElementById('vouchers-list');
+      const emptyState = document.getElementById('no-vouchers');
+      const countEl = document.getElementById('vouchers-count');
+
+      if (countEl) countEl.textContent = vouchers.length;
+
+      if (!vouchers || vouchers.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = vouchers.map(v => `
+        <div class="p-5 rounded-3xl border border-orange-200/80 bg-gradient-to-br from-orange-50/70 to-white shadow-sm flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-brand flex items-center gap-1.5">
+                <span>${v.logo || '🎟️'}</span> ${v.partner}
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                ${v.status || 'Active'}
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-gray-900 leading-snug">${v.title}</h4>
+            <p class="text-xs text-gray-500 mt-1 font-medium">${v.expiry || 'Valid for 30 days'}</p>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-orange-100 flex items-center justify-between gap-3">
+            <div class="bg-white px-3 py-1.5 rounded-xl border border-dashed border-orange-300 font-mono text-xs font-bold text-gray-800">
+              ${v.code}
+            </div>
+            <button onclick="copyCode('${v.code}', this)" class="px-3.5 py-1.5 bg-brand hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-1 cursor-pointer">
+              <i class="fa-regular fa-copy text-[11px]"></i>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Copy Voucher Code
+    function copyCode(code, btn) {
+      navigator.clipboard.writeText(code).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check text-[11px]"></i> Copied!';
+        window.FindIt.toast('Code Copied', `Promo code ${code} copied to clipboard!`, 'success');
+        setTimeout(() => { btn.innerHTML = original; }, 2000);
+      }).catch(() => {
+        window.FindIt.toast('Code', code, 'info');
+      });
+    }
+
+    // Render User Reported Cases
+    function renderUserReports() {
+      const allCases = window.FindIt.getCases();
+      // Filter cases or sample 3 high-confidence cases
+      const userCases = allCases.slice(0, 3);
+      const container = document.getElementById('user-cases-list');
+      const countEl = document.getElementById('reports-count');
+
+      if (countEl) countEl.textContent = userCases.length;
+
+      container.innerHTML = userCases.map(c => `
+        <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="h-40 w-full overflow-hidden relative bg-gray-100">
+              <img src="${c.image || 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=600&q=80'}" alt="${c.title}" class="w-full h-full object-cover">
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur-md text-gray-800 shadow-sm">
+                ${c.id}
+              </span>
+              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold ${c.status === 'Match Found' ? 'bg-emerald-500 text-white' : 'bg-orange-500 text-white'} shadow-sm">
+                ${c.status}
+              </span>
+            </div>
+            <div class="p-4">
+              <h4 class="text-sm font-bold text-gray-900 leading-snug line-clamp-2">${c.title}</h4>
+              <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                <i class="fa-solid fa-location-dot text-brand"></i> ${c.location}
+              </p>
+              <div class="mt-3 flex items-center justify-between text-xs">
+                <span class="text-brand font-bold">${c.rewardBounty || '250 pts Bounty'}</span>
+                <span class="text-gray-400 font-medium">${c.date}</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <a href="active_cases.html" class="block w-full text-center py-2 bg-gray-100 hover:bg-orange-50 hover:text-brand text-gray-700 text-xs font-bold rounded-xl transition">
+              View on Active Cases &rarr;
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Ledger Activity
+    function renderLedger() {
+      const txs = window.FindIt.getTransactions();
+      const tbody = document.getElementById('ledger-table-body');
+
+      if (!txs || txs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-gray-400">No activity recorded yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = txs.map(tx => `
+        <tr class="hover:bg-gray-50/70 transition">
+          <td class="py-3 px-4 font-mono text-[11px] font-bold text-gray-500">${tx.id}</td>
+          <td class="py-3 px-4 font-bold text-gray-900">${tx.title}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${tx.type === 'earn' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-orange-50 text-orange-700 border border-orange-200'}">
+              ${tx.category}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-gray-400 text-[11px]">${tx.date}</td>
+          <td class="py-3 px-4 text-right font-black ${tx.type === 'earn' ? 'text-emerald-600' : 'text-red-600'}">
+            ${tx.type === 'earn' ? '+' : '-'}${tx.points.toLocaleString()} pts
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Modal Helpers
+    function openEditProfileModal() {
+      const u = window.FindIt.getUser();
+      document.getElementById('edit-name').value = u.name || '';
+      document.getElementById('edit-role').value = u.role || '';
+      document.getElementById('edit-email').value = u.email || '';
+      document.getElementById('edit-campus-id').value = u.campusId || '';
+      
+      const modal = document.getElementById('edit-profile-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeEditProfileModal() {
+      const modal = document.getElementById('edit-profile-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function saveProfileChanges(e) {
+      e.preventDefault();
+      const name = document.getElementById('edit-name').value.trim();
+      const role = document.getElementById('edit-role').value.trim();
+      const email = document.getElementById('edit-email').value.trim();
+      const campusId = document.getElementById('edit-campus-id').value.trim();
+
+      window.FindIt.updateUserProfile({
+        name: name,
+        role: role,
+        email: email,
+        campusId: campusId
+      });
+
+      closeEditProfileModal();
+      window.FindIt.updateAllUI();
+    }
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      window.FindIt.updateAllUI();
+      renderVouchers();
+      renderUserReports();
+      renderLedger();
+    });
+
+    // Storage listener to refresh profile views when vouchers or points change
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'findit_points' || e.key === 'findit_redeemed_coupons' || e.key === 'findit_transactions') {
+        renderVouchers();
+        renderLedger();
+      }
+    });
+  </script>
+</body>
+</html>
