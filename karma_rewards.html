@@ -47,82 +47,75 @@
   <header id="smart-nav" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300 shadow-sm">
     <div class="max-w-[1400px] mx-auto px-4 md:px-8 flex justify-between items-center h-20">
       
-      <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center space-x-2.5 group cursor-pointer">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform">
-          <i class="fa-solid fa-magnifying-glass-location text-lg"></i>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-jakarta font-extrabold text-2xl tracking-tight text-gray-900 leading-none">Find<span class="text-brand">It</span></span>
-          <span class="text-[9px] font-bold uppercase tracking-widest text-brand mt-1">Secure Hub</span>
-        </div>
+      <!-- Brand Logo (Official FindIt) -->
+      <a href="index.html" class="flex items-center gap-2 group cursor-pointer">
+        <img src="assets/images/findit-logo.png" alt="FindIt Logo" class="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform">
+        <span class="hidden sm:inline-block text-[9px] font-bold uppercase tracking-widest text-brand bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">Secure Hub</span>
       </a>
 
       <!-- Navigation Links -->
-      <nav class="hidden lg:flex items-center space-x-8 text-sm font-bold text-gray-600 h-full">
-        <a href="dashboard.html" class="text-brand flex items-center gap-1.5 transition-colors">
-          <i class="fa-solid fa-gauge-high text-xs"></i>
+      <nav class="hidden lg:flex items-center space-x-7 text-sm font-bold text-gray-600 h-full">
+        <a href="dashboard.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-gauge-high text-xs text-gray-400"></i>
           <span>My Dashboard</span>
         </a>
-        <a href="gemini-code-1792843735076.html" class="hover:text-brand flex items-center gap-1.5 transition-colors cursor-pointer">
-          <i class="fa-solid fa-plus-circle text-xs text-brand"></i>
-          <span>Report Item</span>
+        <a href="active_cases.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-list-check text-xs text-gray-400"></i>
+          <span>Active Cases (12)</span>
         </a>
-        
+        <a href="echo_radar.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-satellite text-xs text-gray-400"></i>
+          <span>Echo Radar</span>
+        </a>
+        <a href="trusted_hubs_page.html" class="hover:text-brand flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-building-shield text-xs text-gray-400"></i>
+          <span>Secure Hubs</span>
+        </a>
+        <a href="karma_rewards.html" class="text-brand flex items-center gap-1.5 transition-colors font-extrabold">
+          <i class="fa-solid fa-gift text-xs"></i>
+          <span>Rewards & Coupons</span>
+        </a>
+
         <!-- Mega Menu Dropdown -->
         <div class="group h-full flex items-center cursor-pointer relative">
           <span class="hover:text-brand transition-colors flex items-center gap-1">
-            <span>Features</span>
+            <span>All Features</span>
             <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
           </span>
           
-          <!-- Full-width Dropdown Panel -->
-          <div class="mega-menu absolute top-20 left-1/2 -translate-x-1/2 w-screen max-w-5xl bg-white shadow-2xl border-t border-gray-100 rounded-b-3xl z-50 py-8 px-10 cursor-default">
-            <div class="w-full grid grid-cols-4 gap-8">
+          <!-- Full-width Dropdown Panel (Clean 3-Column Layout without Verification Suite) -->
+          <div class="mega-menu absolute top-20 left-1/2 -translate-x-1/2 w-screen max-w-4xl bg-white shadow-2xl border-t border-gray-100 rounded-b-3xl z-50 py-8 px-10 cursor-default">
+            <div class="w-full grid grid-cols-3 gap-8">
               <div>
-                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🧠</span> Core Tools</h4>
+                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🧠</span> Core Tools & Engines</h4>
                 <ul class="space-y-3 text-xs font-semibold text-gray-500">
-                  <li><a href="NeuralMatchEngine.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-brain text-[10px]"></i> Neural Match Engine</a></li>
-                  <li><a href="echo_radar.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-satellite text-[10px]"></i> Echo Radar (Spatial)</a></li>
-                  <li><a href="active_cases.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-list-check text-[10px]"></i> Active Cases Tracking</a></li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🛡️</span> Verification</h4>
-                <ul class="space-y-3 text-xs font-semibold text-gray-500">
-                  <li><a href="#" onclick="openDemoModal('zk'); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-key text-[10px]"></i> Zero-Knowledge Proofs</a></li>
-                  <li><a href="#" onclick="openDemoModal('blind'); return false;" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-user-secret text-[10px]"></i> Blind Messaging</a></li>
+                  <li><a href="NeuralMatchEngine.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-brain text-[10px] text-brand"></i> Neural Match Engine</a></li>
+                  <li><a href="echo_radar.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-satellite text-[10px] text-brand"></i> Echo Radar (Spatial Mesh)</a></li>
+                  <li><a href="active_cases.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-boxes-stacked text-[10px] text-brand"></i> Worldwide Active Cases (12)</a></li>
+                  <li><a href="gemini-code-1792843735076.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-plus-circle text-[10px] text-emerald-600"></i> AI Report Intake</a></li>
                 </ul>
               </div>
               <div>
                 <h4 class="font-jakarta text-sm font-bold text-gray-900 mb-3 flex items-center"><span class="text-brand mr-2">🏢</span> Secure Network</h4>
                 <ul class="space-y-3 text-xs font-semibold text-gray-500">
-                  <li><a href="trusted_hubs_page.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-building-shield text-[10px]"></i> Secure Drop Boxes & Hubs</a></li>
-                  <li><a href="karma_rewards.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-ticket text-[10px]"></i> Partner Reward Coupons (1500+ pts)</a></li>
+                  <li><a href="trusted_hubs_page.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-building-shield text-[10px] text-brand"></i> 9 Verified Secure Hubs</a></li>
+                  <li><a href="karma_rewards.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-ticket text-[10px] text-brand"></i> Partner Brand Coupons (1500+ pts)</a></li>
+                  <li><a href="trusted_hubs_page.html" class="hover:text-brand transition flex items-center gap-1.5"><i class="fa-solid fa-map-location-dot text-[10px] text-brand"></i> City Escrow Desks & Vaults</a></li>
                 </ul>
               </div>
-              <div class="bg-orange-50/80 p-5 rounded-2xl border border-orange-100 flex flex-col justify-between">
+              <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-2xl border border-orange-200/80 flex flex-col justify-between">
                 <div>
-                  <h4 class="font-jakarta text-xs font-bold text-gray-900 mb-1">Campus Karma Status</h4>
+                  <h4 class="font-jakarta text-xs font-bold text-gray-900 mb-1">Your Karma Balance</h4>
                   <p class="text-3xl font-black text-brand font-jakarta js-karma-points js-reward-points">2,450 <span class="text-xs text-orange-600 font-bold">pts</span></p>
-                  <p class="text-[11px] text-gray-600 mt-2 font-medium">Rank: Gold Tier Campus Helper</p>
+                  <p class="text-[11px] text-gray-600 mt-2 font-medium">Rank: Gold Tier Global Helper</p>
                 </div>
                 <a href="karma_rewards.html" class="mt-4 w-full py-2 bg-brand text-white text-xs font-bold rounded-xl hover:bg-orange-600 transition shadow-sm text-center block">
-                  Redeem Rewards
+                  Redeem Rewards &rarr;
                 </a>
               </div>
             </div>
           </div>
         </div>
-
-        <a href="karma_rewards.html" class="hover:text-brand transition-colors flex items-center gap-1.5 cursor-pointer">
-          <i class="fa-solid fa-gift text-xs"></i>
-          <span>Rewards & Coupons</span>
-        </a>
-        <a href="trusted_hubs_page.html" class="hover:text-brand transition-colors flex items-center gap-1.5 cursor-pointer">
-          <i class="fa-solid fa-shield-halved text-xs text-brand"></i>
-          <span>Secure Hubs</span>
-        </a>
       </nav>
 
       <!-- Profile & Actions -->
