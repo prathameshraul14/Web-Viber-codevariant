@@ -1,4 +1,4 @@
-// FindIt - Local High-Performance Development Server
+// FindIt - Production & Local High-Performance Server
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -6,6 +6,44 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 const BASE_DIR = __dirname;
+
+// Pre-load all critical JS and HTML assets in memory so Vercel Serverless Function
+// ALWAYS bundles them into the deployment package and serves them with 0ms latency.
+let MOCK_DATA_JS = '';
+let APP_JS = '';
+try {
+  MOCK_DATA_JS = fs.readFileSync(path.join(BASE_DIR, 'js', 'mockData.js'), 'utf8');
+} catch (e) {
+  console.warn('Could not pre-read mockData.js', e.message);
+}
+try {
+  APP_JS = fs.readFileSync(path.join(BASE_DIR, 'js', 'app.js'), 'utf8');
+} catch (e) {
+  console.warn('Could not pre-read app.js', e.message);
+}
+
+const HTML_PAGES = {
+  '/index.html': 'index.html',
+  '/login.html': 'login.html',
+  '/dashboard.html': 'dashboard.html',
+  '/active_cases.html': 'active_cases.html',
+  '/karma_rewards.html': 'karma_rewards.html',
+  '/trusted_hubs_page.html': 'trusted_hubs_page.html',
+  '/echo_radar.html': 'echo_radar.html',
+  '/NeuralMatchEngine.html': 'NeuralMatchEngine.html',
+  '/gemini-code-1792843735076.html': 'gemini-code-1792843735076.html',
+  '/report.html': 'report.html',
+  '/profile.html': 'profile.html'
+};
+
+const HTML_CACHE = {};
+for (const [route, fileName] of Object.entries(HTML_PAGES)) {
+  try {
+    HTML_CACHE[route] = fs.readFileSync(path.join(BASE_DIR, fileName), 'utf8');
+  } catch (e) {
+    console.warn(`Could not pre-read ${fileName}`, e.message);
+  }
+}
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -37,7 +75,19 @@ const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url);
   let pathname = decodeURIComponent(parsedUrl.pathname);
 
-  // Friendly route aliases
+  // 1. Direct in-memory serving for vital JS files
+  if (pathname === '/js/mockData.js' || pathname.toLowerCase() === '/js/mockdata.js') {
+    res.writeHead(200, { 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
+    res.end(MOCK_DATA_JS);
+    return;
+  }
+  if (pathname === '/js/app.js') {
+    res.writeHead(200, { 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
+    res.end(APP_JS);
+    return;
+  }
+
+  // 2. Friendly route aliases
   if (pathname === '/' || pathname === '') {
     pathname = '/index.html';
   } else if (pathname === '/login') {
@@ -62,6 +112,13 @@ const server = http.createServer((req, res) => {
     pathname = '/find it/index.html';
   }
 
+  // 3. Direct in-memory serving for HTML cache
+  if (HTML_CACHE[pathname]) {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+    res.end(HTML_CACHE[pathname]);
+    return;
+  }
+
   let filePath = path.join(BASE_DIR, pathname);
 
   // Normalize path to prevent directory traversal
@@ -71,7 +128,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Automatic .html extension matching (e.g. /active_cases -> /active_cases.html)
+  // Automatic .html extension matching
   if (!fs.existsSync(filePath)) {
     if (fs.existsSync(filePath + '.html')) {
       filePath = filePath + '.html';
@@ -146,8 +203,5 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(` FindIt Campus Platform is running live!`);
   console.log(` Local URL:     http://localhost:${PORT}`);
   console.log(` Network URL:   http://127.0.0.1:${PORT}`);
-  console.log(` Landing Page:  http://localhost:${PORT}/index.html`);
-  console.log(` Sign In Page:  http://localhost:${PORT}/login.html`);
-  console.log(` Dashboard:     http://localhost:${PORT}/dashboard.html`);
   console.log(`====================================================`);
 });

@@ -1155,6 +1155,10 @@
     }
 
     function initCasesCatalog() {
+      if ((!window.FindIt || typeof window.FindIt.getCases !== 'function') && (!window.FindItData || !window.FindItData.cases)) {
+        setTimeout(initCasesCatalog, 100);
+        return;
+      }
       if (window.FindIt && typeof window.FindIt.getCases === 'function') {
         activeCases = window.FindIt.getCases();
       } else if (window.FindItData && window.FindItData.cases) {

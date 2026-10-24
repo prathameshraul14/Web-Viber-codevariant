@@ -556,12 +556,22 @@
     let activeCategory = 'all';
 
     document.addEventListener('DOMContentLoaded', () => {
-      refreshPointsDisplay();
-      renderCouponsGrid();
+      initRewardsPage();
     });
 
+    function initRewardsPage() {
+      if (!window.FindIt || !window.FindItData || !window.FindItData.coupons) {
+        setTimeout(initRewardsPage, 100);
+        return;
+      }
+      refreshPointsDisplay();
+      renderCouponsGrid();
+    }
+
     function refreshPointsDisplay() {
-      const pts = window.FindIt.getPoints();
+      const pts = (window.FindIt && typeof window.FindIt.getPoints === 'function') 
+        ? window.FindIt.getPoints() 
+        : parseInt(localStorage.getItem('findit_points') || '25000', 10);
       document.querySelectorAll('.js-reward-points').forEach(el => {
         el.textContent = pts.toLocaleString();
       });
