@@ -61,12 +61,26 @@
     .custom-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 6px; }
     .custom-scroll:hover::-webkit-scrollbar-thumb { background: #d1d5db; }
 
-    /* Zoom image effect */
-    .product-img-wrapper:hover img {
-      transform: scale(1.05);
+    /* Product Image Wrapper & Anti-Glitch Fallback */
+    .product-img-wrapper {
+      position: relative;
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
     }
     .product-img-wrapper img {
-      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+      font-size: 0; /* Prevents broken alt text from spilling over badges */
+      color: transparent;
+    }
+    .product-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      z-index: 1;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -558,9 +572,14 @@
           
           <!-- Column 1: Image & Gallery (5 cols) -->
           <div class="md:col-span-5 space-y-4">
-            <div class="aspect-square bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden relative group">
-              <img id="modal-product-image" src="" alt="Product Photo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-              <div id="modal-badge-container" class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
+            <div class="aspect-square bg-gradient-to-b from-slate-50 to-slate-100 rounded-2xl border border-gray-200 overflow-hidden relative group product-img-wrapper flex items-center justify-center">
+              <div class="product-img-placeholder">
+                <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-1"></i>
+                <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">FindIt Asset</span>
+              </div>
+              <img id="modal-product-image" src="" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 relative z-10" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';">
+              <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-20"></div>
+              <div id="modal-badge-container" class="absolute top-3 left-3 flex flex-col gap-1.5 items-start z-30">
                 <!-- Badges -->
               </div>
             </div>
@@ -937,6 +956,25 @@
         activeCases = [];
       }
 
+      // Self-healing migration for CASE-1102 and broken legacy links
+      let updatedStorage = false;
+      activeCases.forEach(c => {
+        if (c.id === 'CASE-1102' && (!c.image || c.image.includes('1589330694653'))) {
+          c.image = 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';
+          c.title = 'Global Biometric Smart NFC Transit ID & RFID-Shielded Leather Cardholder';
+          c.brand = 'Vaultskin / Global Transit';
+          c.location = 'International Terminal Express Concourse - Checkpoint 3';
+          c.hub = 'North Transit Escrow Counter';
+          updatedStorage = true;
+        }
+      });
+      if (updatedStorage && typeof localStorage !== 'undefined') {
+        try {
+          localStorage.setItem('findit_cases', JSON.stringify(activeCases));
+          localStorage.setItem('findit_cases_v4', 'true');
+        } catch (e) {}
+      }
+
       document.getElementById('total-cases-count').textContent = activeCases.length;
       applyFilters();
     }
@@ -1080,14 +1118,31 @@
       const listerAvatar = c.listerInfo?.avatar || 'FM';
 
       return `
-        <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-orange-200 transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+        <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-2xl hover:border-orange-300 transition-all duration-300 overflow-hidden flex flex-col justify-between group">
           <div>
             <!-- Image & Badge Container -->
-            <div class="relative bg-gray-50 aspect-square overflow-hidden cursor-pointer product-img-wrapper" onclick="openProductModal('${c.id}')">
-              <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover">
+            <div class="relative bg-gradient-to-b from-slate-50 to-slate-100 aspect-square overflow-hidden cursor-pointer product-img-wrapper flex items-center justify-center group/img" onclick="openProductModal('${c.id}')">
               
+              <!-- Placeholder Background Icon -->
+              <div class="product-img-placeholder">
+                <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-1"></i>
+                <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">FindIt Asset</span>
+              </div>
+
+              <!-- Product Image with onerror fallback -->
+              <img 
+                src="${c.image}" 
+                alt="" 
+                loading="lazy" 
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';"
+                class="w-full h-full object-cover relative z-10 group-hover/img:scale-105 transition-transform duration-500 ease-out"
+              >
+              
+              <!-- Soft Top Gradient Scrim for crisp badge contrast -->
+              <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-20"></div>
+
               <!-- Badges -->
-              <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
+              <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start z-30">
                 ${c.badge ? `
                   <span class="findit-choice-badge bg-gray-900 text-white text-[10px] font-black px-3 py-1 shadow-md">
                     ${c.badge}
@@ -1105,8 +1160,8 @@
               </div>
 
               <!-- Lost/Found Pill -->
-              <div class="absolute top-3 right-3">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${isLost ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">
+              <div class="absolute top-3 right-3 z-30">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold shadow-sm ${isLost ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">
                   ${isLost ? 'LOST' : 'FOUND'}
                 </span>
               </div>
@@ -1220,10 +1275,24 @@
         <div class="bg-white rounded-3xl border border-gray-200/80 hover:shadow-xl hover:border-orange-200 transition-all duration-300 p-5 flex flex-col md:flex-row gap-6 items-start group">
           
           <!-- Image -->
-          <div class="relative w-full md:w-56 aspect-square bg-gray-50 rounded-2xl overflow-hidden shrink-0 cursor-pointer product-img-wrapper" onclick="openProductModal('${c.id}')">
-            <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover">
+          <div class="relative w-full md:w-56 aspect-square bg-gradient-to-b from-slate-50 to-slate-100 rounded-2xl overflow-hidden shrink-0 cursor-pointer product-img-wrapper flex items-center justify-center group/img" onclick="openProductModal('${c.id}')">
             
-            <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start">
+            <div class="product-img-placeholder">
+              <i class="fa-solid fa-box-open text-3xl text-slate-300 mb-1"></i>
+              <span class="text-[9px] font-bold tracking-wider text-slate-400 uppercase">FindIt Asset</span>
+            </div>
+
+            <img 
+              src="${c.image}" 
+              alt="" 
+              loading="lazy" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';"
+              class="w-full h-full object-cover relative z-10 group-hover/img:scale-105 transition-transform duration-500 ease-out"
+            >
+            
+            <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-20"></div>
+
+            <div class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start z-30">
               ${c.badge ? `
                 <span class="findit-choice-badge bg-gray-900 text-white text-[9px] font-black px-2.5 py-0.5 shadow">
                   ${c.badge}
@@ -1236,8 +1305,8 @@
               ` : ''}
             </div>
             
-            <div class="absolute top-2.5 right-2.5">
-              <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold ${isLost ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+            <div class="absolute top-2.5 right-2.5 z-30">
+              <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold shadow-sm ${isLost ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
                 ${isLost ? 'LOST' : 'FOUND'}
               </span>
             </div>
@@ -1338,7 +1407,12 @@
 
       // Populate Modal Fields
       document.getElementById('modal-case-asin').textContent = c.id;
-      document.getElementById('modal-product-image').src = c.image;
+      const modalImg = document.getElementById('modal-product-image');
+      modalImg.onerror = function() {
+        this.onerror = null;
+        this.src = 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80';
+      };
+      modalImg.src = c.image;
       document.getElementById('modal-product-brand').textContent = `Brand: ${c.brand || 'Asset Recovery'}`;
       document.getElementById('modal-product-title').textContent = c.title;
       document.getElementById('modal-product-rating').textContent = c.rating || 4.9;
